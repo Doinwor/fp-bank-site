@@ -250,15 +250,33 @@
         </div>
 
         <div class="pay-method">
-          <button class="active" onclick="selectMethod(this,'card')">
-            <span class="pm-icon">💳</span>Картой
-          </button>
-          <button onclick="selectMethod(this,'sbp')">
+          <button class="active" onclick="selectMethod(this,'sbp')">
             <span class="pm-icon">📱</span>СБП
+          </button>
+          <button onclick="selectMethod(this,'card')">
+            <span class="pm-icon">💳</span>Карта
           </button>
         </div>
 
-        <div class="pay-card-form" id="cardForm">
+        <!-- SBP -->
+        <div class="pay-card-form" id="sbpForm">
+          <div class="form-group">
+            <label>Номер телефона</label>
+            <input type="text" id="sbpPhone" placeholder="+7 (999) 000-00-00" maxlength="18">
+          </div>
+          <div class="form-group" id="sbpCodeGroup" style="display:none">
+            <label>Код подтверждения</label>
+            <div style="display:flex;gap:10px;align-items:center">
+              <input type="text" id="sbpCode" placeholder="0000" maxlength="4" style="flex:1">
+              <span id="sbpExpectedCode" style="background:rgba(245,176,66,.1);color:#f5b042;padding:8px 14px;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:3px"></span>
+            </div>
+            <div style="color:#6a6a72;font-size:.7rem;margin-top:6px">💡 Код настоящий никуда не приходит — это эмуляция. Просто введите тот, что сверху.</div>
+          </div>
+          <button class="btn-primary" onclick="processSBP()" style="margin-top:8px" id="sbpBtn">✅ Оплатить по СБП</button>
+        </div>
+
+        <!-- Card -->
+        <div class="pay-card-form" id="cardForm" style="display:none">
           <div class="form-group">
             <label>Номер карты</label>
             <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
@@ -435,13 +453,50 @@
     function selectMethod(btn, method) {
       document.querySelectorAll('.pay-method button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      document.getElementById('sbpForm').style.display = method === 'sbp' ? 'block' : 'none';
+      document.getElementById('cardForm').style.display = method === 'card' ? 'block' : 'none';
+      if (method === 'sbp') generateSBPCode();
+    }
+
+    function generateSBPCode() {
+      var code = String(Math.floor(1000 + Math.random() * 9000));
+      document.getElementById('sbpExpectedCode').textContent = code;
+      document.getElementById('sbpCodeGroup').style.display = 'none';
+      document.getElementById('sbpBtn').textContent = '✅ Запросить код';
+      document.getElementById('sbpCode').value = '';
+    }
+
+    function processSBP() {
+      var phone = document.getElementById('sbpPhone').value.trim();
+      var codeGroup = document.getElementById('sbpCodeGroup');
+      var codeInput = document.getElementById('sbpCode').value.trim();
+      var expected = document.getElementById('sbpExpectedCode').textContent;
+
+      if (codeGroup.style.display === 'none') {
+        if (!phone || phone.replace(/\D/g, '').length < 10) {
+          showToast('Введите номер телефона', true);
+          return;
+        }
+        generateSBPCode();
+        codeGroup.style.display = 'block';
+        document.getElementById('sbpBtn').textContent = '✅ Подтвердить оплату';
+        showToast('Код отправлен в эмуляцию ✉️');
+        return;
+      }
+
+      if (codeInput !== expected) {
+        showToast('Неверный код подтверждения', true);
+        return;
+      }
+
+      finishPayment('СБП · ' + phone);
     }
 
     function processPayment() {
-      const num = document.getElementById('cardNumber').value.trim();
-      const exp = document.getElementById('cardExpiry').value.trim();
-      const cvv = document.getElementById('cardCvv').value.trim();
-      const name = document.getElementById('cardName').value.trim();
+      var num = document.getElementById('cardNumber').value.trim();
+      var exp = document.getElementById('cardExpiry').value.trim();
+      var cvv = document.getElementById('cardCvv').value.trim();
+      var name = document.getElementById('cardName').value.trim();
 
       if (!num || !exp || !cvv || !name) {
         showToast('Заполните все поля карты', true);
@@ -456,9 +511,13 @@
         return;
       }
 
-      const params = new URLSearchParams(window.location.search);
-      const amount = params.get('amount');
-      const purpose = params.get('purpose');
+      finishPayment('Карта •••• ' + num.replace(/\s/g, '').slice(-4));
+    }
+
+    function finishPayment(methodLabel) {
+      var params = new URLSearchParams(window.location.search);
+      var amount = params.get('amount');
+      var purpose = params.get('purpose');
 
       document.getElementById('mobilePayment').style.display = 'none';
       document.getElementById('paymentSuccess').classList.add('show');
@@ -466,7 +525,7 @@
       document.getElementById('psDetails').innerHTML =
         '<div class="psd-row"><span class="psd-label">Сумма</span><span class="psd-value">₽ ' + parseInt(amount).toLocaleString() + '</span></div>' +
         '<div class="psd-row"><span class="psd-label">Назначение</span><span class="psd-value">' + (purpose || 'Без назначения') + '</span></div>' +
-        '<div class="psd-row"><span class="psd-label">Карта</span><span class="psd-value">•••• ' + num.replace(/\s/g, '').slice(-4) + '</span></div>' +
+        '<div class="psd-row"><span class="psd-label">Способ</span><span class="psd-value">' + methodLabel + '</span></div>' +
         '<div class="psd-row"><span class="psd-label">Дата</span><span class="psd-value">' + new Date().toLocaleString('ru-RU') + '</span></div>';
 
       showToast('Оплата прошла успешно ✅');
@@ -498,6 +557,18 @@
       if (cardCvv) {
         cardCvv.addEventListener('input', function() {
           this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        });
+      }
+      const sbpPhone = document.getElementById('sbpPhone');
+      if (sbpPhone) {
+        sbpPhone.addEventListener('input', function() {
+          var v = this.value.replace(/\D/g, '').substring(0, 11);
+          var r = '+7';
+          if (v.length > 1) r += ' (' + v.substring(1, 4);
+          if (v.length > 4) r += ') ' + v.substring(4, 7);
+          if (v.length > 7) r += '-' + v.substring(7, 9);
+          if (v.length > 9) r += '-' + v.substring(9, 11);
+          this.value = r;
         });
       }
 
