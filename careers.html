@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карьера | FP Банк</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Unbounded',sans-serif;background:#0b0b0e;color:#e0e0e0;line-height:1.5;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#1a1a1f}
+::-webkit-scrollbar-thumb{background:#f5b042;border-radius:3px}
+.container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);backdrop-filter:blur(16px);position:fixed;top:0;left:0;right:0;z-index:100;background-color:rgba(11,11,14,.85);transition:padding .3s,box-shadow .3s}
+header.scrolled{padding:12px 0;box-shadow:0 4px 40px rgba(0,0,0,.4)}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 32px;width:100%;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2.2rem;letter-spacing:-1px;line-height:1;text-decoration:none}
+.logo .letter-f{color:#f5b042;text-shadow:0 0 20px rgba(245,176,66,.5)}
+.logo .letter-p{color:#8a8a91;font-weight:700}
+.logo-sub{display:block;font-size:.6rem;font-weight:400;color:#8a8a91;letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
+nav{display:flex;gap:20px;align-items:center}
+nav a{color:#b0b0b8;text-decoration:none;font-weight:400;font-size:.78rem;transition:color .25s;letter-spacing:.3px;position:relative}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#f5b042;transition:width .3s}
+nav a:hover::after{width:100%}
+nav a:hover{color:#f5b042}
+nav a.active{color:#f5b042}
+nav a.active::after{width:100%}
+.btn-outline{border:1px solid #f5b042;color:#f5b042;padding:10px 22px;border-radius:40px;font-weight:500;transition:all .3s;background:transparent;cursor:pointer;font-family:'Unbounded',sans-serif;font-size:.8rem;text-decoration:none}
+.btn-outline:hover{background:#f5b042;color:#0b0b0e}
+.btn-primary{background:#f5b042;color:#0b0b0e;font-weight:700;padding:16px 36px;border-radius:50px;border:none;font-size:.95rem;letter-spacing:.5px;cursor:pointer;font-family:'Unbounded',sans-serif;transition:transform .2s,box-shadow .3s;display:inline-block;text-decoration:none}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(245,176,66,.35)}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{width:26px;height:2px;background:#f5b042;border-radius:2px;transition:.3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.98);backdrop-filter:blur(20px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:30px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-nav.open{opacity:1;pointer-events:all}
+.mobile-nav a{color:#fff;text-decoration:none;font-size:1.6rem;font-weight:500;letter-spacing:1px}
+.mobile-nav a:hover{color:#f5b042}
+
+.page-header{padding:140px 0 60px;text-align:center}
+.page-header h1{font-size:3.2rem;font-weight:800;color:#fff;letter-spacing:-1px}
+.page-header p{color:#8a8a91;font-size:1rem;margin-top:14px;font-family:'Inter',sans-serif;max-width:600px;margin:14px auto 0}
+.section-tag{display:inline-block;background:rgba(245,176,66,.1);padding:4px 14px;border-radius:50px;font-size:.65rem;color:#f5b042;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.section-title{font-size:2.4rem;font-weight:700;color:#fff;letter-spacing:-.5px;margin-bottom:16px}
+.section-sub{color:#8a8a91;font-size:1rem;max-width:560px;font-family:'Inter',sans-serif;font-weight:300;margin-bottom:50px}
+
+/* Benefits */
+.benefits-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:80px}
+.benefit-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:24px;padding:28px;text-align:center;transition:border-color .3s,transform .3s}
+.benefit-card:hover{border-color:rgba(245,176,66,.2);transform:translateY(-4px)}
+.benefit-card .bc-icon{font-size:2rem;margin-bottom:12px}
+.benefit-card h4{color:#fff;font-size:.9rem;font-weight:600;margin-bottom:6px}
+.benefit-card p{color:#8a8a91;font-size:.75rem;font-family:'Inter',sans-serif;line-height:1.6}
+
+/* Vacancies */
+.vacancies-list{display:flex;flex-direction:column;gap:12px;margin-bottom:80px}
+.vacancy-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:20px;padding:24px 28px;display:flex;justify-content:space-between;align-items:center;transition:border-color .3s;cursor:pointer}
+.vacancy-card:hover{border-color:rgba(245,176,66,.2)}
+.vacancy-card .vc-left .vc-title{color:#fff;font-size:1.05rem;font-weight:600}
+.vacancy-card .vc-left .vc-meta{display:flex;gap:14px;margin-top:6px;flex-wrap:wrap}
+.vacancy-card .vc-left .vc-meta span{color:#8a8a91;font-size:.7rem;font-family:'Inter',sans-serif}
+.vacancy-card .vc-left .vc-meta .vc-badge{background:rgba(245,176,66,.1);color:#f5b042;padding:2px 10px;border-radius:50px;font-size:.6rem;font-family:'Unbounded',sans-serif;font-weight:500}
+.vacancy-card .vc-salary{color:#f5b042;font-size:1.1rem;font-weight:700}
+.vacancy-card .vc-arrow{color:#5a5a62;font-size:1.2rem;margin-left:16px}
+
+.expanded-detail{display:none;background:rgba(255,255,255,.02);border:1px solid rgba(245,176,66,.1);border-top:none;border-radius:0 0 20px 20px;padding:0 28px 24px;margin-top:-12px}
+.expanded-detail.open{display:block}
+.expanded-detail p{color:#9a9aa3;font-size:.85rem;font-family:'Inter',sans-serif;line-height:1.7;margin-bottom:10px}
+.expanded-detail ul{list-style:none;padding:0;margin-bottom:12px}
+.expanded-detail ul li{color:#9a9aa3;font-size:.8rem;font-family:'Inter',sans-serif;padding:4px 0;padding-left:16px;position:relative}
+.expanded-detail ul li::before{content:'▸';color:#f5b042;position:absolute;left:0}
+
+/* Form */
+.form-section{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:32px;padding:40px;margin-bottom:60px}
+.form-section h3{color:#fff;font-size:1.3rem;font-weight:600;margin-bottom:6px}
+.form-section .fs-sub{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;margin-bottom:24px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;color:#9a9aa3;font-size:.75rem;margin-bottom:6px;font-family:'Inter',sans-serif}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 18px;color:#fff;font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:#f5b042}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#6b6b76}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-group select{appearance:none;cursor:pointer}
+.form-group select option{background:#1a1a1f;color:#fff}
+.form-group .file-upload{background:rgba(255,255,255,.03);border:1px dashed rgba(245,176,66,.2);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:.3s;color:#8a8a91;font-size:.8rem}
+.form-group .file-upload:hover{border-color:#f5b042;background:rgba(245,176,66,.05)}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:#1a1a1f;border:1px solid rgba(245,176,66,.15);border-radius:16px;padding:14px 24px;color:#fff;font-size:.8rem;z-index:999;opacity:0;transition:all .5s;font-family:'Inter',sans-serif;backdrop-filter:blur(12px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{border-color:#ff5e5e}
+.toast.success{border-color:rgba(245,176,66,.3)}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+footer{border-top:1px solid rgba(255,255,255,.06);padding:60px 0 30px;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-col h4{font-size:1rem;color:#fff;margin-bottom:18px;font-weight:600}
+.footer-col a{display:block;color:#7a7a85;text-decoration:none;font-size:.85rem;margin-bottom:10px;transition:color .2s;font-family:'Inter',sans-serif;font-weight:300}
+.footer-col a:hover{color:#f5b042}
+.footer-col p{color:#7a7a85;font-size:.85rem;line-height:1.7;font-family:'Inter',sans-serif;font-weight:300}
+.footer-logo-lg{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2rem;margin-bottom:14px}
+.footer-logo-lg .f{color:#f5b042}
+.footer-logo-lg .p{color:#8a8a91}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.04);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:#6b6b76;font-size:.75rem;font-weight:300}
+.social-links{display:flex;gap:12px}
+.social-links a{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;text-decoration:none;color:#8a8a91;font-size:1rem;transition:all .3s}
+.social-links a:hover{background:#f5b042;color:#0b0b0e;border-color:#f5b042}
+
+@media(max-width:1024px){.benefits-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  .container{padding:0 16px}.header-inner{padding:0 16px;height:56px}nav{display:none!important}.hamburger{display:flex!important}.mobile-nav{display:flex!important}
+  .page-header h1{font-size:1.8rem}.section-title{font-size:1.6rem}
+  .benefits-grid{grid-template-columns:1fr;gap:14px}
+  .vacancy-card{flex-direction:column;align-items:flex-start;gap:10px}
+  .form-row{grid-template-columns:1fr}.form-section{padding:24px}
+  .footer-grid{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:480px){.page-header h1{font-size:1.5rem}.header-inner{height:50px}}
+@media(max-width:768px){html,body{overflow-x:hidden;width:100%}.container{padding-left:16px!important;padding-right:16px!important}.mobile-nav.open{display:flex!important}nav{display:none!important}.hamburger{display:flex!important}}
+@media(max-width:480px){.section-title{font-size:1.2rem!important}}
+</style>
+</head>
+<body>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" onclick="closeMobile()">Главная</a>
+  <a href="about.html" onclick="closeMobile()">О банке</a>
+  <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+  <a href="mortgage.html" onclick="closeMobile()">Ипотека</a>
+  <a href="credits.html" onclick="closeMobile()">Кредиты</a>
+  <a href="deposits.html" onclick="closeMobile()">Вклады</a>
+  <a href="cards.html" onclick="closeMobile()">Карты</a>
+  <a href="pay.html" onclick="closeMobile()">Оплата</a>
+  <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+  <a href="careers.html" onclick="closeMobile()">Карьера</a>
+  <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
+</div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></a>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="about.html">О банке</a>
+      <a href="business.html">Бизнесу</a>
+      <a href="mortgage.html">Ипотека</a>
+      <a href="credits.html">Кредиты</a>
+      <a href="deposits.html">Вклады</a>
+      <a href="cards.html">Карты</a>
+      <a href="contacts.html">Контакты</a>
+      <a href="careers.html" class="active">Карьера</a>
+      <a href="online.html" class="btn-outline">Войти</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="page-header reveal">
+    <span class="section-tag">Карьера</span>
+    <h1>Работа в FP Банке</h1>
+    <p>Построй карьеру в одном из крупнейших банков Загребенской Республики. Мы ищем талантливых и амбициозных.</p>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Почему мы?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="bc-icon">💰</div>
+        <h4>Достойная зарплата</h4>
+        <p>Конкурентная ставка + бонусы по результатам. Пересмотр оклада каждые 6 месяцев.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon">🏖️</div>
+        <h4>График 5/2</h4>
+        <p>Гибкое начало дня. Гибридный формат: офис / удалёнка. Отпуск 28 дней + бонусные дни.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon">📚</div>
+        <h4>Обучение за счёт банка</h4>
+        <p>Курсы, сертификации, конференции. Внутренняя академия FP Bank.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon">❤️</div>
+        <h4>Забота о сотрудниках</h4>
+        <p>ДМС со стоматологией, корпоративный спортзал, питание в офисе, корпоративные карты.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Открытые вакансии</h2>
+    <p class="section-sub">Выбери направление и стань частью команды FP Банка</p>
+
+    <div class="vacancies-list">
+      <div class="vacancy-card" onclick="toggleVacancy(this)">
+        <div class="vc-left">
+          <div class="vc-title">UI/UX Дизайнер</div>
+          <div class="vc-meta"><span>IT-отдел</span><span>Загребенки</span><span class="vc-badge">Гибрид</span></div>
+        </div>
+        <div class="vc-salary">от 150 000 ₽</div>
+        <div class="vc-arrow">▾</div>
+      </div>
+      <div class="expanded-detail">
+        <p>Разработка интерфейсов для онлайн-банка, мобильного приложения и внутренних систем. Работа в связке с продуктовой командой.</p>
+        <ul>
+          <li>Опыт работы в Figma от 2 лет</li>
+          <li>Понимание UX-процессов и Customer Journey</li>
+          <li>Умение проводить юзабилити-тестирования</li>
+          <li>Английский — от Intermediate</li>
+        </ul>
+      </div>
+
+      <div class="vacancy-card" onclick="toggleVacancy(this)">
+        <div class="vc-left">
+          <div class="vc-title">Java-разработчик</div>
+          <div class="vc-meta"><span>IT-отдел</span><span>Загребенки</span><span class="vc-badge">Офис</span></div>
+        </div>
+        <div class="vc-salary">от 220 000 ₽</div>
+        <div class="vc-arrow">▾</div>
+      </div>
+      <div class="expanded-detail">
+        <p>Разработка высоконагруженных банковских систем на Java Spring. Микросервисная архитектура, Kafka, PostgreSQL.</p>
+        <ul>
+          <li>Java 11+ / Spring Boot / Spring Cloud</li>
+          <li>Опыт с микросервисами и REST API</li>
+          <li>PostgreSQL, Kafka, Docker</li>
+          <li>Понимание Domain-Driven Design</li>
+        </ul>
+      </div>
+
+      <div class="vacancy-card" onclick="toggleVacancy(this)">
+        <div class="vc-left">
+          <div class="vc-title">Менеджер по работе с клиентами</div>
+          <div class="vc-meta"><span>Розничный бизнес</span><span>Загребенки</span><span class="vc-badge">Офис</span></div>
+        </div>
+        <div class="vc-salary">от 80 000 ₽</div>
+        <div class="vc-arrow">▾</div>
+      </div>
+      <div class="expanded-detail">
+        <p>Консультирование клиентов по продуктам банка, открытие вкладов, оформление карт и кредитов. Работа в отделениях.</p>
+        <ul>
+          <li>Опыт в продажах или обслуживании от 1 года</li>
+          <li>Грамотная устная и письменная речь</li>
+          <li>Навыки работы с возражениями</li>
+          <li>Знание банковских продуктов — плюс</li>
+        </ul>
+      </div>
+
+      <div class="vacancy-card" onclick="toggleVacancy(this)">
+        <div class="vc-left">
+          <div class="vc-title">Аналитик данных</div>
+          <div class="vc-meta"><span>Аналитика</span><span>Загребенки</span><span class="vc-badge">Гибрид</span></div>
+        </div>
+        <div class="vc-salary">от 180 000 ₽</div>
+        <div class="vc-arrow">▾</div>
+      </div>
+      <div class="expanded-detail">
+        <p>Сбор и анализ данных для улучшения продуктовых метрик. Построение дашбордов и A/B тестов.</p>
+        <ul>
+          <li>SQL / Python (Pandas, NumPy)</li>
+          <li>Опыт с Tableau / Superset</li>
+          <li>Понимание воронок и продуктовых метрик</li>
+          <li>Высшее образование (математика / экономика / IT)</li>
+        </ul>
+      </div>
+
+      <div class="vacancy-card" onclick="toggleVacancy(this)">
+        <div class="vc-left">
+          <div class="vc-title">Специалист по безопасности</div>
+          <div class="vc-meta"><span>ИБ</span><span>Загребенки</span><span class="vc-badge">Офис</span></div>
+        </div>
+        <div class="vc-salary">от 200 000 ₽</div>
+        <div class="vc-arrow">▾</div>
+      </div>
+      <div class="expanded-detail">
+        <p>Обеспечение информационной безопасности банковских систем, пентесты, реагирование на инциденты.</p>
+        <ul>
+          <li>Опыт в ИБ от 3 лет</li>
+          <li>Понимание OWASP, стандартов PCI DSS</li>
+          <li>Навыки пентеста веб-приложений</li>
+          <li>Сертификаты CISSP / CEH — преимущество</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="form-section">
+      <h3>Откликнуться на вакансию</h3>
+      <p class="fs-sub">Заполни форму, и мы свяжемся с тобой в течение 2 рабочих дней</p>
+      <form id="careerForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>ФИО</label>
+            <input type="text" id="cf_name" placeholder="Иванов Иван Иванович" required>
+          </div>
+          <div class="form-group">
+            <label>Телефон</label>
+            <input type="tel" id="cf_phone" placeholder="+7 (800) 700-ФП-БАНК" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="cf_email" placeholder="ivanov@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Вакансия</label>
+            <select id="cf_vacancy">
+              <option value="">Выберите вакансию</option>
+              <option>UI/UX Дизайнер</option>
+              <option>Java-разработчик</option>
+              <option>Менеджер по работе с клиентами</option>
+              <option>Аналитик данных</option>
+              <option>Специалист по безопасности</option>
+              <option>Другая</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Сопроводительное письмо</label>
+          <textarea id="cf_comment" placeholder="Расскажи о себе и почему хочешь работать у нас..."></textarea>
+        </div>
+        <button type="button" class="btn-primary" onclick="submitCareer()">Отправить резюме</button>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo-lg"><span class="f">Ф</span><span class="p">П</span></div>
+        <p>FP Банк — ваш надёжный партнёр в Загребенской Республике. Работаем для вас с 2003 года.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Продукты</h4>
+        <a href="mortgage.html">Ипотека</a>
+        <a href="credits.html">Кредиты</a>
+        <a href="deposits.html">Вклады</a>
+        <a href="cards.html">Карты</a>
+      </div>
+      <div class="footer-col">
+        <h4>О банке</h4>
+        <a href="about.html">О нас</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="careers.html">Карьера</a>
+        <a href="documents.html">Документы</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>8 800 700-ФП-БАНК</p>
+        <p>support@fpbank.ru</p>
+        <p>г. Загребенки, ул. Тараса Шевченко, д. 10</p>
+        <div class="social-links" style="margin-top:12px">
+          <a href="#">📱</a>
+          <a href="#">📘</a>
+          <a href="#">📺</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 FP Банк. Лицензия ЦБ ЗР №1234</span>
+      <span>Загребенская Республика, г. Загребенки</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleVacancy(el) {
+  const detail = el.nextElementSibling;
+  const arrow = el.querySelector('.vc-arrow');
+  if (!detail.classList.contains('expanded-detail')) return;
+  detail.classList.toggle('open');
+  arrow.textContent = detail.classList.contains('open') ? '▴' : '▾';
+}
+
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + (isError ? 'error' : 'success');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function submitCareer() {
+  const name = document.getElementById('cf_name').value.trim();
+  const phone = document.getElementById('cf_phone').value.trim();
+  const email = document.getElementById('cf_email').value.trim();
+  const vacancy = document.getElementById('cf_vacancy').value;
+  const comment = document.getElementById('cf_comment').value.trim();
+  if (!name || !phone || !email || !vacancy) { showToast('Заполни все обязательные поля', true); return; }
+  const apps = JSON.parse(localStorage.getItem('fp_career') || '[]');
+  apps.push({ name, phone, email, vacancy, comment, date: new Date().toISOString() });
+  localStorage.setItem('fp_career', JSON.stringify(apps));
+  showToast('Резюме отправлено! Мы свяжемся с тобой.');
+  document.getElementById('careerForm').reset();
+}
+
+// ===== HEADER SCROLL =====
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ===== MOBILE MENU =====
+function closeMobile() { document.getElementById('mobileNav').classList.remove('open'); document.getElementById('hamburger').classList.remove('active'); }
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileNav').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('active');
+});
+
+// ===== REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: .15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
