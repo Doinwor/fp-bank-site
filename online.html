@@ -212,9 +212,38 @@
       nav { display: none !important; }
       .hamburger { display: flex !important; }
     }
+    /* Login screen */
+    .login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:#0b0b0e;z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+    .login-screen.hidden{display:none}
+    .login-screen .ls-logo{font-family:'Unbounded',sans-serif;font-size:3rem;font-weight:800;color:#f5b042;letter-spacing:-2px}
+    .login-screen .ls-sub{color:#8a8a91;font-size:.85rem}
+    .login-screen .ls-pin{display:flex;gap:10px;margin:16px 0}
+    .login-screen .ls-pin input{width:50px;height:60px;text-align:center;font-size:1.5rem;font-family:'Unbounded',sans-serif;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;color:#fff;outline:none;font-weight:700}
+    .login-screen .ls-pin input:focus{border-color:#f5b042}
+    .login-screen .ls-error{color:#ff5e5e;font-size:.75rem;font-family:'Inter',sans-serif;min-height:20px}
+    /* Loading overlay */
+    .loading-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.85);z-index:400;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+    .loading-overlay.show{display:flex}
+    .loading-overlay .spinner{width:44px;height:44px;border:3px solid rgba(245,176,66,.15);border-top-color:#f5b042;border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-overlay .lo-text{color:#f5b042;font-size:.85rem;font-family:'Unbounded',sans-serif}
   </style>
 </head>
 <body>
+
+  <!-- Login screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="ls-logo">ФП</div>
+    <div class="ls-sub">Онлайн-банк</div>
+    <div class="ls-pin">
+      <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="0">
+      <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="1">
+      <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="2">
+      <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="3">
+    </div>
+    <div class="ls-error" id="pinError"></div>
+    <button class="btn-primary" onclick="login()">Войти</button>
+  </div>
 
   <div class="mobile-nav" id="mobileNav">
     <a href="index.html" onclick="closeMobile()">Главная</a>
@@ -245,7 +274,7 @@
 
       <!-- Sidebar -->
       <div class="sidebar">
-        <div class="sb-user">Александр Д.<small>Тариф: Premium</small></div>
+        <div class="sb-user"><span id="sidebarUserName">Александр Д.</span><small>Тариф: Premium</small></div>
         <button class="sb-item active" data-tab="overview"><span class="sb-icon">📊</span> Обзор</button>
         <button class="sb-item" data-tab="cards"><span class="sb-icon">💳</span> Мои карты</button>
         <button class="sb-item" data-tab="transfer"><span class="sb-icon">💸</span> Переводы</button>
@@ -256,6 +285,7 @@
         <hr class="sb-divider">
         <button class="sb-item" data-tab="settings"><span class="sb-icon">⚙️</span> Настройки</button>
         <button class="sb-item" onclick="showToast('Чат поддержки откроется в новом окне')"><span class="sb-icon">❓</span> Помощь</button>
+        <button class="sb-item" onclick="logout()"><span class="sb-icon">🚪</span> Выйти</button>
       </div>
 
       <!-- Main -->
@@ -266,7 +296,7 @@
           <div class="balance-card">
             <div class="bc-left">
               <div class="bc-label">Общий баланс</div>
-              <div class="bc-amount"><span>₽</span> <span id="totalBalance">1 284 750</span>,42</div>
+              <div class="bc-amount"><span>₽</span> <span id="totalBalance">1 284 750</span></div>
               <div class="bc-detail">▲ +12 340 ₽ за месяц</div>
             </div>
             <div class="bc-actions">
@@ -318,7 +348,7 @@
               </div>
               <div style="display:flex;gap:12px;flex-wrap:wrap;">
                 <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="blockCard(this)">🔒 Заблокировать</button>
-                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="showToast('Детали карты доступны в приложении FP Pay')">📄 Детали</button>
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="openCardDetails('gold')">📄 Детали</button>
               </div>
             </div>
             <div class="form-card">
@@ -333,7 +363,7 @@
               </div>
               <div style="display:flex;gap:12px;flex-wrap:wrap;">
                 <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="blockCard(this)">🔒 Заблокировать</button>
-                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="showToast('Детали карты доступны в приложении FP Pay')">📄 Детали</button>
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="openCardDetails('start')">📄 Детали</button>
               </div>
             </div>
           </div>
@@ -514,30 +544,27 @@
         <div class="tab-content" id="tab-settings">
           <div class="form-card">
             <h3>⚙️ Настройки профиля</h3>
-            <div class="form-row">
-              <div class="form-group"><label>Имя</label><input type="text" value="Александр"></div>
-              <div class="form-group"><label>Фамилия</label><input type="text" value="Дмитриев"></div>
+            <div class="form-group">
+              <label>Отображаемое имя</label>
+              <input type="text" id="settingsName" value="Александр Д.">
             </div>
-            <div class="form-row">
-              <div class="form-group"><label>Email</label><input type="email" value="alex@fpbank.zg"></div>
-              <div class="form-group"><label>Телефон</label><input type="tel" value="+7 (999) 123-45-67"></div>
-            </div>
-            <div style="margin-top:20px;padding:20px 0;border-top:1px solid rgba(255,255,255,.06);">
-              <h4 style="color:#fff;font-size:1rem;margin-bottom:12px;">Смена пароля</h4>
-              <div class="form-row">
-                <div class="form-group"><label>Текущий пароль</label><input type="password" placeholder="••••••••"></div>
-                <div class="form-group"><label>Новый пароль</label><input type="password" placeholder="минимум 8 символов"></div>
-              </div>
-            </div>
-            <button class="btn-primary" onclick="showToast('Настройки сохранены')">Сохранить</button>
+            <button class="btn-primary" onclick="saveSettings()">Сохранить</button>
           </div>
           <div class="form-card">
-            <h3>Уведомления</h3>
-            <div style="display:flex;flex-direction:column;gap:14px;">
-              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;"><input type="checkbox" checked style="accent-color:#f5b042;width:18px;height:18px;"><span style="color:#b0b0b8;font-family:'Inter',sans-serif;">Push-уведомления о платежах</span></label>
-              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;"><input type="checkbox" checked style="accent-color:#f5b042;width:18px;height:18px;"><span style="color:#b0b0b8;font-family:'Inter',sans-serif;">SMS-информирование о зачислениях</span></label>
-              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;"><input type="checkbox" style="accent-color:#f5b042;width:18px;height:18px;"><span style="color:#b0b0b8;font-family:'Inter',sans-serif;">Еженедельная рассылка новостей</span></label>
+            <h3>🔐 Смена PIN-кода</h3>
+            <div class="form-group">
+              <label>Новый PIN-код (4 цифры)</label>
+              <input type="password" id="newPin" placeholder="••••" maxlength="4" inputmode="numeric" pattern="[0-9]*">
             </div>
+            <div class="form-group">
+              <label>Подтвердите PIN-код</label>
+              <input type="password" id="confirmPin" placeholder="••••" maxlength="4" inputmode="numeric" pattern="[0-9]*">
+            </div>
+            <button class="btn-primary" onclick="changePin()">Сменить PIN</button>
+          </div>
+          <div class="form-card">
+            <h3>🎨 Оформление</h3>
+            <p style="color:#9a9aa3;font-size:.85rem;font-family:'Inter',sans-serif;">Тёмная/светлая тема будет доступна в следующем обновлении.</p>
           </div>
         </div>
 
@@ -569,24 +596,85 @@
   </div>
 
   <script>
-    // ===== DATA =====
-    const allTransactions = [
-      { id:1, type:'in', name:'Зачисление зарплаты', date:'Сегодня, 10:32', amount:95000, icon:'⬇', cls:'green' },
-      { id:2, type:'out', name:'Перевод по СБП', date:'Вчера, 18:15', amount:-12500, icon:'⬆', cls:'red' },
-      { id:3, type:'out', name:'Оплата ЖКХ', date:'22 июн, 09:00', amount:-8432, icon:'⬆', cls:'red' },
-      { id:4, type:'in', name:'Кешбэк FP Gold', date:'21 июн, 12:00', amount:2340, icon:'⬇', cls:'green' },
-      { id:5, type:'in', name:'Пополнение вклада', date:'20 июн, 14:22', amount:50000, icon:'🔄', cls:'blue' },
-      { id:6, type:'out', name:'Оплата мобильной связи', date:'19 июн, 16:00', amount:-650, icon:'⬆', cls:'red' },
-      { id:7, type:'out', name:'Интернет (Дом.ru)', date:'18 июн, 08:30', amount:-1200, icon:'⬆', cls:'red' },
-      { id:8, type:'in', name:'Перевод от Ивана М.', date:'17 июн, 20:15', amount:3000, icon:'⬇', cls:'green' },
-      { id:9, type:'out', name:'Оплата штрафа ГИБДД', date:'16 июн, 11:40', amount:-2500, icon:'⬆', cls:'red' },
-      { id:10, type:'in', name:'Кешбэк рестораны', date:'15 июн, 09:00', amount:876, icon:'⬇', cls:'green' },
-      { id:11, type:'out', name:'Перевод по карте', date:'14 июн, 22:10', amount:-4990, icon:'⬆', cls:'red' },
-      { id:12, type:'in', name:'Возврат от Ozon', date:'13 июн, 15:30', amount:2340, icon:'⬇', cls:'green' },
-    ];
+    // ===== INIT LOCALSTORAGE =====
+    if (!localStorage.getItem('fp_balance')) {
+      localStorage.setItem('fp_balance', '1284750');
+      const sampleTx = [
+        { id:1, type:'in', name:'Зачисление зарплаты', date:'Сегодня, 10:32', amount:95000, icon:'⬇', cls:'green' },
+        { id:2, type:'out', name:'Перевод от Иванова А.В.', date:'Вчера, 18:15', amount:-12500, icon:'⬆', cls:'red' },
+        { id:3, type:'out', name:'Оплата мобильной связи', date:'22 июн, 09:00', amount:-8432, icon:'⬆', cls:'red' },
+        { id:4, type:'in', name:'Пополнение карты', date:'21 июн, 12:00', amount:2340, icon:'⬇', cls:'green' },
+        { id:5, type:'in', name:'Пополнение вклада', date:'20 июн, 14:22', amount:50000, icon:'🔄', cls:'blue' },
+        { id:6, type:'out', name:'Покупка в магазине', date:'19 июн, 16:00', amount:-3650, icon:'⬆', cls:'red' },
+        { id:7, type:'out', name:'Снятие наличных', date:'18 июн, 08:30', amount:-15000, icon:'⬆', cls:'red' },
+        { id:8, type:'in', name:'Перевод от Иванова А.В.', date:'17 июн, 20:15', amount:3000, icon:'⬇', cls:'green' },
+        { id:9, type:'out', name:'Оплата ЖКХ', date:'16 июн, 11:40', amount:-8432, icon:'⬆', cls:'red' },
+        { id:10, type:'in', name:'Кешбэк рестораны', date:'15 июн, 09:00', amount:876, icon:'⬇', cls:'green' },
+        { id:11, type:'out', name:'Перевод по карте', date:'14 июн, 22:10', amount:-4990, icon:'⬆', cls:'red' },
+        { id:12, type:'in', name:'Возврат от Ozon', date:'13 июн, 15:30', amount:2340, icon:'⬇', cls:'green' },
+      ];
+      localStorage.setItem('fp_transactions', JSON.stringify(sampleTx));
+    }
+    if (!localStorage.getItem('fp_user_name')) {
+      localStorage.setItem('fp_user_name', 'Александр Д.');
+    }
+    if (!localStorage.getItem('fp_pin')) {
+      localStorage.setItem('fp_pin', '1111');
+    }
 
     let pendingAction = null;
-    let balance = 1284750;
+
+    function getBalance() { return parseInt(localStorage.getItem('fp_balance')) || 0; }
+    function setBalance(v) { localStorage.setItem('fp_balance', v.toString()); }
+    function getTx() { return JSON.parse(localStorage.getItem('fp_transactions')) || []; }
+    function setTx(tx) { localStorage.setItem('fp_transactions', JSON.stringify(tx)); }
+    function getUserName() { return localStorage.getItem('fp_user_name') || 'Александр Д.'; }
+
+    // ===== AUTH =====
+    function login() {
+      const inputs = document.querySelectorAll('.pin-input');
+      const pin = Array.from(inputs).map(i => i.value).join('');
+      if (pin === localStorage.getItem('fp_pin')) {
+        sessionStorage.setItem('fp_auth', '1');
+        document.getElementById('loginScreen').classList.add('hidden');
+        initDashboard();
+      } else {
+        document.getElementById('pinError').textContent = 'Неверный PIN-код';
+        inputs.forEach(i => i.value = '');
+        inputs[0].focus();
+      }
+    }
+
+    function logout() { sessionStorage.removeItem('fp_auth'); location.reload(); }
+
+    // ===== PIN INPUT AUTO-FOCUS =====
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('.pin-input');
+      inputs.forEach((input, idx) => {
+        input.addEventListener('input', function() {
+          this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1);
+          if (this.value && idx < 3) inputs[idx + 1].focus();
+        });
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Backspace' && !this.value && idx > 0) inputs[idx - 1].focus();
+          if (e.key === 'Enter') login();
+        });
+      });
+      if (sessionStorage.getItem('fp_auth')) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        initDashboard();
+      }
+    });
+
+    // ===== LOADING =====
+    function showLoading(text, cb) {
+      document.getElementById('loadingText').textContent = text || 'Обработка...';
+      document.getElementById('loadingOverlay').classList.add('show');
+      setTimeout(function() {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        if (cb) cb();
+      }, 800 + Math.random() * 600);
+    }
 
     // ===== TAB SWITCHING =====
     function switchTab(tabName) {
@@ -601,6 +689,10 @@
       if (mbtn) mbtn.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (tabName === 'history') renderHistory();
+      if (tabName === 'settings') {
+        const el = document.getElementById('settingsName');
+        if (el) el.value = getUserName();
+      }
     }
 
     document.querySelectorAll('.sb-item[data-tab]').forEach(btn => {
@@ -627,6 +719,47 @@
     function closeModal() { document.getElementById('confirmModal').classList.remove('show'); pendingAction = null; }
     function confirmAction() { if (pendingAction) pendingAction(); closeModal(); }
 
+    // ===== CARD DETAILS MODAL =====
+    let cvvRevealed = false;
+
+    function openCardDetails(card) {
+      if (card === 'gold') {
+        document.getElementById('cdNumber').textContent = '4276 4500 1234 8812';
+        document.getElementById('cdExpiry').textContent = '12/28';
+        document.getElementById('cdCvv').textContent = '***';
+        document.getElementById('cdType').textContent = 'Gold / Visa';
+        document.getElementById('cdStatus').textContent = 'Активна';
+        document.getElementById('cdStatus').style.color = '#4cd964';
+        document.getElementById('cdIssue').textContent = '15.03.2024';
+      } else {
+        document.getElementById('cdNumber').textContent = '4276 4500 5678 4523';
+        document.getElementById('cdExpiry').textContent = '06/27';
+        document.getElementById('cdCvv').textContent = '***';
+        document.getElementById('cdType').textContent = 'Start / Mastercard';
+        document.getElementById('cdStatus').textContent = 'Активна';
+        document.getElementById('cdStatus').style.color = '#4cd964';
+        document.getElementById('cdIssue').textContent = '10.11.2023';
+      }
+      cvvRevealed = false;
+      document.getElementById('cardModal').classList.add('show');
+    }
+
+    function closeCardModal() {
+      document.getElementById('cardModal').classList.remove('show');
+    }
+
+    function toggleCvv() {
+      const el = document.getElementById('cdCvv');
+      const card = document.getElementById('cdNumber').textContent;
+      if (cvvRevealed) {
+        el.textContent = '***';
+        cvvRevealed = false;
+      } else {
+        el.textContent = card === '4276 4500 1234 8812' ? '123' : '456';
+        cvvRevealed = true;
+      }
+    }
+
     // ===== TRANSFER =====
     function toggleTransferFields() {
       const type = document.getElementById('transferType').value;
@@ -647,13 +780,18 @@
       else target = 'по реквизитам';
 
       showModal('Перевести ' + amount.toLocaleString() + ' ₽ с ' + (from === 'gold' ? 'FP Gold' : 'FP Start') + ' ' + target + '?', () => {
-        balance -= amount;
-        updateBalance();
-        document.getElementById('transferSuccess').classList.add('show');
-        document.getElementById('transferSuccessText').textContent = 'Перевод ' + amount.toLocaleString() + ' ₽ выполнен. Номер транзакции: FP' + Date.now().toString(36).toUpperCase();
-        allTransactions.unshift({ id: Date.now(), type:'out', name:'Перевод ' + target, date:'Только что', amount: -amount, icon:'⬆', cls:'red' });
-        showToast('Перевод ' + amount.toLocaleString() + ' ₽ выполнен');
-        renderRecentTx();
+        showLoading('Перевод...', function() {
+          let bal = getBalance();
+          bal -= amount;
+          setBalance(bal);
+          const tx = getTx();
+          tx.unshift({ id: Date.now(), type:'out', name:'Перевод ' + target, date:'Только что', amount: -amount, icon:'⬆', cls:'red' });
+          setTx(tx);
+          renderAll();
+          document.getElementById('transferSuccess').classList.add('show');
+          document.getElementById('transferSuccessText').textContent = 'Перевод ' + amount.toLocaleString() + ' ₽ выполнен. Номер транзакции: FP' + Date.now().toString(36).toUpperCase();
+          showToast('Перевод ' + amount.toLocaleString() + ' ₽ выполнен');
+        });
       });
     }
 
@@ -682,13 +820,18 @@
       const account = document.getElementById('payAccount')?.value || '—';
 
       showModal('Оплатить ' + selectedService + ' на сумму ' + amount.toLocaleString() + ' ₽?', () => {
-        balance -= amount;
-        updateBalance();
-        document.getElementById('paySuccess').classList.add('show');
-        document.getElementById('paySuccessText').textContent = 'Оплата ' + selectedService + ' на ' + amount.toLocaleString() + ' ₽ выполнена. Чек: FP' + Date.now().toString(36).toUpperCase();
-        allTransactions.unshift({ id: Date.now(), type:'out', name:'Оплата ' + selectedService, date:'Только что', amount: -amount, icon:'⬆', cls:'red' });
-        showToast('Платёж на ' + amount.toLocaleString() + ' ₽ выполнен');
-        renderRecentTx();
+        showLoading('Оплата...', function() {
+          let bal = getBalance();
+          bal -= amount;
+          setBalance(bal);
+          const tx = getTx();
+          tx.unshift({ id: Date.now(), type:'out', name:'Оплата ' + selectedService, date:'Только что', amount: -amount, icon:'⬆', cls:'red' });
+          setTx(tx);
+          renderAll();
+          document.getElementById('paySuccess').classList.add('show');
+          document.getElementById('paySuccessText').textContent = 'Оплата ' + selectedService + ' на ' + amount.toLocaleString() + ' ₽ выполнена. Чек: FP' + Date.now().toString(36).toUpperCase();
+          showToast('Платёж на ' + amount.toLocaleString() + ' ₽ выполнен');
+        });
       });
     }
 
@@ -710,25 +853,31 @@
       });
     }
 
-    // ===== BALANCE =====
+    // ===== BALANCE & RENDER =====
     function updateBalance() {
-      document.getElementById('totalBalance').textContent = balance.toLocaleString();
+      const bal = getBalance();
+      document.getElementById('totalBalance').textContent = bal.toLocaleString('ru-RU');
     }
 
-    // ===== RENDER =====
-    function renderRecentTx() {
-      const container = document.getElementById('recentTx');
-      container.innerHTML = allTransactions.slice(0, 5).map(t => {
+    function renderTransactions(containerId, count) {
+      const tx = getTx();
+      const items = count ? tx.slice(0, count) : tx;
+      const container = document.getElementById(containerId);
+      container.innerHTML = items.map(t => {
         const sign = t.amount > 0 ? '+' : '';
         return '<div class="tx-item"><div class="tx-left"><div class="tx-icon ' + t.cls + '">' + t.icon + '</div><div class="tx-info"><div class="tx-name">' + t.name + '</div><div class="tx-date">' + t.date + '</div></div></div><div class="tx-amount ' + (t.amount > 0 ? 'positive' : 'negative') + '">' + sign + t.amount.toLocaleString() + ' ₽</div></div>';
       }).join('');
+    }
+
+    function renderRecentTx() {
+      renderTransactions('recentTx', 5);
     }
 
     function renderHistory() {
       const filter = document.getElementById('histFilter').value;
       const search = document.getElementById('histSearch').value.toLowerCase();
       const container = document.getElementById('historyList');
-      let filtered = allTransactions;
+      let filtered = getTx();
       if (filter === 'in') filtered = filtered.filter(t => t.amount > 0);
       if (filter === 'out') filtered = filtered.filter(t => t.amount < 0);
       if (search) filtered = filtered.filter(t => t.name.toLowerCase().includes(search));
@@ -738,8 +887,45 @@
       }).join('');
     }
 
-    // Init
-    renderRecentTx();
+    function renderAll() {
+      updateBalance();
+      renderRecentTx();
+      const nameEl = document.getElementById('sidebarUserName');
+      if (nameEl) nameEl.textContent = getUserName();
+      const headerName = document.querySelector('.user-name');
+      if (headerName) headerName.innerHTML = getUserName() + '<small>Личный кабинет</small>';
+    }
+
+    function initDashboard() {
+      renderAll();
+    }
+
+    // ===== SETTINGS =====
+    function saveSettings() {
+      const name = document.getElementById('settingsName').value.trim();
+      if (name) {
+        localStorage.setItem('fp_user_name', name);
+        renderAll();
+        showToast('Имя сохранено');
+      } else {
+        showToast('Введите имя', true);
+      }
+    }
+
+    function changePin() {
+      const newPin = document.getElementById('newPin').value;
+      const confirmPin = document.getElementById('confirmPin').value;
+      if (!newPin || newPin.length !== 4 || !/^\d{4}$/.test(newPin)) {
+        showToast('Введите 4 цифры', true); return;
+      }
+      if (newPin !== confirmPin) {
+        showToast('PIN-коды не совпадают', true); return;
+      }
+      localStorage.setItem('fp_pin', newPin);
+      document.getElementById('newPin').value = '';
+      document.getElementById('confirmPin').value = '';
+      showToast('PIN-код изменён');
+    }
   </script>
 
   <div class="mobile-tab-bar" id="mobileTabBar">
@@ -753,6 +939,12 @@
     <button class="mt-item" data-tab="settings"><span class="mt-icon">⚙️</span>Настройки</button>
   </div>
 
+  <!-- Loading overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="lo-text" id="loadingText">Обработка...</div>
+  </div>
+
 <script>
 document.getElementById('hamburger')?.addEventListener('click', function() {
   document.getElementById('mobileNav')?.classList.toggle('open');
@@ -763,6 +955,24 @@ function closeMobile() {
   document.querySelector('.hamburger')?.classList.remove('active');
 }
 </script>
+
+  <!-- Card detail modal -->
+  <div class="modal-overlay" id="cardModal">
+    <div class="modal-box">
+      <h3>Детали карты</h3>
+      <div>
+        <p style="margin:8px 0;"><strong>Номер карты:</strong> <span id="cdNumber" style="color:#fff;"></span></p>
+        <p style="margin:8px 0;"><strong>Срок действия:</strong> <span id="cdExpiry" style="color:#fff;"></span></p>
+        <p style="margin:8px 0;"><strong>CVV:</strong> <span id="cdCvv" style="color:#fff;">***</span> <button class="btn-ghost" style="padding:2px 10px;font-size:.7rem;vertical-align:middle;" onclick="toggleCvv()">👁</button></p>
+        <p style="margin:8px 0;"><strong>Статус:</strong> <span id="cdStatus" style="color:#4cd964;">Активна</span></p>
+        <p style="margin:8px 0;"><strong>Тип карты:</strong> <span id="cdType" style="color:#fff;"></span></p>
+        <p style="margin:8px 0;"><strong>Дата выпуска:</strong> <span id="cdIssue" style="color:#fff;"></span></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeCardModal()">Скрыть</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
