@@ -217,7 +217,7 @@
     <div class="mn-inner">
       <div class="mn-icon">📱</div>
       <div class="mn-title">Мобильная версия</div>
-      <p>Ой, этот сайт не дружит с телефонами, если честно. Основной сайт под телефон не оптимизирован — лучше заходить с компьютера. А онлайн-банк как раз сделан под телефон, им можно пользоваться.</p>
+      <p>Ой, эта страничка не адаптирована под телефон, но вы можете продолжить, но она может работать нестабильно.</p>
       <button class="mn-btn" onclick="dismissMobileNotice()">Всё равно продолжить</button>
     </div>
   </div>
@@ -736,7 +736,7 @@
     // Init
     renderRecentTx();
   </script>
-  <script>(function(){if(window.innerWidth<768&&!localStorage.getItem('fp_mn_d')){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show');localStorage.setItem('fp_mn_d','1')}</script>
+  <script>(function(){var a=navigator.userAgent||navigator.vendor||window.opera;if(/android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|windows phone/i.test(a)){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show')}</script>
 
   <!-- Mobile tab bar -->
   <div class="mobile-tab-bar" id="mobileTabBar">

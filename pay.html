@@ -144,9 +144,26 @@
     .desktop-qr .dq-box img{width:140px;height:140px}
     .desktop-qr .dq-box .dq-amount{font-size:1.2rem}
   }
+  .mobile-notice{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .4s}
+  .mobile-notice.show{opacity:1;pointer-events:auto}
+  .mobile-notice .mn-inner{max-width:360px;text-align:center;padding:40px 28px}
+  .mobile-notice .mn-icon{width:56px;height:56px;background:rgba(245,176,66,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+  .mobile-notice .mn-title{color:#f5b042;font-size:.85rem;font-weight:600;margin-bottom:10px}
+  .mobile-notice p{color:#9a9aa3;font-size:.77rem;font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:20px}
+  .mobile-notice .mn-btn{background:#f5b042;color:#0b0b0e;border:none;padding:12px 40px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
+
+  <!-- Mobile notice -->
+  <div class="mobile-notice" id="mobileNotice">
+    <div class="mn-inner">
+      <div class="mn-icon">📱</div>
+      <div class="mn-title">Мобильная версия</div>
+      <p>Ой, эта страничка не адаптирована под телефон, но вы можете продолжить, но она может работать нестабильно.</p>
+      <button class="mn-btn" onclick="dismissMobileNotice()">Продолжить</button>
+    </div>
+  </div>
 
   <header>
     <div class="header-inner">
@@ -444,5 +461,7 @@
       renderCreatedList();
     });
   </script>
+
+  <script>(function(){var a=navigator.userAgent||navigator.vendor||window.opera;if(/android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|windows phone/i.test(a)){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show')}</script>
 </body>
 </html>
