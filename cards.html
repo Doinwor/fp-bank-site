@@ -128,6 +128,17 @@
     @media (max-width:480px) {
       .section-title { font-size: 1.2rem !important; }
     }
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.92);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.show{display:flex}
+  .modal-box{background:#1a1a1f;border:1px solid rgba(245,176,66,.12);border-radius:20px;padding:32px;max-width:440px;width:100%;position:relative;max-height:90vh;overflow-y:auto}
+  .modal-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#6a6a72;font-size:1.2rem;cursor:pointer;padding:8px;line-height:1}
+  .modal-close:hover{color:#f5b042}
+  .modal-title{font-family:'Unbounded',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:4px}
+  .modal-sub{color:#f5b042;font-size:.8rem;font-weight:600;margin-bottom:20px;font-family:'Unbounded',sans-serif}
+  .form-group{margin-bottom:14px}
+  .form-group label{display:block;color:#9a9aa3;font-size:.7rem;font-weight:500;margin-bottom:4px;font-family:'Inter',sans-serif}
+  .form-group input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#e8e8ee;font-size:.85rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+  .form-group input:focus{border-color:#f5b042}
   </style>
 </head>
 <body>
@@ -318,9 +329,73 @@
       requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; });
       setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(20px)'; setTimeout(() => t.remove(), 400); }, 3000);
     }
+
+    var currentCard = '';
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = document.getElementById('coPhone');
+      if (p) p.addEventListener('input', function() {
+        var v = this.value.replace(/\D/g,'').substring(0,11);
+        var r = '+7';
+        if (v.length > 1) r += ' (' + v.substring(1,4);
+        if (v.length > 4) r += ') ' + v.substring(4,7);
+        if (v.length > 7) r += '-' + v.substring(7,9);
+        if (v.length > 9) r += '-' + v.substring(9,11);
+        this.value = r;
+      });
+    });
+
     function orderCard(name) {
-      showToast('Функция будет доступна в ближайшее время');
+      currentCard = name;
+      document.getElementById('coCardName').textContent = name;
+      document.getElementById('coForm').reset();
+      document.getElementById('cardOrderModal').classList.add('show');
+    }
+
+    function closeOrderModal() {
+      document.getElementById('cardOrderModal').classList.remove('show');
+    }
+
+    function submitCardOrder() {
+      var name = document.getElementById('coName').value.trim();
+      var phone = document.getElementById('coPhone').value.trim();
+      var address = document.getElementById('coAddress').value.trim();
+      if (!name || !phone || phone.replace(/\D/g,'').length < 10) {
+        showToast('Заполните имя и телефон');
+        return;
+      }
+      // Save to localStorage
+      var orders = JSON.parse(localStorage.getItem('fp_card_orders') || '[]');
+      orders.unshift({ card: currentCard, name: name, phone: phone, address: address || 'В отделении', date: new Date().toISOString() });
+      localStorage.setItem('fp_card_orders', JSON.stringify(orders));
+      closeOrderModal();
+      showToast('✅ Карта ' + currentCard + ' заказана! Ожидайте SMS.');
     }
   </script>
+
+  <!-- Card Order Modal -->
+  <div class="modal-overlay" id="cardOrderModal" onclick="if(event.target===this)closeOrderModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+      <div class="modal-title">Заказ карты</div>
+      <div class="modal-sub" id="coCardName"></div>
+      <form id="coForm" onsubmit="event.preventDefault();submitCardOrder()">
+        <div class="form-group">
+          <label>ФИО</label>
+          <input type="text" id="coName" placeholder="Иванов Александр Владимирович" required>
+        </div>
+        <div class="form-group">
+          <label>Телефон</label>
+          <input type="text" id="coPhone" placeholder="+7 (999) 000-00-00" maxlength="18">
+        </div>
+        <div class="form-group">
+          <label>Адрес доставки</label>
+          <input type="text" id="coAddress" placeholder="Город, улица, дом (или оставьте пустым — заберёте в отделении)">
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;margin-top:6px">✅ Заказать</button>
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>
