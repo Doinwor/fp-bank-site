@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дизайн | FP Банк</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Unbounded',sans-serif;background:#0b0b0e;color:#e0e0e0;line-height:1.5;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#1a1a1f}
+::-webkit-scrollbar-thumb{background:#f5b042;border-radius:3px}
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);backdrop-filter:blur(16px);position:fixed;top:0;left:0;right:0;z-index:100;background-color:rgba(11,11,14,.85)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2.2rem;letter-spacing:-1px;line-height:1;text-decoration:none;color:#fff}
+.logo .letter-f{color:#f5b042;text-shadow:0 0 20px rgba(245,176,66,.5)}
+.logo .letter-p{color:#8a8a91}
+.logo-sub{display:block;font-size:.6rem;font-weight:400;color:#8a8a91;letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
+.btn-outline{border:1px solid #f5b042;color:#f5b042;padding:10px 22px;border-radius:40px;font-weight:500;transition:all .3s;background:transparent;cursor:pointer;font-family:'Unbounded',sans-serif;font-size:.8rem;text-decoration:none}
+.btn-outline:hover{background:#f5b042;color:#0b0b0e}
+
+.page-header{padding:140px 0 40px;text-align:center}
+.page-header h1{font-size:3rem;font-weight:800;color:#fff;letter-spacing:-1px}
+.page-header p{color:#8a8a91;font-size:1rem;margin-top:12px;font-family:'Inter',sans-serif;max-width:500px;margin:12px auto 0}
+.section-tag{display:inline-block;background:rgba(245,176,66,.1);padding:4px 14px;border-radius:50px;font-size:.65rem;color:#f5b042;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+
+.section{padding:60px 0}
+.section-title{font-size:2rem;font-weight:700;color:#fff;letter-spacing:-.5px;margin-bottom:8px}
+.section-sub{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;margin-bottom:40px;max-width:500px}
+
+/* ===== LOGOS SECTION ===== */
+.logos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-bottom:40px}
+.logo-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:24px;padding:36px;text-align:center;transition:border-color .3s}
+.logo-card:hover{border-color:rgba(245,176,66,.1)}
+.logo-card .lc-label{color:#6a6a72;font-size:.5rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;font-weight:500}
+.logo-card .lc-preview{min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.logo-card .lc-name{color:#8a8a91;font-size:.65rem;font-family:'Inter',sans-serif;margin-top:14px}
+.logo-card .lc-usage{color:#5a5a62;font-size:.5rem;font-family:'Inter',sans-serif;margin-top:4px}
+
+/* Round logo */
+.logo-round{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.6rem;color:#0b0b0e;box-shadow:0 0 30px rgba(245,176,66,.15)}
+.logo-round-sm{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#0b0b0e}
+
+/* Text logo */
+.logo-text{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2.6rem;letter-spacing:-1px;line-height:1}
+.logo-text .f{color:#f5b042;text-shadow:0 0 20px rgba(245,176,66,.3)}
+.logo-text .p{color:#8a8a91;font-weight:700}
+.logo-text .sub{display:block;font-size:.5rem;font-weight:400;color:#8a8a91;letter-spacing:2px;text-transform:uppercase;margin-left:6px;margin-top:4px}
+
+/* Horizontal logo */
+.logo-horiz{display:flex;align-items:center;gap:14px}
+.logo-horiz .lh-round{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;color:#0b0b0e;flex-shrink:0}
+.logo-horiz .lh-text{display:flex;flex-direction:column;align-items:flex-start}
+.logo-horiz .lh-text .lh-main{display:flex;align-items:baseline;gap:1px;font-weight:800;font-size:1.2rem;letter-spacing:-.3px;line-height:1}
+.logo-horiz .lh-text .lh-main .f{color:#f5b042}
+.logo-horiz .lh-text .lh-main .p{color:#8a8a91}
+.logo-horiz .lh-text .lh-sub{font-size:.4rem;color:#6a6a72;letter-spacing:1.5px;text-transform:uppercase}
+
+/* Full brand wordmark */
+.logo-wordmark{font-weight:800;font-size:2rem;letter-spacing:-.5px;color:#fff}
+.logo-wordmark .f{color:#f5b042}
+.logo-wordmark .p{color:#8a8a91}
+
+/* ===== COLORS ===== */
+.colors-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:40px}
+.color-card{border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+.color-card .cc-preview{height:80px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;font-family:'Inter',sans-serif}
+.color-card .cc-info{padding:12px 16px}
+.color-card .cc-info .cc-name{color:#fff;font-size:.75rem;font-weight:600}
+.color-card .cc-info .cc-hex{color:#6a6a72;font-size:.6rem;font-family:'Inter',sans-serif;margin-top:2px}
+
+/* ===== TYPOGRAPHY ===== */
+.typo-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:28px 32px;margin-bottom:16px}
+.typo-card .tc-label{color:#6a6a72;font-size:.5rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.typo-card .tc-sample{color:#fff;letter-spacing:-.3px}
+.typo-card .tc-desc{color:#8a8a91;font-size:.7rem;font-family:'Inter',sans-serif;margin-top:6px}
+
+/* ===== CREDIT (Studio i.) ===== */
+.studio-section{background:rgba(245,176,66,.02);border:1px solid rgba(245,176,66,.06);border-radius:32px;padding:50px;text-align:center;margin:40px 0 60px}
+.studio-section .ss-icon{font-size:3rem;margin-bottom:12px;color:#f5b042;opacity:.5}
+.studio-section h3{color:#fff;font-size:1.4rem;font-weight:700;margin-bottom:6px}
+.studio-section h3 span{color:#f5b042}
+.studio-section p{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;max-width:500px;margin:0 auto;line-height:1.7}
+.studio-section .ss-tagline{color:#f5b042;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;margin-top:14px;font-weight:500}
+
+/* ===== PRINCIPLES ===== */
+.principles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:40px}
+.principle-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:28px}
+.principle-card .pc-num{color:#f5b042;font-size:.6rem;font-weight:600;letter-spacing:1px;margin-bottom:6px}
+.principle-card h4{color:#fff;font-size:1rem;font-weight:600;margin-bottom:6px}
+.principle-card p{color:#8a8a91;font-size:.8rem;font-family:'Inter',sans-serif;line-height:1.6}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){.logos-grid{grid-template-columns:repeat(2,1fr)}.colors-grid{grid-template-columns:repeat(2,1fr)}.principles-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .container{padding:0 16px}
+  .page-header h1{font-size:2rem}
+  .logos-grid{grid-template-columns:1fr}
+  .colors-grid{grid-template-columns:repeat(2,1fr)}
+  .studio-section{padding:30px 20px}
+  .section{padding:30px 0}
+  .section-title{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <section class="page-header reveal">
+    <span class="section-tag">Бренд & Дизайн</span>
+    <h1>Визуальный стиль<br>FP Банка</h1>
+    <p>Полное руководство по фирменному стилю — логотипы, цвета, типографика</p>
+  </section>
+
+  <!-- LOGOS -->
+  <section class="section reveal">
+    <h2 class="section-title">Логотипы</h2>
+    <p class="section-sub">Все варианты использования фирменного знака FP Банка</p>
+
+    <div class="logos-grid">
+
+      <div class="logo-card">
+        <div class="lc-label">Круглый знак</div>
+        <div class="lc-preview">
+          <div class="logo-round">ФП</div>
+        </div>
+        <div class="lc-name">Золотой круг с буквами ФП</div>
+        <div class="lc-usage">Иконка приложения, фавикон, аватар</div>
+      </div>
+
+      <div class="logo-card">
+        <div class="lc-label">Текстовый логотип</div>
+        <div class="lc-preview">
+          <div class="logo-text"><span class="f">Ф</span><span class="p">П</span></div>
+        </div>
+        <div class="lc-name">ФП — основной логотип</div>
+        <div class="lc-usage">Шапка сайта, документы, презентации</div>
+      </div>
+
+      <div class="logo-card">
+        <div class="lc-label">Полный логотип</div>
+        <div class="lc-preview">
+          <div class="logo-text"><span class="f">Ф</span><span class="p">П</span><span class="sub">Банк</span></div>
+        </div>
+        <div class="lc-name">ФП Банк — полная версия</div>
+        <div class="lc-usage">Главная страница, официальные материалы</div>
+      </div>
+
+      <div class="logo-card">
+        <div class="lc-label">Горизонтальный</div>
+        <div class="lc-preview">
+          <div class="logo-horiz">
+            <div class="lh-round">ФП</div>
+            <div class="lh-text">
+              <div class="lh-main"><span class="f">Ф</span><span class="p">П</span></div>
+              <div class="lh-sub">FP Банк</div>
+            </div>
+          </div>
+        </div>
+        <div class="lc-name">Круг + текст горизонтально</div>
+        <div class="lc-usage">Подпись, бейджи, визитки</div>
+      </div>
+
+      <div class="logo-card">
+        <div class="lc-label">Латинский логотип</div>
+        <div class="lc-preview">
+          <div style="font-weight:800;font-size:1.8rem;letter-spacing:2px;color:#fff">FP <span style="color:#f5b042">Bank</span></div>
+        </div>
+        <div class="lc-name">FP Bank — международная версия</div>
+        <div class="lc-usage">Англоязычные материалы, карты</div>
+      </div>
+
+      <div class="logo-card">
+        <div class="lc-label">Компактный</div>
+        <div class="lc-preview">
+          <div class="logo-wordmark"><span class="f">Ф</span><span class="p">П</span></div>
+        </div>
+        <div class="lc-name">Короткая версия без подписи</div>
+        <div class="lc-usage">Мобильное меню, фавикон, превью</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COLORS -->
+  <section class="section reveal">
+    <h2 class="section-title">Цветовая палитра</h2>
+    <p class="section-sub">Фирменные цвета бренда</p>
+
+    <div class="colors-grid">
+      <div class="color-card">
+        <div class="cc-preview" style="background:#f5b042;color:#0b0b0e">#f5b042</div>
+        <div class="cc-info">
+          <div class="cc-name">Золотой</div>
+          <div class="cc-hex">#f5b042 — Основной акцент</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="cc-preview" style="background:#c9911e;color:#fff">#c9911e</div>
+        <div class="cc-info">
+          <div class="cc-name">Тёмный золотой</div>
+          <div class="cc-hex">#c9911e — Градиент, ховеры</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="cc-preview" style="background:#0b0b0e;color:#f5b042;border-bottom:1px solid rgba(255,255,255,.06)">#0b0b0e</div>
+        <div class="cc-info">
+          <div class="cc-name">Фон</div>
+          <div class="cc-hex">#0b0b0e — Тёмная тема</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="cc-preview" style="background:#1a1a1f;color:#f5b042">#1a1a1f</div>
+        <div class="cc-info">
+          <div class="cc-name">Поверхность</div>
+          <div class="cc-hex">#1a1a1f — Карточки, блоки</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section reveal">
+    <h2 class="section-title">Типографика</h2>
+    <p class="section-sub">Шрифты и их применение</p>
+
+    <div class="typo-card">
+      <div class="tc-label">Заголовки — Unbounded</div>
+      <div class="tc-sample" style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:2rem">FP Банк — это современно</div>
+      <div class="tc-desc">Геометрический гротеск с широкими пропорциями. Используется для заголовков, навигации и акцентных элементов. Начертания: 300–800.</div>
+    </div>
+    <div class="typo-card">
+      <div class="tc-label">Текст — Inter</div>
+      <div class="tc-sample" style="font-family:'Inter',sans-serif;font-weight:400;font-size:1rem">FP Банк заботится о каждом клиенте и предлагает лучшие финансовые решения. — 24 часа в сутки, 7 дней в неделю.</div>
+      <div class="tc-desc">Читаемый гуманистический гротеск. Используется для основного текста, описаний, таблиц и форм. Начертания: 300–700.</div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section class="section reveal">
+    <h2 class="section-title">Принципы дизайна</h2>
+    <p class="section-sub">Что делает наш дизайн узнаваемым</p>
+
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="pc-num">01</div>
+        <h4>Темнота как основа</h4>
+        <p>Глубокий чёрный фон (#0b0b0e) создаёт премиальный фон для контента. Золотой акцент выступает единственным ярким элементом.</p>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">02</div>
+        <h4>Золотой минимализм</h4>
+        <p>Один акцентный цвет — #f5b042. Никакой лишней палитры. Золото используется дозированно: кнопки, подчёркивания, иконки.</p>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">03</div>
+        <h4>Контраст и воздух</h4>
+        <p>Щедрые отступы, крупные заголовки, чёткая иерархия. Каждый элемент дышит.</p>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">04</div>
+        <h4>Скругления и плавность</h4>
+        <p>Все карточки, кнопки и модалки имеют скруглённые углы (от 14px до 32px). Плавные переходы создают ощущение премиальности.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO CREDIT -->
+  <section class="reveal">
+    <div class="studio-section">
+      <div class="ss-icon">✦</div>
+      <h3>Дизайн создан студией <span>i.</span></h3>
+      <p>Студия i. — независимое дизайн-бюро, специализирующееся на цифровых продуктах, айдентике и премиальных интерфейсах. Каждая линия, оттенок и отступ продуманы до миллиметра.</p>
+      <div class="ss-tagline">i. — дизайн во всём</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: .1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
