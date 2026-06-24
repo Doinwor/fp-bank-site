@@ -125,21 +125,31 @@
       .biz-hero .bh-stats { grid-template-columns:1fr; gap:12px; }
       .header-inner { height:50px; }
     }
+    @media (max-width:768px) {
+      html, body { overflow-x: hidden; width: 100%; }
+      .container { padding-left: 16px !important; padding-right: 16px !important; }
+      .mobile-nav.open { display: flex !important; }
+      nav { display: none !important; }
+      .hamburger { display: flex !important; }
+    }
+    @media (max-width:480px) {
+      .section-title { font-size: 1.2rem !important; }
+    }
   </style>
 </head>
 <body>
 
   <div class="mobile-nav" id="mobileNav">
-    <a href="index.html">Главная</a>
-    <a href="about.html">О банке</a>
-    <a href="business.html">Бизнесу</a>
-    <a href="mortgage.html">Ипотека</a>
-    <a href="credits.html">Кредиты</a>
-    <a href="deposits.html">Вклады</a>
-    <a href="cards.html">Карты</a>
-    <a href="pay.html">Оплата</a>
-    <a href="contacts.html">Контакты</a>
-    <a href="online.html" class="btn-outline" style="margin-top:10px;">Войти</a>
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="about.html" onclick="closeMobile()">О банке</a>
+    <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+    <a href="mortgage.html" onclick="closeMobile()">Ипотека</a>
+    <a href="credits.html" onclick="closeMobile()">Кредиты</a>
+    <a href="deposits.html" onclick="closeMobile()">Вклады</a>
+    <a href="cards.html" onclick="closeMobile()">Карты</a>
+    <a href="pay.html" onclick="closeMobile()">Оплата</a>
+    <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+    <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
   </div>
 
   <header id="header">
@@ -232,6 +242,7 @@
         <li>Подключение бухгалтерских систем: 1С, SAP, Oracle</li>
       </ul>
       <div class="sc-price">Обслуживание от 0 ₽ при обороте от 100 000 ₽/мес</div>
+      <a href="#" class="btn-primary" style="display:inline-block;margin-top:20px;font-size:.85rem;padding:14px 30px;" onclick="showToast('Заявка на РКО принята! Мы свяжемся с вами в ближайшее время.')">Оставить заявку на РКО</a>
     </div>
 
     <!-- Acquiring -->
@@ -276,6 +287,7 @@
         <li>Заряда терминала хватает на 200+ операций</li>
       </ul>
       <div class="sc-price">Торговый эквайринг — от 0,5% | Интернет-эквайринг — от 1,2% | Первый терминал бесплатно</div>
+      <a href="#" class="btn-primary" style="display:inline-block;margin-top:20px;font-size:.85rem;padding:14px 30px;" onclick="showToast('Заявка на подключение эквайринга принята! Мы свяжемся с вами.')">Подключить эквайринг</a>
     </div>
 
     <!-- Payroll -->
@@ -313,6 +325,7 @@
         <li>Кешбэк 1% на все корпоративные расходы</li>
       </ul>
       <div class="sc-price">Обслуживание зарплатного проекта — бесплатно | Переводы зарплаты — 0 ₽</div>
+      <a href="#" class="btn-primary" style="display:inline-block;margin-top:20px;font-size:.85rem;padding:14px 30px;" onclick="showToast('Заявка на зарплатный проект принята! Мы свяжемся с вами.')">Подключить зарплатный проект</a>
     </div>
 
     <!-- Business lending -->
@@ -350,6 +363,7 @@
         <li>Бизнес-план или технико-экономическое обоснование (для инвестиционных кредитов)</li>
       </ul>
       <div class="sc-price">Рассмотрение заявки — бесплатно | Решение за 1–3 рабочих дня</div>
+      <a href="#" class="btn-primary" style="display:inline-block;margin-top:20px;font-size:.85rem;padding:14px 30px;" onclick="showToast('Заявка на кредит для бизнеса принята! Мы свяжемся с вами.')">Подать заявку на кредит</a>
     </div>
 
     <!-- Deposits -->
@@ -376,6 +390,7 @@
         <li>Страхование депозитов юрлиц не предусмотрено, однако Банк гарантирует надёжность</li>
       </ul>
       <div class="sc-price">Ставки от 12% до 19% годовых | Минимальная сумма 500 000 ₽</div>
+      <a href="#" class="btn-primary" style="display:inline-block;margin-top:20px;font-size:.85rem;padding:14px 30px;" onclick="showToast('Заявка на депозит для юрлиц принята! Мы свяжемся с вами.')">Разместить депозит</a>
     </div>
 
     <!-- Document flow -->
@@ -404,6 +419,7 @@
         <li>Техническая поддержка по интеграции — круглосуточно</li>
       </ul>
       <div class="sc-price">ЭДО — бесплатно | Выписки — бесплатно | УКЭП — 1 500 ₽/год</div>
+      <a href="#" class="btn-primary" style="display:inline-block;margin-top:20px;font-size:.85rem;padding:14px 30px;" onclick="showToast('Заявка на подключение ЭДО принята! Мы свяжемся с вами.')">Подключить ЭДО</a>
     </div>
 
     <!-- Tariffs -->
@@ -527,6 +543,14 @@
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold:0.1, rootMargin:'0px 0px -50px 0px' });
     reveals.forEach(r => observer.observe(r));
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#1a1a1f;border:1px solid #f5b042;border-radius:16px;padding:16px 24px;color:#f5b042;font-size:.85rem;font-family:Inter,sans-serif;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(20px);transition:all .4s;';
+      document.body.appendChild(t);
+      requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; });
+      setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(20px)'; setTimeout(() => t.remove(), 400); }, 3000);
+    }
   </script>
 
 </body>

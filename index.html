@@ -891,6 +891,16 @@
       .card-balance { font-size:.75rem; }
       .header-inner { height:50px; }
     }
+    @media (max-width:768px) {
+      html, body { overflow-x: hidden; width: 100%; }
+      .container { padding-left: 16px !important; padding-right: 16px !important; }
+      .mobile-nav.open { display: flex !important; }
+      nav { display: none !important; }
+      .hamburger { display: flex !important; }
+    }
+    @media (max-width:480px) {
+      .section-title { font-size: 1.2rem !important; }
+    }
   </style>
 </head>
 <body>
@@ -1414,6 +1424,20 @@
         if (!isOpen) item.classList.add('open');
       });
     });
+    // Contact form
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = this.querySelector('input[type="text"]').value.trim();
+        const phone = this.querySelector('input[type="tel"]').value.trim();
+        if (!name || !phone) { alert('Пожалуйста, заполните имя и телефон'); return; }
+        const btn = this.querySelector('button[type="submit"]');
+        btn.textContent = 'Отправлено ✓';
+        btn.style.background = '#4cd964';
+        setTimeout(() => { btn.textContent = 'Отправить →'; btn.style.background = ''; }, 3000);
+      });
+    }
   </script>
 
 </body>

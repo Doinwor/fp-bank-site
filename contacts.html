@@ -112,21 +112,31 @@
       .page-header h1 { font-size:1.5rem; }
       .header-inner { height:50px; }
     }
+    @media (max-width:768px) {
+      html, body { overflow-x: hidden; width: 100%; }
+      .container { padding-left: 16px !important; padding-right: 16px !important; }
+      .mobile-nav.open { display: flex !important; }
+      nav { display: none !important; }
+      .hamburger { display: flex !important; }
+    }
+    @media (max-width:480px) {
+      .section-title { font-size: 1.2rem !important; }
+    }
   </style>
 </head>
 <body>
 
   <div class="mobile-nav" id="mobileNav">
-    <a href="index.html">Главная</a>
-    <a href="about.html">О банке</a>
-    <a href="business.html">Бизнесу</a>
-    <a href="mortgage.html">Ипотека</a>
-    <a href="credits.html">Кредиты</a>
-    <a href="deposits.html">Вклады</a>
-    <a href="cards.html">Карты</a>
-    <a href="pay.html">Оплата</a>
-    <a href="contacts.html">Контакты</a>
-    <a href="online.html" class="btn-outline" style="margin-top:10px;">Войти</a>
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="about.html" onclick="closeMobile()">О банке</a>
+    <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+    <a href="mortgage.html" onclick="closeMobile()">Ипотека</a>
+    <a href="credits.html" onclick="closeMobile()">Кредиты</a>
+    <a href="deposits.html" onclick="closeMobile()">Вклады</a>
+    <a href="cards.html" onclick="closeMobile()">Карты</a>
+    <a href="pay.html" onclick="closeMobile()">Оплата</a>
+    <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+    <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
   </div>
 
   <header id="header">
@@ -220,6 +230,11 @@
           </div>
           <button type="submit" class="btn-primary" style="border:none;cursor:pointer;width:100%;">Отправить</button>
         </form>
+        <div style="display:none;text-align:center;padding:24px;background:rgba(76,217,100,.08);border:1px solid rgba(76,217,100,.2);border-radius:20px;margin-top:16px;" id="contactSuccess">
+          <div style="font-size:3rem;margin-bottom:10px;">✅</div>
+          <h4 style="color:#4cd964;font-size:1.1rem;margin-bottom:4px;">Сообщение отправлено!</h4>
+          <p style="color:#9a9aa3;font-size:.85rem;font-family:'Inter',sans-serif;">Мы ответим вам в ближайшее время.</p>
+        </div>
       </div>
     </div>
 
@@ -308,6 +323,25 @@
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold:0.1, rootMargin:'0px 0px -50px 0px' });
     reveals.forEach(r => observer.observe(r));
+    const contactForm = document.querySelector('.contact-form-wrap form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = this.querySelector('input[type="text"]').value.trim();
+        const phone = this.querySelector('input[type="tel"]').value.trim();
+        if (!name || !phone) { alert('Пожалуйста, заполните имя и телефон'); return; }
+        this.style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'block';
+      });
+    }
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#1a1a1f;border:1px solid #f5b042;border-radius:16px;padding:16px 24px;color:#f5b042;font-size:.85rem;font-family:Inter,sans-serif;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(20px);transition:all .4s;';
+      document.body.appendChild(t);
+      requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; });
+      setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(20px)'; setTimeout(() => t.remove(), 400); }, 3000);
+    }
   </script>
 </body>
 </html>

@@ -188,9 +188,43 @@
     .mobile-tab-bar .mt-item { flex:1; text-align:center; color:#6a6a72; font-size:.55rem; font-family:'Unbounded',sans-serif; cursor:pointer; border:none; background:none; padding:4px 2px; transition:color .2s; }
     .mobile-tab-bar .mt-item.active { color:#f5b042; }
     .mobile-tab-bar .mt-item .mt-icon { display:block; font-size:1.2rem; margin-bottom:2px; }
+    @media (max-width:768px) {
+      html, body { overflow-x: hidden; width: 100%; }
+      .container { padding-left: 16px !important; padding-right: 16px !important; }
+      .mobile-nav.open { display: flex !important; }
+      nav { display: none !important; }
+      .hamburger { display: flex !important; }
+    }
+    @media (max-width:480px) {
+      .section-title { font-size: 1.2rem !important; }
+    }
+    .hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none;padding:4px}
+    .hamburger span{display:block;width:20px;height:2px;background:#f5b042;border-radius:2px;transition:.3s}
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+    .hamburger.active span:nth-child(2){opacity:0}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+    .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.97);backdrop-filter:blur(12px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{color:#e0e0e0;text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
+    .mobile-nav a:hover{color:#f5b042}
+    .mobile-nav .btn-outline{margin-top:8px}
+    @media (max-width:768px) {
+      nav { display: none !important; }
+      .hamburger { display: flex !important; }
+    }
   </style>
 </head>
 <body>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="about.html" onclick="closeMobile()">О банке</a>
+    <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+    <a href="pay.html" onclick="closeMobile()">Оплата</a>
+    <a href="cards.html" onclick="closeMobile()">Карты</a>
+    <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+    <a href="online.html" class="btn-outline" onclick="closeMobile()">Войти</a>
+  </div>
 
   <header>
     <div class="header-inner">
@@ -202,6 +236,7 @@
           <div class="user-name">Александр<small>Личный кабинет</small></div>
         </div>
       </div>
+      <button class="hamburger" id="hamburger" aria-label="Меню"><span></span><span></span><span></span></button>
     </div>
   </header>
 
@@ -220,7 +255,7 @@
         <button class="sb-item" data-tab="history"><span class="sb-icon">📄</span> История</button>
         <hr class="sb-divider">
         <button class="sb-item" data-tab="settings"><span class="sb-icon">⚙️</span> Настройки</button>
-        <button class="sb-item"><span class="sb-icon">❓</span> Помощь</button>
+        <button class="sb-item" onclick="showToast('Чат поддержки откроется в новом окне')"><span class="sb-icon">❓</span> Помощь</button>
       </div>
 
       <!-- Main -->
@@ -283,7 +318,7 @@
               </div>
               <div style="display:flex;gap:12px;flex-wrap:wrap;">
                 <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="blockCard(this)">🔒 Заблокировать</button>
-                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;">📄 Детали</button>
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="showToast('Детали карты доступны в приложении FP Pay')">📄 Детали</button>
               </div>
             </div>
             <div class="form-card">
@@ -298,7 +333,7 @@
               </div>
               <div style="display:flex;gap:12px;flex-wrap:wrap;">
                 <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="blockCard(this)">🔒 Заблокировать</button>
-                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;">📄 Детали</button>
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="showToast('Детали карты доступны в приложении FP Pay')">📄 Детали</button>
               </div>
             </div>
           </div>
@@ -458,7 +493,7 @@
               <h4 style="color:#f5b042;margin-bottom:10px;">Досрочное погашение</h4>
               <div class="form-group"><label>Сумма досрочного погашения</label><input type="number" placeholder="Введите сумму"></div>
               <div class="form-group"><label>Способ</label><select><option>Уменьшить ежемесячный платёж</option><option>Сократить срок кредита</option></select></div>
-              <button class="btn-primary" style="font-size:.85rem;padding:12px 24px;">Погасить досрочно</button>
+              <button class="btn-primary" style="font-size:.85rem;padding:12px 24px;" onclick="showToast('Заявка на досрочное погашение принята. Мы свяжемся с вами.')">Погасить досрочно</button>
             </div>
           </div>
         </div>
@@ -706,9 +741,7 @@
     // Init
     renderRecentTx();
   </script>
-  </script>
 
-</body>
   <div class="mobile-tab-bar" id="mobileTabBar">
     <button class="mt-item active" data-tab="overview"><span class="mt-icon">📊</span>Обзор</button>
     <button class="mt-item" data-tab="cards"><span class="mt-icon">💳</span>Карты</button>
@@ -719,6 +752,17 @@
     <button class="mt-item" data-tab="history"><span class="mt-icon">📄</span>История</button>
     <button class="mt-item" data-tab="settings"><span class="mt-icon">⚙️</span>Настройки</button>
   </div>
+
+<script>
+document.getElementById('hamburger')?.addEventListener('click', function() {
+  document.getElementById('mobileNav')?.classList.toggle('open');
+  this.classList.toggle('active');
+});
+function closeMobile() {
+  document.getElementById('mobileNav')?.classList.remove('open');
+  document.querySelector('.hamburger')?.classList.remove('active');
+}
+</script>
 
 </body>
 </html>
