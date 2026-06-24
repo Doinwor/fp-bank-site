@@ -56,7 +56,7 @@
   .fp-logo .fl-fp{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:900;color:#f5b042;letter-spacing:1px}
   .fp-logo .fl-pay{font-size:.6rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:3px;margin-left:6px;text-transform:uppercase}
   .fp-logo .fl-line{display:block;width:20px;height:1.5px;background:#f5b042;margin:4px auto 0;border-radius:2px;opacity:.4}
-  .result-box .rb-qr .qr-canvas{display:inline-block;width:180px;height:180px;border-radius:12px;overflow:hidden}
+  .result-box .rb-qr .qr-canvas{display:inline-block;width:180px;height:180px;border-radius:12px;overflow:hidden;max-width:100%}
   .result-box .rb-qr .qr-hint{color:#8a8a91;font-size:.7rem;margin-top:8px}
   .result-box .rb-actions{display:flex;gap:10px}
   .result-box .rb-actions button{flex:1}
@@ -99,7 +99,7 @@
   .desktop-qr{display:none;text-align:center;padding:60px 40px}
   .desktop-qr.show{display:block}
   .desktop-qr .dq-box{display:inline-block;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:40px}
-  .desktop-qr .dq-box .qr-canvas{border-radius:12px;overflow:hidden;margin:0 auto 16px}
+  .desktop-qr .dq-box .qr-canvas{border-radius:12px;overflow:hidden;margin:0 auto 16px;max-width:100%}
   .desktop-qr .dq-box .dq-amount{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;color:#f5b042;margin-bottom:4px}
   .desktop-qr .dq-box .dq-purpose{color:#9a9aa3;font-size:.85rem}
   .desktop-qr .dq-box .dq-hint{color:#6a6a72;font-size:.75rem;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)}
@@ -148,26 +148,9 @@
     .desktop-qr .dq-box .qr-canvas{width:140px;height:140px}
     .desktop-qr .dq-box .dq-amount{font-size:1.2rem}
   }
-  .mobile-notice{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .4s}
-  .mobile-notice.show{opacity:1;pointer-events:auto}
-  .mobile-notice .mn-inner{max-width:360px;text-align:center;padding:40px 28px}
-  .mobile-notice .mn-icon{width:56px;height:56px;background:rgba(245,176,66,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
-  .mobile-notice .mn-title{color:#f5b042;font-size:.85rem;font-weight:600;margin-bottom:10px}
-  .mobile-notice p{color:#9a9aa3;font-size:.77rem;font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:20px}
-  .mobile-notice .mn-btn{background:#f5b042;color:#0b0b0e;border:none;padding:12px 40px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
-
-  <!-- Mobile notice -->
-  <div class="mobile-notice" id="mobileNotice">
-    <div class="mn-inner">
-      <div class="mn-icon">📱</div>
-      <div class="mn-title">Мобильная версия</div>
-      <p>Ой, эта страничка не адаптирована под телефон, но вы можете продолжить, но она может работать нестабильно.</p>
-      <button class="mn-btn" onclick="dismissMobileNotice()">Продолжить</button>
-    </div>
-  </div>
 
   <header>
     <div class="header-inner">
@@ -342,21 +325,23 @@
       // Background
       ctx.fillStyle = '#0b0b0e';
       ctx.fillRect(0, 0, size, size);
-      // Modules — rounded gold dots
-      var gap = Math.max(0.5, cellSize * 0.08);
+      // Modules — gold circles (dots)
+      var dotR = cellSize * 0.36;
       ctx.fillStyle = '#f5b042';
       for (var r = 0; r < cells; r++) {
         for (var c = 0; c < cells; c++) {
           if (qr.isDark(r, c)) {
-            var x0 = Math.floor(c * cellSize) + gap;
-            var y0 = Math.floor(r * cellSize) + gap;
-            var x1 = Math.ceil((c + 1) * cellSize) - gap;
-            var y1 = Math.ceil((r + 1) * cellSize) - gap;
-            var w = x1 - x0, h = y1 - y0;
-            if (w > 0 && h > 0) {
-              ctx.beginPath();
-              ctx.roundRect(x0, y0, w, h, Math.min(w, h) * 0.35);
-              ctx.fill();
+            var x0 = Math.floor(c * cellSize);
+            var y0 = Math.floor(r * cellSize);
+            var x1 = Math.ceil((c + 1) * cellSize);
+            var y1 = Math.ceil((r + 1) * cellSize);
+            ctx.beginPath();
+            ctx.arc((x0 + x1) / 2, (y0 + y1) / 2, dotR, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+        }
+      }
+      // Center logo
       var cx = size / 2, cy = size / 2, lr = Math.round(size * 0.10);
       ctx.save();
       ctx.beginPath();
@@ -383,10 +368,6 @@
       ctx.fillText('ФП', cx, cy);
       ctx.restore();
     }
-          }
-        }
-      }
-    }
 
     // ===== CREATE MODE =====
     function createPaymentLink() {
@@ -406,8 +387,8 @@
       document.getElementById('rbAmount').textContent = '₽ ' + parseInt(amount).toLocaleString();
       document.getElementById('rbPurpose').textContent = purpose + ' — ' + category;
       document.getElementById('rbLink').value = link;
-      generateQR('rbQrCanvas', link);
       document.getElementById('resultBox').classList.add('show');
+      setTimeout(function() { generateQR('rbQrCanvas', link); }, 50);
 
       // Save to localStorage (last 10)
       const list = JSON.parse(localStorage.getItem('fp_pay_links') || '[]');
@@ -607,6 +588,5 @@
     });
   </script>
 
-  <script>(function(){var a=navigator.userAgent||navigator.vendor||window.opera;if(/android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|windows phone/i.test(a)){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show')}</script>
 </body>
 </html>
