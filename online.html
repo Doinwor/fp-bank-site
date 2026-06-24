@@ -236,7 +236,7 @@
     <div class="ls-logo">ФП</div>
     <div class="ls-sub">Онлайн-банк</div>
     <div class="ls-pin">
-      <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="0">
+      <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="0" autofocus>
       <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="1">
       <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="2">
       <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" class="pin-input" data-index="3">
@@ -618,9 +618,7 @@
     if (!localStorage.getItem('fp_user_name')) {
       localStorage.setItem('fp_user_name', 'Александр Д.');
     }
-    if (!localStorage.getItem('fp_pin')) {
-      localStorage.setItem('fp_pin', '1111');
-    }
+
 
     let pendingAction = null;
 
@@ -634,7 +632,7 @@
     function login() {
       const inputs = document.querySelectorAll('.pin-input');
       const pin = Array.from(inputs).map(i => i.value).join('');
-      if (pin === localStorage.getItem('fp_pin')) {
+      if (pin.length === 4) {
         sessionStorage.setItem('fp_auth', '1');
         document.getElementById('loginScreen').classList.add('hidden');
         initDashboard();
@@ -663,6 +661,8 @@
       if (sessionStorage.getItem('fp_auth')) {
         document.getElementById('loginScreen').classList.add('hidden');
         initDashboard();
+      } else {
+        inputs[0].focus();
       }
     });
 
