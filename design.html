@@ -34,7 +34,7 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .section-title{font-size:2rem;font-weight:700;color:#fff;letter-spacing:-.5px;margin-bottom:8px}
 .section-sub{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;margin-bottom:40px;max-width:500px}
 
-/* ===== LOGOS SECTION ===== */
+/* ===== LOGOS ===== */
 .logos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-bottom:40px}
 .logo-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:24px;padding:36px;text-align:center;transition:border-color .3s}
 .logo-card:hover{border-color:rgba(245,176,66,.1)}
@@ -43,17 +43,11 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .logo-card .lc-name{color:#8a8a91;font-size:.65rem;font-family:'Inter',sans-serif;margin-top:14px}
 .logo-card .lc-usage{color:#5a5a62;font-size:.5rem;font-family:'Inter',sans-serif;margin-top:4px}
 
-/* Round logo */
 .logo-round{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.6rem;color:#0b0b0e;box-shadow:0 0 30px rgba(245,176,66,.15)}
-.logo-round-sm{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#0b0b0e}
-
-/* Text logo */
 .logo-text{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2.6rem;letter-spacing:-1px;line-height:1}
 .logo-text .f{color:#f5b042;text-shadow:0 0 20px rgba(245,176,66,.3)}
 .logo-text .p{color:#8a8a91;font-weight:700}
 .logo-text .sub{display:block;font-size:.5rem;font-weight:400;color:#8a8a91;letter-spacing:2px;text-transform:uppercase;margin-left:6px;margin-top:4px}
-
-/* Horizontal logo */
 .logo-horiz{display:flex;align-items:center;gap:14px}
 .logo-horiz .lh-round{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;color:#0b0b0e;flex-shrink:0}
 .logo-horiz .lh-text{display:flex;flex-direction:column;align-items:flex-start}
@@ -61,11 +55,37 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .logo-horiz .lh-text .lh-main .f{color:#f5b042}
 .logo-horiz .lh-text .lh-main .p{color:#8a8a91}
 .logo-horiz .lh-text .lh-sub{font-size:.4rem;color:#6a6a72;letter-spacing:1.5px;text-transform:uppercase}
-
-/* Full brand wordmark */
 .logo-wordmark{font-weight:800;font-size:2rem;letter-spacing:-.5px;color:#fff}
 .logo-wordmark .f{color:#f5b042}
 .logo-wordmark .p{color:#8a8a91}
+
+/* ===== LOGO NOTE ===== */
+.logo-note{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:24px;padding:32px;margin-bottom:40px;display:flex;gap:24px;align-items:flex-start}
+.logo-note .ln-icon{font-size:1.6rem;color:#f5b042;flex-shrink:0;margin-top:2px;opacity:.5}
+.logo-note .ln-content h4{color:#fff;font-size:.9rem;font-weight:600;margin-bottom:6px}
+.logo-note .ln-content p{color:#8a8a91;font-size:.8rem;font-family:'Inter',sans-serif;line-height:1.7}
+.logo-note .ln-content .ln-versions{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap}
+.logo-note .ln-content .ln-versions .lnv{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#0b0b0e;opacity:.4;transition:opacity .3s}
+.logo-note .ln-content .ln-versions .lnv:hover{opacity:1}
+
+/* ===== BADGE SHOWCASE ===== */
+.badge-showcase{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:32px;padding:50px;margin-bottom:40px;display:flex;align-items:center;gap:50px}
+.badge-showcase .bs-info{flex:1}
+.badge-showcase .bs-info h4{color:#fff;font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.badge-showcase .bs-info p{color:#8a8a91;font-size:.82rem;font-family:'Inter',sans-serif;line-height:1.7;margin-bottom:10px}
+.badge-showcase .bs-info .bs-tag{display:inline-block;background:rgba(245,176,66,.06);border:1px solid rgba(245,176,66,.08);padding:4px 12px;border-radius:50px;font-size:.5rem;color:#f5b042;letter-spacing:1px;font-weight:500}
+
+.badge-example{width:260px;background:#0b0b0e;border:1px solid rgba(255,255,255,.04);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0}
+.badge-example .be-top{padding:14px 18px;text-align:right;border-bottom:1px solid rgba(255,255,255,.03)}
+.badge-example .be-top .be-logo{display:flex;align-items:baseline;gap:1px;font-weight:800;font-size:1rem;letter-spacing:-.3px;justify-content:flex-end}
+.badge-example .be-top .be-logo .f{color:#f5b042}
+.badge-example .be-top .be-logo .p{color:#4a4a52}
+.badge-example .be-photo{padding:8px 14px}
+.badge-example .be-photo img{width:100%;display:block;border-radius:4px}
+.badge-example .be-foot{padding:8px 18px 14px;text-align:right}
+.badge-example .be-foot .be-name{color:#fff;font-size:.7rem;font-weight:600;line-height:1.2;white-space:nowrap}
+.badge-example .be-foot .be-role{color:#f5b042;font-size:.45rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.badge-example .be-foot .be-loc{color:#3a3a42;font-size:.38rem;font-family:'Inter',sans-serif;margin-top:3px}
 
 /* ===== COLORS ===== */
 .colors-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:40px}
@@ -81,14 +101,6 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .typo-card .tc-sample{color:#fff;letter-spacing:-.3px}
 .typo-card .tc-desc{color:#8a8a91;font-size:.7rem;font-family:'Inter',sans-serif;margin-top:6px}
 
-/* ===== CREDIT (Studio i.) ===== */
-.studio-section{background:rgba(245,176,66,.02);border:1px solid rgba(245,176,66,.06);border-radius:32px;padding:50px;text-align:center;margin:40px 0 60px}
-.studio-section .ss-icon{font-size:3rem;margin-bottom:12px;color:#f5b042;opacity:.5}
-.studio-section h3{color:#fff;font-size:1.4rem;font-weight:700;margin-bottom:6px}
-.studio-section h3 span{color:#f5b042}
-.studio-section p{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;max-width:500px;margin:0 auto;line-height:1.7}
-.studio-section .ss-tagline{color:#f5b042;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;margin-top:14px;font-weight:500}
-
 /* ===== PRINCIPLES ===== */
 .principles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:40px}
 .principle-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:28px}
@@ -96,29 +108,139 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .principle-card h4{color:#fff;font-size:1rem;font-weight:600;margin-bottom:6px}
 .principle-card p{color:#8a8a91;font-size:.8rem;font-family:'Inter',sans-serif;line-height:1.6}
 
+/* ===== ICONS ===== */
+.icons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:40px}
+.icon-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:32px;text-align:center;transition:border-color .3s}
+.icon-card:hover{border-color:rgba(245,176,66,.1)}
+.icon-card .ic-symbol{font-size:2.2rem;color:#f5b042;margin-bottom:8px;line-height:1}
+.icon-card .ic-name{color:#fff;font-size:.7rem;font-weight:600;margin-bottom:2px}
+.icon-card .ic-desc{color:#6a6a72;font-size:.5rem;font-family:'Inter',sans-serif}
+
+/* ===== BRAND VOICE ===== */
+.voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:40px}
+.voice-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:28px}
+.voice-card .vc-letter{display:inline-block;width:36px;height:36px;border-radius:50%;background:rgba(245,176,66,.1);color:#f5b042;text-align:center;line-height:36px;font-size:.7rem;font-weight:600;margin-bottom:10px}
+.voice-card h4{color:#fff;font-size:.9rem;font-weight:600;margin-bottom:6px}
+.voice-card p{color:#8a8a91;font-size:.78rem;font-family:'Inter',sans-serif;line-height:1.6}
+.voice-card .vc-example{background:rgba(245,176,66,.03);border-left:2px solid #f5b042;padding:12px 16px;margin-top:12px;border-radius:0 8px 8px 0;color:#c0c0c8;font-size:.72rem;font-family:'Inter',sans-serif;font-style:italic}
+
+/* ===== NOSITELI ===== */
+.nositeli-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px}
+.nositel-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:32px;text-align:center;transition:border-color .3s}
+.nositel-card:hover{border-color:rgba(245,176,66,.1)}
+.nositel-card .nc-icon{font-size:2.6rem;margin-bottom:8px;line-height:1}
+.nositel-card h4{color:#fff;font-size:.85rem;font-weight:600;margin-bottom:4px}
+.nositel-card p{color:#8a8a91;font-size:.72rem;font-family:'Inter',sans-serif;line-height:1.5}
+
+/* ===== STUDIO ===== */
+.studio-section{background:rgba(245,176,66,.02);border:1px solid rgba(245,176,66,.06);border-radius:32px;padding:50px;text-align:center;margin:40px 0 60px}
+.studio-section .ss-icon{font-size:3rem;margin-bottom:12px;color:#f5b042;opacity:.5}
+.studio-section h3{color:#fff;font-size:1.4rem;font-weight:700;margin-bottom:6px}
+.studio-section h3 span{color:#f5b042}
+.studio-section p{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;max-width:500px;margin:0 auto;line-height:1.7}
+.studio-section .ss-tagline{color:#f5b042;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;margin-top:14px;font-weight:500}
+
+/* ===== CARD SHOWCASE ===== */
+.card-showcase{display:flex;gap:50px;align-items:center;margin-bottom:40px}
+.card-showcase .cs-info{flex:1}
+.card-showcase .cs-info h4{color:#fff;font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.card-showcase .cs-info p{color:#8a8a91;font-size:.82rem;font-family:'Inter',sans-serif;line-height:1.7}
+.card-showcase .cs-info .cs-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.card-showcase .cs-info .cs-details .csd{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:10px 14px}
+.card-showcase .cs-info .cs-details .csd .csd-label{color:#5a5a62;font-size:.4rem;letter-spacing:1px;text-transform:uppercase}
+.card-showcase .cs-info .cs-details .csd .csd-val{color:#e0e0e0;font-size:.65rem;font-weight:500;margin-top:2px;font-family:'Inter',sans-serif}
+
+.card-mockup{flex-shrink:0;perspective:1000px}
+.card-face{width:360px;height:228px;border-radius:16px;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(245,176,66,.1)}
+.card-face .cf-bg{position:absolute;inset:0;background:linear-gradient(145deg,#0f0f14,#1a1a22);z-index:0}
+.card-face .cf-bg::before{content:'';position:absolute;top:-30%;right:-20%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(245,176,66,.05),transparent 70%)}
+.card-face .cf-bg::after{content:'';position:absolute;bottom:-40%;left:-10%;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(245,176,66,.03),transparent 70%)}
+.card-face .cf-pattern{position:absolute;inset:0;z-index:1;opacity:.04}
+.card-face .cf-pattern .dot-grid{width:100%;height:100%;background-image:radial-gradient(circle,#f5b042 1px,transparent 1px);background-size:24px 24px}
+.card-face .cf-chip{position:absolute;z-index:2;top:62px;left:32px;width:44px;height:34px;background:linear-gradient(135deg,#f5b042,#c9911e,#e8a030,#f5b042);border-radius:5px;box-shadow:0 2px 8px rgba(245,176,66,.3)}
+.card-face .cf-chip::after{content:'';position:absolute;inset:4px;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);border-radius:2px}
+.card-face .cf-logo{position:absolute;z-index:2;top:22px;right:30px;display:flex;align-items:baseline;gap:1px}
+.card-face .cf-logo .f{font-weight:800;font-size:1.2rem;color:#f5b042;letter-spacing:-.3px}
+.card-face .cf-logo .p{font-weight:800;font-size:1.2rem;color:#6a6a72;letter-spacing:-.3px}
+.card-face .cf-logo .sub{font-size:.35rem;color:#4a4a52;letter-spacing:1.5px;text-transform:uppercase;margin-left:3px}
+.card-face .cf-number{position:absolute;z-index:2;top:120px;left:32px;font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:500;letter-spacing:2.5px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.3)}
+.card-face .cf-number .num-group{margin-right:12px}
+.card-face .cf-valid{position:absolute;z-index:2;bottom:38px;left:32px}
+.card-face .cf-valid .cv-label{font-size:.35rem;color:#5a5a62;letter-spacing:1px;text-transform:uppercase}
+.card-face .cf-valid .cv-date{font-family:'Inter',sans-serif;font-size:.7rem;color:#c0c0c8;letter-spacing:.5px;margin-top:1px}
+.card-face .cf-holder{position:absolute;z-index:2;bottom:20px;left:32px;font-family:'Inter',sans-serif;font-size:.7rem;color:#c0c0c8;letter-spacing:1px;text-transform:uppercase}
+.card-face .cf-network{position:absolute;z-index:2;bottom:16px;right:30px;display:flex;flex-direction:column;align-items:center}
+.card-face .cf-network .atb-mark{width:38px;height:32px;position:relative;display:flex;align-items:center;justify-content:center;transform:rotate(90deg)}
+.card-face .cf-network .atb-mark .am-ring{position:absolute;width:24px;height:24px;border:3px solid #f5b042;border-radius:50%}
+.card-face .cf-network .atb-mark .am-ring.r1{left:0;clip-path:inset(0 0 0 50%)}
+.card-face .cf-network .atb-mark .am-ring.r2{right:0;clip-path:inset(0 50% 0 0)}
+.card-face .cf-network .atb-mark .am-bar{width:20px;height:3px;background:#f5b042;position:absolute;z-index:1;border-radius:2px;opacity:.7}
+.card-face .cf-network .atb-label{font-size:.35rem;color:#5a5a62;letter-spacing:2px;font-weight:500;margin-top:4px;text-transform:uppercase}
+
+/* ===== CONTRACT SHOWCASE ===== */
+.contract-showcase{display:flex;gap:50px;align-items:flex-start;margin-bottom:40px}
+.contract-showcase .cs2-info{flex:1}
+.contract-showcase .cs2-info h4{color:#fff;font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.contract-showcase .cs2-info p{color:#8a8a91;font-size:.82rem;font-family:'Inter',sans-serif;line-height:1.7}
+.contract-showcase .cs2-info .cs2-tag{display:inline-block;background:rgba(245,176,66,.06);border:1px solid rgba(245,176,66,.08);padding:4px 12px;border-radius:50px;font-size:.5rem;color:#f5b042;letter-spacing:1px;font-weight:500;margin-top:10px}
+
+.contract-doc{width:420px;flex-shrink:0;background:#121216;border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:32px 36px;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:'Inter',sans-serif}
+.contract-doc .cd-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;border-bottom:1px solid rgba(245,176,66,.1)}
+.contract-doc .cd-header .cdh-logo{display:flex;align-items:baseline;gap:1px;flex-wrap:wrap}
+.contract-doc .cd-header .cdh-logo .f{font-weight:800;font-size:1.2rem;color:#f5b042;letter-spacing:-.3px}
+.contract-doc .cd-header .cdh-logo .p{font-weight:800;font-size:1.2rem;color:#6a6a72;letter-spacing:-.3px}
+.contract-doc .cd-header .cdh-logo .sub{font-size:.35rem;color:#4a4a52;letter-spacing:1.5px;text-transform:uppercase;margin-left:3px;align-self:flex-end;padding-bottom:3px}
+.contract-doc .cd-header .cdh-meta{text-align:right;font-family:'Inter',sans-serif}
+.contract-doc .cd-header .cdh-meta .cdh-num{font-size:.5rem;color:#6a6a72;letter-spacing:.5px}
+.contract-doc .cd-header .cdh-meta .cdh-date{font-size:.45rem;color:#4a4a52;margin-top:2px}
+.contract-doc .cd-title{font-size:.75rem;font-weight:600;color:#fff;margin:18px 0 12px;letter-spacing:-.2px}
+.contract-doc .cd-subtitle{font-size:.45rem;color:#6a6a72;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.contract-doc .cd-clause{border-bottom:1px solid rgba(255,255,255,.03);padding:10px 0}
+.contract-doc .cd-clause:last-child{border-bottom:none}
+.contract-doc .cd-clause .cdc-num{font-size:.35rem;color:#f5b042;font-weight:600;letter-spacing:1px}
+.contract-doc .cd-clause .cdc-text{font-size:.55rem;color:#a0a0a8;line-height:1.6;margin-top:3px;font-family:'Inter',sans-serif}
+.contract-doc .cd-clause .cdc-hl{color:#f5b042}
+.contract-doc .cd-sign{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.03)}
+.contract-doc .cd-sign .cds-line{color:#c0c0c8;font-size:.4rem;letter-spacing:.5px;padding-bottom:4px;border-bottom:1px solid rgba(245,176,66,.15);min-width:120px}
+.contract-doc .cd-sign .cds-label{font-size:.35rem;color:#5a5a62;margin-top:4px}
+.contract-doc .cd-sign .cds-stamp{background:rgba(245,176,66,.06);border:1px solid rgba(245,176,66,.1);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:.45rem;color:#f5b042;font-weight:600;letter-spacing:1px;opacity:.7;flex-shrink:0}
+.contract-doc .cd-stamp-area{display:flex;flex-direction:column;align-items:center}
+
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-@media(max-width:900px){.logos-grid{grid-template-columns:repeat(2,1fr)}.colors-grid{grid-template-columns:repeat(2,1fr)}.principles-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.logos-grid{grid-template-columns:repeat(2,1fr)}.colors-grid{grid-template-columns:repeat(2,1fr)}.principles-grid{grid-template-columns:1fr}.icons-grid{grid-template-columns:repeat(2,1fr)}.nositeli-grid{grid-template-columns:repeat(2,1fr)}.voice-grid{grid-template-columns:1fr}.badge-showcase{flex-direction:column;padding:30px;text-align:center}.badge-showcase .bs-info{order:2}.card-showcase{flex-direction:column;text-align:center}.card-showcase .cs-info{order:2}.card-showcase .card-mockup{order:1}.card-showcase .cs-info .cs-details{grid-template-columns:1fr;text-align:left}.contract-showcase{flex-direction:column;align-items:center;text-align:center}}
 @media(max-width:600px){
   .container{padding:0 16px}
   .page-header h1{font-size:2rem}
   .logos-grid{grid-template-columns:1fr}
   .colors-grid{grid-template-columns:repeat(2,1fr)}
+  .icons-grid{grid-template-columns:1fr}
+  .nositeli-grid{grid-template-columns:1fr}
   .studio-section{padding:30px 20px}
   .section{padding:30px 0}
   .section-title{font-size:1.4rem}
+  .logo-note{flex-direction:column;padding:24px}
+  .card-mockup{transform:scale(.7);margin:-40px 0}
+  .contract-doc{width:100%;padding:24px}
 }
 </style>
 </head>
 <body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></div>
+    <a href="index.html" class="btn-outline">На сайт</a>
+  </div>
+</header>
 
 <div class="container">
 
   <section class="page-header reveal">
     <span class="section-tag">Бренд & Дизайн</span>
     <h1>Визуальный стиль<br>FP Банка</h1>
-    <p>Полное руководство по фирменному стилю — логотипы, цвета, типографика</p>
+    <p>Полное руководство по фирменному стилю — логотипы, цвета, типографика, иконография, носители</p>
   </section>
 
   <!-- LOGOS -->
@@ -127,34 +249,24 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
     <p class="section-sub">Все варианты использования фирменного знака FP Банка</p>
 
     <div class="logos-grid">
-
       <div class="logo-card">
         <div class="lc-label">Круглый знак</div>
-        <div class="lc-preview">
-          <div class="logo-round">ФП</div>
-        </div>
-        <div class="lc-name">Золотой круг с буквами ФП</div>
-        <div class="lc-usage">Иконка приложения, фавикон, аватар</div>
+        <div class="lc-preview"><div class="logo-round">ФП</div></div>
+        <div class="lc-name">Золотой круг с буквами ФП (вар. 1)</div>
+        <div class="lc-usage">Иконка приложения, фавикон</div>
       </div>
-
       <div class="logo-card">
         <div class="lc-label">Текстовый логотип</div>
-        <div class="lc-preview">
-          <div class="logo-text"><span class="f">Ф</span><span class="p">П</span></div>
-        </div>
+        <div class="lc-preview"><div class="logo-text"><span class="f">Ф</span><span class="p">П</span></div></div>
         <div class="lc-name">ФП — основной логотип</div>
-        <div class="lc-usage">Шапка сайта, документы, презентации</div>
+        <div class="lc-usage">Шапка сайта, документы</div>
       </div>
-
       <div class="logo-card">
         <div class="lc-label">Полный логотип</div>
-        <div class="lc-preview">
-          <div class="logo-text"><span class="f">Ф</span><span class="p">П</span><span class="sub">Банк</span></div>
-        </div>
+        <div class="lc-preview"><div class="logo-text"><span class="f">Ф</span><span class="p">П</span><span class="sub">Банк</span></div></div>
         <div class="lc-name">ФП Банк — полная версия</div>
-        <div class="lc-usage">Главная страница, официальные материалы</div>
+        <div class="lc-usage">Главная, официальные материалы</div>
       </div>
-
       <div class="logo-card">
         <div class="lc-label">Горизонтальный</div>
         <div class="lc-preview">
@@ -169,25 +281,58 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
         <div class="lc-name">Круг + текст горизонтально</div>
         <div class="lc-usage">Подпись, бейджи, визитки</div>
       </div>
-
       <div class="logo-card">
         <div class="lc-label">Латинский логотип</div>
-        <div class="lc-preview">
-          <div style="font-weight:800;font-size:1.8rem;letter-spacing:2px;color:#fff">FP <span style="color:#f5b042">Bank</span></div>
-        </div>
+        <div class="lc-preview"><div style="font-weight:800;font-size:1.8rem;letter-spacing:2px;color:#fff">FP <span style="color:#f5b042">Bank</span></div></div>
         <div class="lc-name">FP Bank — международная версия</div>
         <div class="lc-usage">Англоязычные материалы, карты</div>
       </div>
-
       <div class="logo-card">
         <div class="lc-label">Компактный</div>
-        <div class="lc-preview">
-          <div class="logo-wordmark"><span class="f">Ф</span><span class="p">П</span></div>
-        </div>
+        <div class="lc-preview"><div class="logo-wordmark"><span class="f">Ф</span><span class="p">П</span></div></div>
         <div class="lc-name">Короткая версия без подписи</div>
-        <div class="lc-usage">Мобильное меню, фавикон, превью</div>
+        <div class="lc-usage">Мобильное меню, фавикон</div>
       </div>
+    </div>
 
+    <div class="logo-note reveal">
+      <div class="ln-icon">⚡</div>
+      <div class="ln-content">
+        <h4>О круглом логотипе</h4>
+        <p>Круглый знак с буквами «ФП» (вариант 1) существует и используется как иконка приложения и фавикон. Однако он не всегда выглядит уместно: в круге сложно добиться хорошей композиции с двумя буквами, особенно на маленьких размерах. Из-за этого он может казаться грубоватым и не передаёт премиальность бренда. Для большинства задач рекомендуется использовать текстовый логотип «ФП» или горизонтальную версию — они выглядят чище и профессиональнее.</p>
+        <div class="ln-versions">
+          <div class="lnv">ФП</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- BADGE SHOWCASE -->
+  <section class="section reveal">
+    <h2 class="section-title">Пример бейджа сотрудника</h2>
+    <p class="section-sub">Как выглядит фирменный стиль на пропуске сотрудника</p>
+
+    <div class="badge-showcase">
+      <div class="bs-info">
+        <h4>Бейдж в стиле Minimal Dark</h4>
+        <p>Дизайн бейджа выполнен в минималистичной эстетике: тёмный фон, логотип с золотой «Ф» справа, прямоугольное фото сотрудника без лишней обработки, имя и должность в правом нижнем углу. Никаких рамок, подложек и отвлекающих элементов — только самая важная информация.</p>
+        <p style="margin-bottom:8px">Итоговый вариант бейджа использует:<br>
+        — Логотип «ФП» без круга (только буквы)<br>
+        — Прямоугольная фотография, никаких кругов и масок<br>
+        — Лаконичная типографика: имя, должность, локация</p>
+        <span class="bs-tag">Утверждённый дизайн</span>
+      </div>
+      <div class="badge-example">
+        <div class="be-top"><div class="be-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+        <div class="be-photo"><img src="ЛАРЦОВА.png" alt="Ларцова Е.А." onerror="this.style.display='none'"></div>
+        <div class="be-foot">
+          <div class="be-name">Ларцова Евлампия Андреевна</div>
+          <div class="be-role">Заместитель директора</div>
+          <div class="be-loc">Загребенская Республика, г. Загребенки</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -195,35 +340,22 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
   <section class="section reveal">
     <h2 class="section-title">Цветовая палитра</h2>
     <p class="section-sub">Фирменные цвета бренда</p>
-
     <div class="colors-grid">
       <div class="color-card">
         <div class="cc-preview" style="background:#f5b042;color:#0b0b0e">#f5b042</div>
-        <div class="cc-info">
-          <div class="cc-name">Золотой</div>
-          <div class="cc-hex">#f5b042 — Основной акцент</div>
-        </div>
+        <div class="cc-info"><div class="cc-name">Золотой</div><div class="cc-hex">#f5b042 — Основной акцент</div></div>
       </div>
       <div class="color-card">
         <div class="cc-preview" style="background:#c9911e;color:#fff">#c9911e</div>
-        <div class="cc-info">
-          <div class="cc-name">Тёмный золотой</div>
-          <div class="cc-hex">#c9911e — Градиент, ховеры</div>
-        </div>
+        <div class="cc-info"><div class="cc-name">Тёмный золотой</div><div class="cc-hex">#c9911e — Градиент, ховеры</div></div>
       </div>
       <div class="color-card">
         <div class="cc-preview" style="background:#0b0b0e;color:#f5b042;border-bottom:1px solid rgba(255,255,255,.06)">#0b0b0e</div>
-        <div class="cc-info">
-          <div class="cc-name">Фон</div>
-          <div class="cc-hex">#0b0b0e — Тёмная тема</div>
-        </div>
+        <div class="cc-info"><div class="cc-name">Фон</div><div class="cc-hex">#0b0b0e — Тёмная тема</div></div>
       </div>
       <div class="color-card">
         <div class="cc-preview" style="background:#1a1a1f;color:#f5b042">#1a1a1f</div>
-        <div class="cc-info">
-          <div class="cc-name">Поверхность</div>
-          <div class="cc-hex">#1a1a1f — Карточки, блоки</div>
-        </div>
+        <div class="cc-info"><div class="cc-name">Поверхность</div><div class="cc-hex">#1a1a1f — Карточки, блоки</div></div>
       </div>
     </div>
   </section>
@@ -232,7 +364,6 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
   <section class="section reveal">
     <h2 class="section-title">Типографика</h2>
     <p class="section-sub">Шрифты и их применение</p>
-
     <div class="typo-card">
       <div class="tc-label">Заголовки — Unbounded</div>
       <div class="tc-sample" style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:2rem">FP Банк — это современно</div>
@@ -245,11 +376,234 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
     </div>
   </section>
 
+  <!-- ICONOGRAPHY -->
+  <section class="section reveal">
+    <h2 class="section-title">Иконография</h2>
+    <p class="section-sub">Фирменный стиль иконок и графических элементов</p>
+    <div class="icons-grid">
+      <div class="icon-card">
+        <div class="ic-symbol">✦</div>
+        <div class="ic-name">Звезда</div>
+        <div class="ic-desc">Акцент, премиальность, избранное</div>
+      </div>
+      <div class="icon-card">
+        <div class="ic-symbol">◈</div>
+        <div class="ic-name">Ромб</div>
+        <div class="ic-desc">Маркер списков, разделитель</div>
+      </div>
+      <div class="icon-card">
+        <div class="ic-symbol">⟡</div>
+        <div class="ic-name">Малая звезда</div>
+        <div class="ic-desc">Декоративный элемент, фон</div>
+      </div>
+      <div class="icon-card">
+        <div class="ic-symbol">◆</div>
+        <div class="ic-name">Золотой ромб</div>
+        <div class="ic-desc">Акцент в карточках, bullet</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:24px 28px">
+      <p style="color:#8a8a91;font-size:.78rem;font-family:'Inter',sans-serif;line-height:1.7">Все иконки используются исключительно в золотом цвете (#f5b042) на тёмном фоне. Допускается полупрозрачность (opacity 0.3–0.5) для фоновых/decorative элементов. Не использовать цветные иконки, градиенты в иконках, обводки других цветов.</p>
+    </div>
+  </section>
+
+  <!-- BRAND VOICE -->
+  <section class="section reveal">
+    <h2 class="section-title">Голос бренда</h2>
+    <p class="section-sub">Как мы говорим с клиентами — тон и стиль коммуникации</p>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="vc-letter">У</div>
+        <h4>Уверенный</h4>
+        <p>Мы знаем, что делаем. Никакой неуверенности, «может быть», «попробуем». Только чёткие формулировки и ясные обещания.</p>
+        <div class="vc-example">«FP Банк — это надёжность. Каждый день, 24/7.»</div>
+      </div>
+      <div class="voice-card">
+        <div class="vc-letter">П</div>
+        <h4>Премиальный</h4>
+        <p>Мы говорим на языке качества. Никаких панибратских обращений, сленга или эмодзи. Уважительное «Вы», чистый русский язык.</p>
+        <div class="vc-example">«Оцените преимущества обслуживания премиального уровня.»</div>
+      </div>
+      <div class="voice-card">
+        <div class="vc-letter">Ч</div>
+        <h4>Человечный</h4>
+        <p>Премиальность не означает холодность. Мы остаёмся тёплыми, заботливыми и внимательными к деталям.</p>
+        <div class="vc-example">«Мы понимаем, как важно чувствовать уверенность в завтрашнем дне.»</div>
+      </div>
+      <div class="voice-card">
+        <div class="vc-letter">Л</div>
+        <h4>Лаконичный</h4>
+        <p>Коротко и по делу. Каждое слово несёт смысл. Никакой воды, канцелярита и пустых фраз.</p>
+        <div class="vc-example">«Больше никаких скрытых комиссий. Только честные условия.»</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSITELI -->
+  <section class="section reveal">
+    <h2 class="section-title">Носители стиля</h2>
+    <p class="section-sub">Где используется фирменный стиль FP Банка</p>
+    <div class="nositeli-grid">
+      <div class="nositel-card">
+        <div class="nc-icon">💳</div>
+        <h4>Пластиковые карты</h4>
+        <p>Тёмный фон, золотой логотип FP Bank, минималистичный дизайн без лишних графических элементов. Чип золотой.</p>
+      </div>
+      <div class="nositel-card">
+        <div class="nc-icon">📄</div>
+        <h4>Документы и выписки</h4>
+        <p>Чёрно-белая печатная версия с золотым акцентом на логотипе. Чёткая сетка, крупные заголовки, воздух.</p>
+      </div>
+      <div class="nositel-card">
+        <div class="nc-icon">📱</div>
+        <h4>Мобильное приложение</h4>
+        <p>Тёмный интерфейс, золотые акценты на кнопках. Иконка приложения — круглый знак «ФП» на золотом фоне.</p>
+      </div>
+      <div class="nositel-card">
+        <div class="nc-icon">🏢</div>
+        <h4>Вывески и офисы</h4>
+        <p>Чёрный фон, крупная золотая буква «ФП», подсветка тёплым светом 2700K. Строгий монохром интерьера.</p>
+      </div>
+      <div class="nositel-card">
+        <div class="nc-icon">✉️</div>
+        <h4>Конверты и бланки</h4>
+        <p>Чёрный конверт с тиснёным логотипом «ФП» золотой фольгой. Внутри — тёмная подложка.</p>
+      </div>
+      <div class="nositel-card">
+        <div class="nc-icon">🎁</div>
+        <h4>Мерч и сувениры</h4>
+        <p>Чёрные предметы с минимальным золотым логотипом. Ручки, блокноты, пауэрбанки — всё в цветах бренда.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD SHOWCASE -->
+  <section class="section reveal">
+    <h2 class="section-title">Дизайн карты</h2>
+    <p class="section-sub">Пример премиальной банковской карты FP Банка</p>
+
+    <div class="card-showcase">
+      <div class="cs-info">
+        <h4>Премиальная дебетовая карта FP Black</h4>
+        <p>Дизайн карты выполнен в тёмных тонах с золотым акцентом. Тёмный градиент с радиальными бликами создаёт глубину, золотой чип и логотип подчёркивают премиальность. Номер карты набран моноширинным шрифтом с группировкой по 4 цифры.</p>
+        <div class="cs-details">
+          <div class="csd">
+            <div class="csd-label">Платёжная система</div>
+            <div class="csd-val">АТБ (Акционерный Торговый Банк)</div>
+          </div>
+          <div class="csd">
+            <div class="csd-label">Тип карты</div>
+            <div class="csd-val">Дебетовая / Кредитная</div>
+          </div>
+          <div class="csd">
+            <div class="csd-label">Материал</div>
+            <div class="csd-val">Металл (сталь с матовым покрытием)</div>
+          </div>
+          <div class="csd">
+            <div class="csd-label">Цвет</div>
+            <div class="csd-val">Чёрный матовый + золотое тиснение</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-mockup">
+        <div class="card-face">
+          <div class="cf-bg"></div>
+          <div class="cf-pattern"><div class="dot-grid"></div></div>
+          <div class="cf-chip"></div>
+          <div class="cf-logo">
+            <span class="f">Ф</span><span class="p">П</span><span class="sub">Банк</span>
+          </div>
+          <div class="cf-number">
+            <span class="num-group">4581</span>
+            <span class="num-group">2094</span>
+            <span class="num-group">7731</span>
+            <span class="num-group">0842</span>
+          </div>
+          <div class="cf-valid">
+            <div class="cv-label">VALID THRU</div>
+            <div class="cv-date">09/28</div>
+          </div>
+          <div class="cf-holder">ЗАХАРОВ АЛЕКСЕЙ</div>
+          <div class="cf-network">
+            <div class="atb-mark">
+              <div class="am-ring r1"></div>
+              <div class="am-ring r2"></div>
+              <div class="am-bar"></div>
+            </div>
+            <span class="atb-label">АТБ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTRACT SHOWCASE -->
+  <section class="section reveal">
+    <h2 class="section-title">Пример договора</h2>
+    <p class="section-sub">Макет заявления на оформление карты в фирменном стиле</p>
+
+    <div class="contract-showcase">
+      <div class="contract-doc">
+        <div class="cd-header">
+          <div class="cdh-logo"><span class="f">Ф</span><span class="p">П</span><span class="sub">Банк</span></div>
+          <div class="cdh-meta">
+            <div class="cdh-num">№ 24-К/08-01</div>
+            <div class="cdh-date">от 24 июня 2026 г.</div>
+          </div>
+        </div>
+        <div class="cd-title">Заявление на выпуск банковской карты</div>
+        <div class="cd-subtitle">FP Black Debit · Премиальный тариф</div>
+
+        <div class="cd-clause">
+          <div class="cdc-num">1. ДАННЫЕ КЛИЕНТА</div>
+          <div class="cdc-text">Захаров Алексей Сергеевич, паспорт 4517 889012, выдан ОВД г. Загребенки 14.03.2020. Зарегистрирован: Загребенская Республика, г. Загребенки, пр. Золотой, д. 12, кв. 7.</div>
+        </div>
+        <div class="cd-clause">
+          <div class="cdc-num">2. ТИП КАРТЫ И ТАРИФ</div>
+          <div class="cdc-text">Дебетовая карта <span class="cdc-hl">FP Black</span> с металлическим корпусом. Платёжная система: АТБ (Акционерный Торговый Банк). Тариф: «Премиальный». Лимит: до 5 000 000 ₽/мес.</div>
+        </div>
+        <div class="cd-clause">
+          <div class="cdc-num">3. ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</div>
+          <div class="cdc-text">— Персональный менеджер<br>— Страхование путешествий<br>— Доступ в бизнес-залы Priority Pass<br>— Кешбэк 7% на премиальную категорию</div>
+        </div>
+        <div class="cd-clause">
+          <div class="cdc-num">4. УСЛОВИЯ ВЫПУСКА</div>
+          <div class="cdc-text">Выпуск карты: 4 рабочих дня. Стоимость выпуска: <span class="cdc-hl">0 ₽</span> (в рамках подписки Premium). Обслуживание: 990 ₽/мес. Льготный период: до 55 дней.</div>
+        </div>
+        <div class="cd-clause">
+          <div class="cdc-num">5. СОГЛАСИЕ</div>
+          <div class="cdc-text">Настоящим подтверждаю, что ознакомлен(а) с условиями обслуживания, тарифами и правилами использования банковской карты FP Black. Согласен(а) на обработку персональных данных.</div>
+        </div>
+
+        <div class="cd-sign">
+          <div>
+            <div class="cds-line"></div>
+            <div class="cds-label">Подпись клиента</div>
+          </div>
+          <div>
+            <div class="cds-line"></div>
+            <div class="cds-label">Подпись сотрудника банка</div>
+          </div>
+          <div class="cd-stamp-area">
+            <div class="cds-stamp">ФП</div>
+            <div style="font-size:.35rem;color:#5a5a62;margin-top:4px;letter-spacing:.5px">М.П.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs2-info">
+        <h4>Заявление на выпуск карты</h4>
+        <p>Фирменный бланк заявления выполнен в тёмной цветовой схеме с золотым акцентом. Шапка документа содержит логотип и регистрационные данные. Основной текст набран шрифтом Inter для максимальной читаемости. Поля для подписей клиента и сотрудника, а также место для печати банка.</p>
+        <p style="margin-top:12px;color:#a0a0a8;font-size:.72rem;font-family:'Inter',sans-serif">Документ содержит все существенные условия: данные клиента, тип карты, тариф, дополнительные услуги, условия выпуска и согласие на обработку персональных данных. Все суммы выделены золотым цветом.</p>
+        <span class="cs2-tag">Пример заполнения</span>
+      </div>
+    </div>
+  </section>
+
   <!-- PRINCIPLES -->
   <section class="section reveal">
     <h2 class="section-title">Принципы дизайна</h2>
     <p class="section-sub">Что делает наш дизайн узнаваемым</p>
-
     <div class="principles-grid">
       <div class="principle-card">
         <div class="pc-num">01</div>
