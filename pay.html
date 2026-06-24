@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Оплата — ФП Банк</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0b0b0e;color:#e8e8ee;font-family:'Inter',sans-serif;min-height:100vh}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 24px;max-width:1200px;margin:0 auto}
+  .logo{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:4px}
+  .letter-f{color:#f5b042}
+  .letter-p{color:#e8e8ee}
+  .logo-sub{font-size:.45rem;font-weight:400;color:#8a8a91;letter-spacing:1.5px;text-transform:uppercase;margin-left:2px;display:block;line-height:1}
+  .header-actions{display:flex;align-items:center;gap:16px}
+  .btn-outline{color:#b0b0b8;text-decoration:none;font-size:.8rem;padding:8px 20px;border:1px solid rgba(255,255,255,.1);border-radius:10px;transition:all .2s;font-family:'Inter',sans-serif}
+  .btn-outline:hover{border-color:rgba(245,176,66,.3);color:#f5b042}
+
+  .page{display:flex;min-height:calc(100vh - 64px)}
+  .page-sidebar{width:320px;padding:40px 0;flex-shrink:0;display:none}
+  .page-sidebar.show{display:block}
+  .page-main{flex:1;padding:40px 0;max-width:600px;margin:0 auto}
+  .page-main.wide{max-width:720px}
+
+  .section-title{font-family:'Unbounded',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:6px}
+  .section-sub{color:#9a9aa3;font-size:.85rem;margin-bottom:28px}
+
+  .pay-form{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px}
+  .form-group{margin-bottom:20px}
+  .form-group label{display:block;font-size:.8rem;font-weight:500;color:#b0b0b8;margin-bottom:8px;font-family:'Inter',sans-serif}
+  .form-group input,.form-group select{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#e8e8ee;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;transition:border .2s}
+  .form-group input:focus,.form-group select:focus{border-color:#f5b042}
+  .form-group input::placeholder{color:#5a5a62}
+  .form-group select option{background:#0b0b0e}
+
+  .btn-primary{background:#f5b042;color:#0b0b0e;border:none;padding:14px 32px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;width:100%}
+  .btn-primary:hover{background:#e39e2e;transform:translateY(-2px)}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#b0b0b8;border:none;padding:12px 24px;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:.7rem;cursor:pointer;transition:all .2s}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);color:#e0e0e6}
+  .btn-secondary{background:transparent;color:#f5b042;border:1px solid rgba(245,176,66,.25);padding:12px 24px;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:.7rem;cursor:pointer;transition:all .2s}
+  .btn-secondary:hover{background:rgba(245,176,66,.08)}
+
+  .result-box{display:none;margin-top:28px;background:rgba(245,176,66,.04);border:1px solid rgba(245,176,66,.12);border-radius:20px;padding:28px}
+  .result-box.show{display:block}
+  .result-box .rb-label{color:#f5b042;font-size:.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;font-family:'Unbounded',sans-serif}
+  .result-box .rb-amount{font-family:'Unbounded',sans-serif;font-size:2rem;font-weight:700;margin-bottom:4px}
+  .result-box .rb-purpose{color:#9a9aa3;font-size:.85rem;margin-bottom:20px;word-break:break-word}
+  .result-box .rb-link-wrap{display:flex;gap:10px;margin-bottom:16px}
+  .result-box .rb-link-wrap input{flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#e8e8ee;font-size:.75rem;font-family:'Inter',sans-serif;outline:none}
+  .result-box .rb-link-wrap button{padding:10px 18px;border-radius:10px;border:none;background:#f5b042;color:#0b0b0e;font-family:'Unbounded',sans-serif;font-size:.65rem;font-weight:600;cursor:pointer;white-space:nowrap}
+  .result-box .rb-qr{text-align:center;padding:20px;background:rgba(255,255,255,.03);border-radius:16px;margin-bottom:16px}
+  .result-box .rb-qr img{width:180px;height:180px;border-radius:12px}
+  .result-box .rb-qr .qr-hint{color:#8a8a91;font-size:.7rem;margin-top:8px}
+  .result-box .rb-actions{display:flex;gap:10px}
+  .result-box .rb-actions button{flex:1}
+
+  .payment-screen{display:none}
+  .payment-screen.show{display:block}
+
+  .pay-header{text-align:center;margin-bottom:32px}
+  .pay-header .ph-merchant{font-size:.7rem;color:#8a8a91;margin-bottom:4px}
+  .pay-header .ph-amount{font-family:'Unbounded',sans-serif;font-size:2.4rem;font-weight:700;color:#f5b042}
+  .pay-header .ph-purpose{color:#9a9aa3;font-size:.85rem;margin-top:4px}
+
+  .pay-method{display:flex;gap:12px;margin-bottom:24px}
+  .pay-method button{flex:1;padding:14px;text-align:center;border-radius:14px;border:2px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:#8a8a91;font-family:'Unbounded',sans-serif;font-size:.7rem;cursor:pointer;transition:all .2s}
+  .pay-method button.active{border-color:#f5b042;color:#f5b042;background:rgba(245,176,66,.06)}
+  .pay-method button .pm-icon{display:block;font-size:1.4rem;margin-bottom:6px}
+
+  .pay-card-form{padding:24px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:20px}
+  .pay-card-form .pcf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .pay-card-form .pcf-row.single{grid-template-columns:1fr}
+  .pay-card-form input{padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#e8e8ee;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;width:100%;transition:border .2s}
+  .pay-card-form input:focus{border-color:#f5b042}
+  .pay-card-form input::placeholder{color:#5a5a62}
+
+  .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);padding:16px 28px;border-radius:14px;background:#1a1a1f;border:1px solid rgba(255,255,255,.08);color:#e8e8ee;font-size:.85rem;z-index:9999;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px)}
+  .toast.show{opacity:1;pointer-events:auto}
+  .toast.success{border-color:rgba(76,217,100,.3);color:#4cd964}
+  .toast.error{border-color:rgba(255,69,58,.3);color:#ff453a}
+
+  .payment-success{display:none;text-align:center;padding:60px 20px}
+  .payment-success.show{display:block}
+  .payment-success .ps-icon{font-size:3rem;margin-bottom:16px}
+  .payment-success .ps-title{font-family:'Unbounded',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;color:#4cd964}
+  .payment-success .ps-desc{color:#9a9aa3;font-size:.85rem;margin-bottom:24px}
+  .payment-success .ps-details{background:rgba(255,255,255,.02);border-radius:16px;padding:20px;margin-bottom:24px;text-align:left}
+  .payment-success .ps-details .psd-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.8rem}
+  .payment-success .ps-details .psd-row .psd-label{color:#8a8a91}
+  .payment-success .ps-details .psd-row .psd-value{color:#e8e8ee;font-weight:500}
+
+  .desktop-qr{display:none;text-align:center;padding:60px 40px}
+  .desktop-qr.show{display:block}
+  .desktop-qr .dq-box{display:inline-block;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:40px}
+  .desktop-qr .dq-box img{width:220px;height:220px;border-radius:12px;margin-bottom:16px}
+  .desktop-qr .dq-box .dq-amount{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;color:#f5b042;margin-bottom:4px}
+  .desktop-qr .dq-box .dq-purpose{color:#9a9aa3;font-size:.85rem}
+  .desktop-qr .dq-box .dq-hint{color:#6a6a72;font-size:.75rem;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)}
+
+  .created-list{margin-top:32px}
+  .created-list .cl-item{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin-bottom:10px;gap:12px}
+  .created-list .cl-item .cli-info .cli-amount{font-weight:600;font-size:.9rem}
+  .created-list .cl-item .cli-info .cli-purpose{color:#8a8a91;font-size:.75rem;margin-top:2px}
+  .created-list .cl-item .cli-actions{display:flex;gap:8px;flex-shrink:0}
+  .created-list .cl-item .cli-actions button{padding:8px 14px;border-radius:8px;border:none;background:rgba(255,255,255,.06);color:#b0b0b8;font-size:.7rem;cursor:pointer;font-family:'Inter',sans-serif}
+
+  @media(max-width:1024px){.page{flex-direction:column}.page-sidebar{display:none!important}.page-main{padding:24px 0;max-width:100%}.page-main.wide{max-width:100%}}
+  @media(max-width:768px){
+    .container{padding:0 16px}.header-inner{padding:0 16px;height:56px}
+    .section-title{font-size:1.2rem}.section-sub{font-size:.8rem;margin-bottom:20px}
+    .pay-form{padding:20px;border-radius:16px}
+    .form-group{margin-bottom:16px}
+    .form-group label{font-size:.75rem}
+    .form-group input,.form-group select{padding:10px 14px;font-size:.85rem}
+    .result-box{padding:20px;border-radius:16px}
+    .result-box .rb-amount{font-size:1.5rem}
+    .result-box .rb-link-wrap{flex-direction:column}
+    .result-box .rb-link-wrap input{width:100%}
+    .result-box .rb-qr img{width:150px;height:150px}
+    .result-box .rb-actions{flex-direction:column}
+    .pay-header .ph-amount{font-size:1.8rem}
+    .pay-method{gap:8px}
+    .pay-method button{padding:10px;font-size:.65rem}
+    .pay-card-form{padding:16px;border-radius:16px}
+    .pay-card-form .pcf-row{grid-template-columns:1fr}
+    .payment-success{padding:40px 16px}
+    .payment-success .ps-title{font-size:1.1rem}
+    .desktop-qr{padding:30px 16px}
+    .desktop-qr .dq-box{padding:24px;width:100%}
+    .desktop-qr .dq-box img{width:180px;height:180px}
+    .created-list .cl-item{flex-direction:column;align-items:stretch}
+    .created-list .cl-item .cli-actions{justify-content:flex-end}
+  }
+  @media(max-width:480px){
+    .header-inner{height:50px}
+    .section-title{font-size:1.1rem}
+    .pay-form{padding:16px;border-radius:12px}
+    .pay-header .ph-amount{font-size:1.5rem}
+    .result-box .rb-amount{font-size:1.2rem}
+    .desktop-qr .dq-box{padding:16px}
+    .desktop-qr .dq-box img{width:140px;height:140px}
+    .desktop-qr .dq-box .dq-amount{font-size:1.2rem}
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></a>
+      <div class="header-actions">
+        <a href="index.html" class="btn-outline">На сайт</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- === CREATE MODE (no query params) === -->
+    <div id="createMode" class="page-main">
+      <div class="section-title">💳 Создать ссылку на оплату</div>
+      <div class="section-sub">Сгенерируйте платёжную ссылку или QR-код и отправьте кому угодно</div>
+
+      <div class="pay-form">
+        <div class="form-group">
+          <label>Сумма (₽)</label>
+          <input type="number" id="payAmount" placeholder="Например, 1 500" min="1" step="1">
+        </div>
+        <div class="form-group">
+          <label>Назначение</label>
+          <input type="text" id="payPurpose" placeholder="Например, Подарок, Услуги, Чаевые...">
+        </div>
+        <div class="form-group">
+          <label>Категория</label>
+          <select id="payCategory">
+            <option value="Перевод другу">Перевод другу</option>
+            <option value="Товары">Товары</option>
+            <option value="Услуги">Услуги</option>
+            <option value="Подарок">Подарок</option>
+            <option value="Чаевые">Чаевые</option>
+            <option value="Аренда">Аренда</option>
+            <option value="Обучение">Обучение</option>
+            <option value="Другое">Другое</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="createPaymentLink()">🔗 Создать ссылку</button>
+
+        <div class="result-box" id="resultBox">
+          <div class="rb-label">✅ Ссылка создана</div>
+          <div class="rb-amount" id="rbAmount">—</div>
+          <div class="rb-purpose" id="rbPurpose">—</div>
+          <div class="rb-qr">
+            <img id="rbQrImg" alt="QR-код">
+            <div class="qr-hint">Наведите камеру на QR-код, чтобы перейти к оплате</div>
+          </div>
+          <div class="rb-link-wrap">
+            <input type="text" id="rbLink" readonly>
+            <button onclick="copyLink()">Копировать</button>
+          </div>
+          <div class="rb-actions">
+            <button class="btn-primary" onclick="resetForm()">Создать ещё</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="created-list" id="createdList">
+        <div class="section-title" style="font-size:1rem;margin-bottom:16px">📋 Ранее созданные</div>
+        <div id="createdItems"></div>
+      </div>
+    </div>
+
+    <!-- === PAYMENT MODE (with query params) === -->
+    <div id="paymentMode" class="payment-screen">
+      <!-- Desktop: QR -->
+      <div class="desktop-qr" id="desktopQR">
+        <div class="dq-box">
+          <img id="dqQrImg" alt="QR-код">
+          <div class="dq-amount" id="dqAmount">—</div>
+          <div class="dq-purpose" id="dqPurpose">—</div>
+          <div class="dq-hint">📱 Отсканируйте камерой телефона, чтобы оплатить</div>
+        </div>
+      </div>
+
+      <!-- Mobile: payment form -->
+      <div id="mobilePayment">
+        <div class="pay-header">
+          <div class="ph-merchant">ФП Банк</div>
+          <div class="ph-amount" id="pmAmount">—</div>
+          <div class="ph-purpose" id="pmPurpose">—</div>
+        </div>
+
+        <div class="pay-method">
+          <button class="active" onclick="selectMethod(this,'card')">
+            <span class="pm-icon">💳</span>Картой
+          </button>
+          <button onclick="selectMethod(this,'sbp')">
+            <span class="pm-icon">📱</span>СБП
+          </button>
+        </div>
+
+        <div class="pay-card-form" id="cardForm">
+          <div class="form-group">
+            <label>Номер карты</label>
+            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+          </div>
+          <div class="pcf-row">
+            <div class="form-group">
+              <label>Срок</label>
+              <input type="text" id="cardExpiry" placeholder="ММ/ГГ" maxlength="5">
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="text" id="cardCvv" placeholder="***" maxlength="4" inputmode="numeric">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Владелец карты</label>
+            <input type="text" id="cardName" placeholder="IVAN IVANOV">
+          </div>
+          <button class="btn-primary" onclick="processPayment()" style="margin-top:8px">✅ Оплатить</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="payment-success" id="paymentSuccess">
+        <div class="ps-icon">✅</div>
+        <div class="ps-title">Оплата прошла успешно</div>
+        <div class="ps-desc">Средства будут зачислены в течение нескольких секунд</div>
+        <div class="ps-details" id="psDetails"></div>
+        <a href="index.html" class="btn-secondary" style="display:inline-block">На главную</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ===== CREATE MODE =====
+    function createPaymentLink() {
+      const amount = document.getElementById('payAmount').value.trim();
+      const purpose = document.getElementById('payPurpose').value.trim() || 'Без назначения';
+      const category = document.getElementById('payCategory').value;
+
+      if (!amount || parseInt(amount) < 1) {
+        showToast('Введите сумму', true);
+        return;
+      }
+
+      const id = Math.random().toString(36).substring(2, 8).toUpperCase();
+      const base = window.location.href.split('?')[0].split('#')[0];
+      const link = base + '?amount=' + encodeURIComponent(amount) + '&purpose=' + encodeURIComponent(purpose) + '&id=' + id;
+
+      document.getElementById('rbAmount').textContent = '₽ ' + parseInt(amount).toLocaleString();
+      document.getElementById('rbPurpose').textContent = purpose + ' — ' + category;
+      document.getElementById('rbLink').value = link;
+      document.getElementById('rbQrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(link);
+      document.getElementById('resultBox').classList.add('show');
+
+      // Save to localStorage (last 10)
+      const list = JSON.parse(localStorage.getItem('fp_pay_links') || '[]');
+      list.unshift({ id, amount, purpose, category, link, created: new Date().toISOString() });
+      if (list.length > 10) list.length = 10;
+      localStorage.setItem('fp_pay_links', JSON.stringify(list));
+      renderCreatedList();
+
+      document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyLink() {
+      const input = document.getElementById('rbLink');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => {
+        showToast('Ссылка скопирована');
+      }).catch(() => {
+        document.execCommand('copy');
+        showToast('Ссылка скопирована');
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('payAmount').value = '';
+      document.getElementById('payPurpose').value = '';
+      document.getElementById('payCategory').value = 'Перевод другу';
+      document.getElementById('resultBox').classList.remove('show');
+    }
+
+    function renderCreatedList() {
+      const list = JSON.parse(localStorage.getItem('fp_pay_links') || '[]');
+      const container = document.getElementById('createdItems');
+      if (list.length === 0) {
+        container.innerHTML = '<div style="color:#5a5a62;font-size:.8rem;text-align:center;padding:20px">Здесь пока ничего нет</div>';
+        return;
+      }
+      container.innerHTML = list.map(item => {
+        const d = new Date(item.created);
+        const dateStr = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+        return '<div class="cl-item"><div class="cli-info"><div class="cli-amount">₽ ' + parseInt(item.amount).toLocaleString() + '</div><div class="cli-purpose">' + item.purpose + ' · ' + dateStr + '</div></div><div class="cli-actions"><button onclick="window.open(\'' + item.link + '\',\'_blank\')">Открыть</button><button onclick="navigator.clipboard.writeText(\'' + item.link + '\');showToast(\'Ссылка скопирована\')">Копировать</button></div></div>';
+      }).join('');
+    }
+
+    // ===== PAYMENT MODE =====
+    function initPaymentMode() {
+      const params = new URLSearchParams(window.location.search);
+      const amount = params.get('amount');
+      const purpose = params.get('purpose');
+      const id = params.get('id');
+      if (!amount || !id) return;
+
+      document.getElementById('createMode').style.display = 'none';
+      document.getElementById('paymentMode').classList.add('show');
+
+      const fmtAmount = '₽ ' + parseInt(amount).toLocaleString();
+      document.getElementById('dqAmount').textContent = fmtAmount;
+      document.getElementById('dqPurpose').textContent = purpose || 'Без назначения';
+      document.getElementById('pmAmount').textContent = fmtAmount;
+      document.getElementById('pmPurpose').textContent = purpose || 'Без назначения';
+
+      const payLink = window.location.href.split('?')[0] + '?amount=' + encodeURIComponent(amount) + '&purpose=' + encodeURIComponent(purpose || '') + '&id=' + id;
+      document.getElementById('dqQrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(payLink);
+
+      // Desktop vs mobile
+      if (window.innerWidth >= 768) {
+        document.getElementById('desktopQR').classList.add('show');
+        document.getElementById('mobilePayment').style.display = 'none';
+      } else {
+        document.getElementById('desktopQR').style.display = 'none';
+      }
+    }
+
+    function selectMethod(btn, method) {
+      document.querySelectorAll('.pay-method button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function processPayment() {
+      const num = document.getElementById('cardNumber').value.trim();
+      const exp = document.getElementById('cardExpiry').value.trim();
+      const cvv = document.getElementById('cardCvv').value.trim();
+      const name = document.getElementById('cardName').value.trim();
+
+      if (!num || !exp || !cvv || !name) {
+        showToast('Заполните все поля карты', true);
+        return;
+      }
+      if (num.replace(/\s/g, '').length < 13) {
+        showToast('Неверный номер карты', true);
+        return;
+      }
+      if (cvv.length < 3) {
+        showToast('Неверный CVV', true);
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const amount = params.get('amount');
+      const purpose = params.get('purpose');
+
+      document.getElementById('mobilePayment').style.display = 'none';
+      document.getElementById('paymentSuccess').classList.add('show');
+
+      document.getElementById('psDetails').innerHTML =
+        '<div class="psd-row"><span class="psd-label">Сумма</span><span class="psd-value">₽ ' + parseInt(amount).toLocaleString() + '</span></div>' +
+        '<div class="psd-row"><span class="psd-label">Назначение</span><span class="psd-value">' + (purpose || 'Без назначения') + '</span></div>' +
+        '<div class="psd-row"><span class="psd-label">Карта</span><span class="psd-value">•••• ' + num.replace(/\s/g, '').slice(-4) + '</span></div>' +
+        '<div class="psd-row"><span class="psd-label">Дата</span><span class="psd-value">' + new Date().toLocaleString('ru-RU') + '</span></div>';
+
+      showToast('Оплата прошла успешно ✅');
+    }
+
+    // ===== TOAST =====
+    function showToast(msg, isError) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : ' success');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // Card number formatting
+    document.addEventListener('DOMContentLoaded', function() {
+      const cardNum = document.getElementById('cardNumber');
+      if (cardNum) {
+        cardNum.addEventListener('input', function() {
+          this.value = this.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().substring(0, 19);
+        });
+      }
+      const cardExp = document.getElementById('cardExpiry');
+      if (cardExp) {
+        cardExp.addEventListener('input', function() {
+          this.value = this.value.replace(/\D/g, '').replace(/(.{2})/, '$1/').substring(0, 5);
+        });
+      }
+      const cardCvv = document.getElementById('cardCvv');
+      if (cardCvv) {
+        cardCvv.addEventListener('input', function() {
+          this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        });
+      }
+
+      initPaymentMode();
+      renderCreatedList();
+    });
+  </script>
+</body>
+</html>
