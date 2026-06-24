@@ -138,7 +138,15 @@
     .created-list .cl-item{flex-direction:column;align-items:stretch}
     .created-list .cl-item .cli-actions{justify-content:flex-end}
   }
-  @media(max-width:480px){
+  .sms-popup{position:fixed;top:-200px;left:16px;right:16px;z-index:9999;transition:top .5s cubic-bezier(.34,1.56,.64,1);max-width:380px;margin:0 auto;background:#1a1a1f;border:1px solid rgba(245,176,66,.15);border-radius:16px;padding:20px;box-shadow:0 12px 48px rgba(0,0,0,.6)}
+  .sms-popup.show{top:16px}
+  .sms-popup .sp-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .sms-popup .sp-icon{width:32px;height:32px;background:#f5b042;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0b0b0e;font-weight:800;font-size:.75rem;font-family:'Unbounded',sans-serif}
+  .sms-popup .sp-from{color:#f5b042;font-size:.7rem;font-weight:600;font-family:'Unbounded',sans-serif}
+  .sms-popup .sp-badge{font-size:.55rem;color:#7a7a82;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:4px}
+  .sms-popup .sp-code{font-size:1.6rem;font-weight:800;font-family:'Unbounded',sans-serif;color:#e0e0e0;letter-spacing:6px;margin:8px 0;text-align:center}
+  .sms-popup .sp-warn{color:#9a9aa3;font-size:.7rem;font-family:'Inter',sans-serif;text-align:center;margin-top:8px}
+  .sms-popup .sp-warn strong{color:#f5b042;font-weight:500}
     .header-inner{height:50px}
     .section-title{font-size:1.1rem}
     .pay-form{padding:16px;border-radius:12px}
@@ -257,9 +265,8 @@
             <label>Код подтверждения</label>
             <div style="display:flex;gap:10px;align-items:center">
               <input type="text" id="sbpCode" placeholder="0000" maxlength="4" style="flex:1">
-              <span id="sbpExpectedCode" style="background:rgba(245,176,66,.1);color:#f5b042;padding:8px 14px;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:3px"></span>
             </div>
-            <div style="color:#6a6a72;font-size:.7rem;margin-top:6px">💡 Код настоящий никуда не приходит — это эмуляция. Просто введите тот, что сверху.</div>
+            <div style="color:#6a6a72;font-size:.7rem;margin-top:6px">💡 Код придёт в уведомлении</div>
           </div>
           <button class="btn-primary" onclick="processSBP()" style="margin-top:8px" id="sbpBtn">✅ Оплатить по СБП</button>
         </div>
@@ -302,6 +309,19 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- SMS notification popup -->
+  <div class="sms-popup" id="smsPopup">
+    <div class="sp-head">
+      <div class="sp-icon">ФП</div>
+      <div>
+        <div class="sp-from">FP Банк</div>
+        <div class="sp-badge">SMS</div>
+      </div>
+    </div>
+    <div class="sp-code" id="smsCode">0000</div>
+    <div class="sp-warn">⚠ Код подтверждения операции. <strong>Никому не сообщайте этот код.</strong></div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   <script>
     function generateQR(canvasId, text) {
@@ -312,7 +332,10 @@
       qr.make();
       var cells = qr.getModuleCount();
       var size = Math.min(container.offsetWidth || 220, 220);
-      var cellSize = size / cells;
+      var quiet = Math.round(cells * 0.18); // ~4 modules quiet zone
+      var total = cells + quiet * 2;
+      var cellSize = size / total;
+      var offset = quiet * cellSize;
       var dpr = window.devicePixelRatio || 1;
       var canvas = document.createElement('canvas');
       canvas.width = size * dpr;
@@ -325,24 +348,22 @@
       // Background
       ctx.fillStyle = '#0b0b0e';
       ctx.fillRect(0, 0, size, size);
-      // Modules — gold circles (dots)
-      var dotR = cellSize * 0.36;
+      // Modules — gold circles (dots), with quiet zone offset
+      var dotR = cellSize * 0.35;
       ctx.fillStyle = '#f5b042';
       for (var r = 0; r < cells; r++) {
         for (var c = 0; c < cells; c++) {
           if (qr.isDark(r, c)) {
-            var x0 = Math.floor(c * cellSize);
-            var y0 = Math.floor(r * cellSize);
-            var x1 = Math.ceil((c + 1) * cellSize);
-            var y1 = Math.ceil((r + 1) * cellSize);
+            var cx = offset + (c + 0.5) * cellSize;
+            var cy = offset + (r + 0.5) * cellSize;
             ctx.beginPath();
-            ctx.arc((x0 + x1) / 2, (y0 + y1) / 2, dotR, 0, 2 * Math.PI);
+            ctx.arc(cx, cy, dotR, 0, 2 * Math.PI);
             ctx.fill();
           }
         }
       }
       // Center logo
-      var cx = size / 2, cy = size / 2, lr = Math.round(size * 0.10);
+      var cx = size / 2, cy = size / 2, lr = Math.round(size * 0.09);
       ctx.save();
       ctx.beginPath();
       ctx.arc(cx, cy, lr + 2, 0, 2 * Math.PI);
@@ -469,9 +490,17 @@
       if (method === 'sbp') generateSBPCode();
     }
 
+    var sbpExpectedCode = '';
+
+    function showSmsPopup(code) {
+      var popup = document.getElementById('smsPopup');
+      document.getElementById('smsCode').textContent = code;
+      popup.classList.add('show');
+      setTimeout(function() { popup.classList.remove('show'); }, 8000);
+    }
+
     function generateSBPCode() {
-      var code = String(Math.floor(1000 + Math.random() * 9000));
-      document.getElementById('sbpExpectedCode').textContent = code;
+      sbpExpectedCode = String(Math.floor(1000 + Math.random() * 9000));
       document.getElementById('sbpCodeGroup').style.display = 'none';
       document.getElementById('sbpBtn').textContent = '✅ Запросить код';
       document.getElementById('sbpCode').value = '';
@@ -481,7 +510,6 @@
       var phone = document.getElementById('sbpPhone').value.trim();
       var codeGroup = document.getElementById('sbpCodeGroup');
       var codeInput = document.getElementById('sbpCode').value.trim();
-      var expected = document.getElementById('sbpExpectedCode').textContent;
 
       if (codeGroup.style.display === 'none') {
         if (!phone || phone.replace(/\D/g, '').length < 10) {
@@ -491,11 +519,11 @@
         generateSBPCode();
         codeGroup.style.display = 'block';
         document.getElementById('sbpBtn').textContent = '✅ Подтвердить оплату';
-        showToast('Код отправлен в эмуляцию ✉️');
+        showSmsPopup(sbpExpectedCode);
         return;
       }
 
-      if (codeInput !== expected) {
+      if (codeInput !== sbpExpectedCode) {
         showToast('Неверный код подтверждения', true);
         return;
       }
