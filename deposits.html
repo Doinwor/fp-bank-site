@@ -30,7 +30,7 @@
     nav a:hover { color:#f5b042; }
     nav a.active { color:#f5b042; }
     nav a.active::after { width:100%; }
-    .nav-drop{position:relative;display:inline-block}.nav-drop-btn{color:#b0b0b8;cursor:pointer;font-weight:400;font-size:.85rem;letter-spacing:.3px;position:relative;background:none;border:none;font-family:Unbounded,sans-serif;padding:0;transition:color .25s}.nav-drop-btn::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#f5b042;transition:width .3s}.nav-drop-btn:hover::after,.nav-drop-btn.active::after,.nav-drop-btn:hover,.nav-drop-btn.active{color:#f5b042;width:100%}.nav-drop-content{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1a1a1f;border:1px solid rgba(245,176,66,.1);border-radius:14px;padding:6px;min-width:160px;z-index:200;box-shadow:0 16px 48px rgba(0,0,0,.5);margin-top:10px}.nav-drop-content a{display:block;padding:8px 14px;color:#b0b0b8;text-decoration:none;font-size:.75rem;border-radius:8px;transition:all .2s;font-weight:400;letter-spacing:.3px}.nav-drop-content a:hover{background:rgba(245,176,66,.08);color:#f5b042}.nav-drop:hover .nav-drop-content{display:block}
+    .nav-drop{position:relative;display:inline-block}.nav-drop-btn{color:#b0b0b8;cursor:pointer;font-weight:400;font-size:.85rem;letter-spacing:.3px;position:relative;background:none;border:none;font-family:Unbounded,sans-serif;padding:0;transition:color .25s}.nav-drop-btn::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#f5b042;transition:width .3s}.nav-drop-btn:hover::after,.nav-drop-btn.active::after,.nav-drop-btn:hover,.nav-drop-btn.active{color:#f5b042;width:100%}.nav-drop-content{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1a1a1f;border:1px solid rgba(245,176,66,.1);border-radius:14px;padding:6px;min-width:160px;z-index:200;box-shadow:0 16px 48px rgba(0,0,0,.5);margin-top:10px}.nav-drop-content a{display:block;padding:8px 14px;color:#b0b0b8;text-decoration:none;font-size:.75rem;border-radius:8px;transition:all .2s;font-weight:400;letter-spacing:.3px}.nav-drop-content a:hover{background:rgba(245,176,66,.08);color:#f5b042}.nav-drop.active .nav-drop-content{display:block}
     .btn-outline { border:1px solid #f5b042; color:#f5b042; padding:10px 22px; border-radius:40px; font-weight:500; transition:all .3s; background:transparent; cursor:pointer; font-family:'Unbounded',sans-serif; font-size:.8rem; text-decoration:none; }
     .btn-outline:hover { background:#f5b042; color:#0b0b0e; }
     .btn-primary { background:#f5b042; color:#0b0b0e; font-weight:700; padding:16px 36px; border-radius:50px; border:none; font-size:.95rem; letter-spacing:.5px; cursor:pointer; font-family:'Unbounded',sans-serif; transition:transform .2s, box-shadow .3s; display:inline-block; text-decoration:none; }
@@ -159,7 +159,7 @@
     <a href="deposits.html" onclick="closeMobile()">Вклады</a>
     <a href="cards.html" onclick="closeMobile()">Карты</a>
     <a href="pay.html" onclick="closeMobile()">Оплата</a>
-    <a href="contacts.html" onclick="closeMobile()">Контакты</a><a href="careers.html" onclick="closeMobile()">Карьера</a>
+    <a href="contacts.html" onclick="closeMobile()">Контакты</a><a href="careers.html" onclick="closeMobile()">Карьера</a><a href="design.html" onclick="closeMobile()">Дизайн</a>
     <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
   </div>
 
@@ -185,6 +185,7 @@
             <a href="contacts.html">Контакты</a>
             <a href="careers.html">Карьера</a>
             <a href="badges.html">Команда</a>
+            <a href="design.html">Дизайн</a>
             <a href="documents.html">Документы</a>
           </div>
         </div>
@@ -422,6 +423,21 @@
       if (v.length > 7) r += '-' + v.substring(7,9);
       if (v.length > 9) r += '-' + v.substring(9,11);
       this.value = r;
+    });
+    // Dropdown toggle
+    document.querySelectorAll('.nav-drop-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const drop = this.parentElement;
+        const isOpen = drop.classList.contains('active');
+        document.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('active'));
+        if (!isOpen) drop.classList.add('active');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-drop')) {
+        document.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('active'));
+      }
     });
   </script>
 <div class="modal-overlay" id="appModal" onclick="if(event.target===this)closeAppModal()">

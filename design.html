@@ -24,6 +24,22 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .logo-sub{display:block;font-size:.6rem;font-weight:400;color:#8a8a91;letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
 .btn-outline{border:1px solid #f5b042;color:#f5b042;padding:10px 22px;border-radius:40px;font-weight:500;transition:all .3s;background:transparent;cursor:pointer;font-family:'Unbounded',sans-serif;font-size:.8rem;text-decoration:none}
 .btn-outline:hover{background:#f5b042;color:#0b0b0e}
+header.scrolled{padding:12px 0;box-shadow:0 4px 40px rgba(0,0,0,.4)}
+nav{display:flex;gap:32px;align-items:center}
+nav a{color:#b0b0b8;text-decoration:none;font-weight:400;font-size:.85rem;transition:color .25s;letter-spacing:.3px;position:relative}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#f5b042;transition:width .3s}
+nav a:hover::after{width:100%}
+nav a:hover{color:#f5b042}
+.nav-drop{position:relative;display:inline-block}.nav-drop-btn{color:#b0b0b8;cursor:pointer;font-weight:400;font-size:.85rem;letter-spacing:.3px;position:relative;background:none;border:none;font-family:Unbounded,sans-serif;padding:0;transition:color .25s}.nav-drop-btn::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#f5b042;transition:width .3s}.nav-drop-btn:hover,.nav-drop-btn.active{color:#f5b042}.nav-drop-btn:hover::after,.nav-drop-btn.active::after{width:100%}.nav-drop-content{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1a1a1f;border:1px solid rgba(245,176,66,.1);border-radius:14px;padding:6px;min-width:160px;z-index:200;box-shadow:0 16px 48px rgba(0,0,0,.5);margin-top:10px}.nav-drop-content a{display:block;padding:8px 14px;color:#b0b0b8;text-decoration:none;font-size:.75rem;border-radius:8px;transition:all .2s;font-weight:400;letter-spacing:.3px}.nav-drop-content a:hover{background:rgba(245,176,66,.08);color:#f5b042}.nav-drop.active .nav-drop-content{display:block}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{width:26px;height:2px;background:#f5b042;border-radius:2px;transition:.3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.98);backdrop-filter:blur(20px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:30px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-nav.open{opacity:1;pointer-events:all}
+.mobile-nav a{color:#fff;text-decoration:none;font-size:1.6rem;font-weight:500;letter-spacing:1px}
+.mobile-nav a:hover{color:#f5b042}
 
 .page-header{padding:140px 0 40px;text-align:center}
 .page-header h1{font-size:3rem;font-weight:800;color:#fff;letter-spacing:-1px}
@@ -224,14 +240,62 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
   .card-mockup{transform:scale(.7);margin:-40px 0}
   .contract-doc{width:100%;padding:24px}
 }
+@media(max-width:768px){nav{display:none!important}.hamburger{display:flex!important}.mobile-nav{display:flex!important}}
 </style>
 </head>
 <body>
 
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" onclick="closeMobile()">Главная</a>
+  <a href="about.html" onclick="closeMobile()">О банке</a>
+  <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+  <a href="mortgage.html" onclick="closeMobile()">Ипотека</a>
+  <a href="credits.html" onclick="closeMobile()">Кредиты</a>
+  <a href="deposits.html" onclick="closeMobile()">Вклады</a>
+  <a href="cards.html" onclick="closeMobile()">Карты</a>
+  <a href="pay.html" onclick="closeMobile()">Оплата</a>
+  <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+  <a href="careers.html" onclick="closeMobile()">Карьера</a>
+  <a href="design.html" onclick="closeMobile()">Дизайн</a>
+  <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
+</div>
+
 <header>
   <div class="header-inner">
-    <div class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></div>
-    <a href="index.html" class="btn-outline">На сайт</a>
+    <a href="index.html" class="logo" aria-label="FP Банк">
+      <span class="letter-f">Ф</span><span class="letter-p">П</span>
+      <span class="logo-sub">Банк</span>
+    </a>
+    <nav>
+      <a href="index.html">Главная</a>
+      <div class="nav-drop">
+        <span class="nav-drop-btn">Продукты</span>
+        <div class="nav-drop-content">
+          <a href="mortgage.html">Ипотека</a>
+          <a href="credits.html">Кредиты</a>
+          <a href="deposits.html">Вклады</a>
+          <a href="cards.html">Карты</a>
+          <a href="subscriptions.html">Подписки</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <span class="nav-drop-btn">О банке</span>
+        <div class="nav-drop-content">
+          <a href="about.html">О компании</a>
+          <a href="contacts.html">Контакты</a>
+          <a href="careers.html">Карьера</a>
+          <a href="badges.html">Команда</a>
+          <a href="design.html">Дизайн</a>
+          <a href="documents.html">Документы</a>
+        </div>
+      </div>
+      <a href="business.html">Бизнесу</a>
+      <a href="pay.html">Оплата</a>
+      <a href="online.html" class="btn-outline">Войти</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -641,6 +705,23 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 </div>
 
 <script>
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); mobileNav.classList.toggle('open'); });
+function closeMobile() { hamburger.classList.remove('active'); mobileNav.classList.remove('open'); }
+mobileNav.addEventListener('click', closeMobile);
+document.querySelectorAll('.nav-drop-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) { e.stopPropagation();
+    const drop = this.parentElement; const isOpen = drop.classList.contains('active');
+    document.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('active'));
+    if (!isOpen) drop.classList.add('active');
+  });
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-drop')) document.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('active'));
+});
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: .1 });
