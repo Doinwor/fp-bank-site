@@ -6,7 +6,7 @@
 <title>Бейджи сотрудников | FP Банк</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Unbounded',sans-serif;background:#0b0b0e;color:#e0e0e0;min-height:100vh;overflow-x:hidden}
@@ -24,62 +24,47 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .btn-outline{border:1px solid #f5b042;color:#f5b042;padding:10px 22px;border-radius:40px;font-weight:500;transition:all .3s;background:transparent;cursor:pointer;font-family:'Unbounded',sans-serif;font-size:.8rem;text-decoration:none}
 .btn-outline:hover{background:#f5b042;color:#0b0b0e}
 
-.page-header{padding:140px 0 40px;text-align:center}
+.page-header{padding:140px 0 50px;text-align:center}
 .page-header h1{font-size:2.8rem;font-weight:800;color:#fff;letter-spacing:-1px}
 .page-header p{color:#8a8a91;font-size:.95rem;margin-top:10px;font-family:'Inter',sans-serif}
 .section-tag{display:inline-block;background:rgba(245,176,66,.1);padding:4px 14px;border-radius:50px;font-size:.65rem;color:#f5b042;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 
 /* ===== BADGE GRID ===== */
-.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;padding-bottom:80px;justify-items:center}
+.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:50px;padding-bottom:80px;justify-items:center}
 
-/* ===== BADGE CARD ===== */
-.badge-card{width:260px;background:linear-gradient(180deg,#15151c 0%,#0f0f14 100%);border:1px solid rgba(245,176,66,.12);border-radius:24px;overflow:hidden;transition:transform .4s,box-shadow .4s;position:relative}
-.badge-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(245,176,66,.1);border-color:rgba(245,176,66,.25)}
+/* ===== BADGE ===== */
+.badge{width:220px;background:#121218;border:1px solid rgba(245,176,66,.1);border-radius:16px;overflow:hidden;position:relative;transition:transform .4s,box-shadow .4s}
+.badge:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(245,176,66,.06)}
 
-.badge-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#f5b042,transparent);opacity:0;transition:opacity .4s}
-.badge-card:hover::before{opacity:1}
+/* Top bar */
+.badge-top{background:linear-gradient(135deg,#f5b042,#d08c1a);padding:14px 18px;text-align:center;position:relative}
+.badge-top .bt-logo{font-weight:800;font-size:1rem;color:#0b0b0e;letter-spacing:2px}
+.badge-top .bt-logo small{font-weight:400;font-size:.45rem;display:block;letter-spacing:1.5px;opacity:.7;margin-top:-1px}
 
-/* Badge top - bank branding */
-.badge-top{padding:24px 24px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)}
-.badge-top .bt-logo{display:flex;align-items:baseline;gap:1px;font-weight:800;font-size:1.1rem;letter-spacing:-.5px}
-.badge-top .bt-logo .f{color:#f5b042}
-.badge-top .bt-logo .p{color:#6a6a72;font-weight:600}
-.badge-top .bt-name{font-size:.4rem;color:#6a6a72;letter-spacing:1.5px;text-transform:uppercase;font-weight:300}
-.badge-top .bt-icon{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.55rem;color:#0b0b0e}
-
-/* Photo area */
+/* Photo */
 .badge-photo-wrap{padding:24px 24px 0;display:flex;justify-content:center}
-.badge-photo{width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid rgba(245,176,66,.2);box-shadow:0 0 30px rgba(245,176,66,.08);transition:border-color .3s}
-.badge-card:hover .badge-photo{border-color:rgba(245,176,66,.4)}
+.badge-photo{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid rgba(245,176,66,.15);transition:border-color .3s}
+.badge:hover .badge-photo{border-color:rgba(245,176,66,.3)}
 
-/* Badge info */
-.badge-info{padding:20px 24px 28px;text-align:center}
-.badge-info .bi-name{color:#fff;font-size:1.05rem;font-weight:700;line-height:1.3;margin-bottom:4px}
-.badge-info .bi-role{color:#f5b042;font-size:.65rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-.badge-info .bi-divider{width:30px;height:2px;background:rgba(245,176,66,.15);margin:10px auto;border-radius:2px}
-.badge-info .bi-desc{color:#6a6a72;font-size:.6rem;font-family:'Inter',sans-serif;line-height:1.5;margin-bottom:12px}
+/* Info */
+.badge-info{padding:16px 18px 20px;text-align:center}
+.badge-info .bi-name{color:#fff;font-size:.9rem;font-weight:700;line-height:1.2}
+.badge-info .bi-role{color:#f5b042;font-size:.55rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.badge-info .bi-divider{width:24px;height:1.5px;background:rgba(245,176,66,.15);margin:10px auto;border-radius:2px}
+.badge-info .bi-location{color:#5a5a62;font-size:.5rem;font-family:'Inter',sans-serif;letter-spacing:.3px}
 
-.badge-info .bi-id{display:inline-block;background:rgba(245,176,66,.06);border:1px solid rgba(245,176,66,.08);border-radius:50px;padding:4px 14px;font-size:.45rem;color:#6a6a72;font-family:'Inter',sans-serif;letter-spacing:.5px}
-.badge-info .bi-id span{color:#f5b042;font-weight:600}
-
-/* Gold accent badge */
-.badge-card.gold{background:linear-gradient(180deg,#1e1912 0%,#14110c 100%);border-color:rgba(245,176,66,.2)}
-.badge-card.gold .badge-photo{border-color:#f5b042;box-shadow:0 0 40px rgba(245,176,66,.12)}
-.badge-card.gold:hover{border-color:rgba(245,176,66,.4);box-shadow:0 24px 60px rgba(245,176,66,.15)}
-.badge-card.gold .bi-role{color:#f5b042}
-.badge-card.gold::after{content:'★';position:absolute;top:14px;right:14px;color:#f5b042;font-size:.7rem;opacity:.4}
-
-/* Badge actions */
-.badge-actions{display:flex;gap:8px;justify-content:center;margin-top:12px}
-.badge-actions a{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;text-decoration:none;color:#5a5a62;font-size:.7rem;transition:.3s}
-.badge-actions a:hover{background:rgba(245,176,66,.1);border-color:rgba(245,176,66,.2);color:#f5b042}
+/* Premium badge accent */
+.badge.gold{border-color:rgba(245,176,66,.2)}
+.badge.gold .badge-top{background:linear-gradient(135deg,#f5b042,#e8a030)}
+.badge.gold .badge-photo{border-color:#f5b042}
+.badge.gold:hover{box-shadow:0 20px 50px rgba(245,176,66,.1)}
 
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:1200px){.badges-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){.badges-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.badges-grid{grid-template-columns:1fr;gap:24px}.page-header h1{font-size:1.8rem}.badge-card{width:240px}}
+@media(max-width:500px){.badges-grid{grid-template-columns:1fr;gap:30px}.badge{width:200px}}
 </style>
 </head>
 <body>
@@ -96,146 +81,128 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
   <section class="page-header reveal">
     <span class="section-tag">Бейджи сотрудников</span>
     <h1>Команда FP Банка</h1>
-    <p>Руководство и ключевые сотрудники банка</p>
+    <p>Руководство и ключевые сотрудники</p>
   </section>
 
   <div class="badges-grid">
 
-    <!-- Director -->
-    <div class="badge-card gold reveal">
+    <div class="badge gold reveal">
       <div class="badge-top">
-        <div class="bt-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bt-name">FP Банк</div>
-        <div class="bt-icon">Ф</div>
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
       </div>
       <div class="badge-photo-wrap">
         <img class="badge-photo" src="director.png" alt="Захаров А.С." onerror="this.style.display='none'">
       </div>
       <div class="badge-info">
         <div class="bi-name">Захаров Алексей Сергеевич</div>
-        <div class="bi-role">Директор банка</div>
+        <div class="bi-role">Директор</div>
         <div class="bi-divider"></div>
-        <div class="bi-desc">Управление банком, стратегия развития, контроль финансовой устойчивости</div>
-        <div class="bi-id">Сотрудник № <span>001</span></div>
-        <div class="badge-actions">
-          <a href="about.html" title="Подробнее">ℹ</a>
-          <a href="#" title="Email">✉</a>
-        </div>
+        <div class="bi-location">г. Загребенки</div>
       </div>
     </div>
 
-    <!-- Deputy -->
-    <div class="badge-card gold reveal">
+    <div class="badge gold reveal">
       <div class="badge-top">
-        <div class="bt-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bt-name">FP Банк</div>
-        <div class="bt-icon">Ф</div>
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
       </div>
       <div class="badge-photo-wrap">
         <img class="badge-photo" src="ЛАРЦОВА.png" alt="Ларцова Е.А." onerror="this.style.display='none'">
       </div>
       <div class="badge-info">
         <div class="bi-name">Ларцова Евлампия Андреевна</div>
-        <div class="bi-role">Заместитель директора</div>
+        <div class="bi-role">Зам. директора</div>
         <div class="bi-divider"></div>
-        <div class="bi-desc">Клиентский сервис, операционное управление, координация отделений</div>
-        <div class="bi-id">Сотрудник № <span>002</span></div>
-        <div class="badge-actions">
-          <a href="about.html" title="Подробнее">ℹ</a>
-          <a href="#" title="Email">✉</a>
-        </div>
+        <div class="bi-location">г. Загребенки</div>
       </div>
     </div>
 
-    <!-- CFO -->
-    <div class="badge-card reveal">
+    <div class="badge reveal">
       <div class="badge-top">
-        <div class="bt-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bt-name">FP Банк</div>
-        <div class="bt-icon">Ф</div>
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
       </div>
       <div class="badge-photo-wrap">
-        <div class="badge-photo" style="background:linear-gradient(135deg,#1e1920,#121018);border-color:rgba(245,176,66,.15);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#f5b042;font-weight:800">КК</div>
+        <div class="badge-photo" style="background:linear-gradient(135deg,#1e1920,#121018);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#f5b042;font-weight:700">КК</div>
       </div>
       <div class="badge-info">
         <div class="bi-name">Крылова Ксения Дмитриевна</div>
         <div class="bi-role">Финансовый директор</div>
         <div class="bi-divider"></div>
-        <div class="bi-desc">Управление финансами, бюджетирование, риск-менеджмент и отчётность</div>
-        <div class="bi-id">Сотрудник № <span>003</span></div>
-        <div class="badge-actions">
-          <a href="#" title="Подробнее">ℹ</a>
-          <a href="#" title="Email">✉</a>
-        </div>
+        <div class="bi-location">г. Загребенки</div>
       </div>
     </div>
 
-    <!-- CTO -->
-    <div class="badge-card reveal">
+    <div class="badge reveal">
       <div class="badge-top">
-        <div class="bt-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bt-name">FP Банк</div>
-        <div class="bt-icon">Ф</div>
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
       </div>
       <div class="badge-photo-wrap">
-        <div class="badge-photo" style="background:linear-gradient(135deg,#161c1e,#0e1214);border-color:rgba(245,176,66,.15);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#f5b042;font-weight:800">МД</div>
+        <div class="badge-photo" style="background:linear-gradient(135deg,#161c1e,#0e1214);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#f5b042;font-weight:700">МД</div>
       </div>
       <div class="badge-info">
         <div class="bi-name">Морозов Денис Игоревич</div>
         <div class="bi-role">Технический директор</div>
         <div class="bi-divider"></div>
-        <div class="bi-desc">IT-инфраструктура, разработка, кибербезопасность и цифровые продукты</div>
-        <div class="bi-id">Сотрудник № <span>004</span></div>
-        <div class="badge-actions">
-          <a href="#" title="Подробнее">ℹ</a>
-          <a href="#" title="Email">✉</a>
-        </div>
+        <div class="bi-location">г. Загребенки</div>
       </div>
     </div>
 
-    <!-- Head of Retail -->
-    <div class="badge-card reveal">
+    <div class="badge reveal">
       <div class="badge-top">
-        <div class="bt-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bt-name">FP Банк</div>
-        <div class="bt-icon">Ф</div>
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
       </div>
       <div class="badge-photo-wrap">
-        <div class="badge-photo" style="background:linear-gradient(135deg,#1e1614,#14100e);border-color:rgba(245,176,66,.15);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#f5b042;font-weight:800">СЕ</div>
+        <div class="badge-photo" style="background:linear-gradient(135deg,#1e1614,#14100e);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#f5b042;font-weight:700">СЕ</div>
       </div>
       <div class="badge-info">
         <div class="bi-name">Соколова Екатерина Павловна</div>
         <div class="bi-role">Директор розничного бизнеса</div>
         <div class="bi-divider"></div>
-        <div class="bi-desc">Развитие продуктов для частных клиентов, контроль качества сервиса</div>
-        <div class="bi-id">Сотрудник № <span>005</span></div>
-        <div class="badge-actions">
-          <a href="#" title="Подробнее">ℹ</a>
-          <a href="#" title="Email">✉</a>
-        </div>
+        <div class="bi-location">г. Загребенки</div>
       </div>
     </div>
 
-    <!-- Head of Legal -->
-    <div class="badge-card reveal">
+    <div class="badge reveal">
       <div class="badge-top">
-        <div class="bt-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bt-name">FP Банк</div>
-        <div class="bt-icon">Ф</div>
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
       </div>
       <div class="badge-photo-wrap">
-        <div class="badge-photo" style="background:linear-gradient(135deg,#1a1820,#0f0e14);border-color:rgba(245,176,66,.15);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#f5b042;font-weight:800">ВГ</div>
+        <div class="badge-photo" style="background:linear-gradient(135deg,#1a1820,#0f0e14);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#f5b042;font-weight:700">ВГ</div>
       </div>
       <div class="badge-info">
         <div class="bi-name">Виноградов Глеб Аркадьевич</div>
         <div class="bi-role">Главный юрисконсульт</div>
         <div class="bi-divider"></div>
-        <div class="bi-desc">Правовое обеспечение, нормативная база, лицензирование и комплаенс</div>
-        <div class="bi-id">Сотрудник № <span>006</span></div>
-        <div class="badge-actions">
-          <a href="#" title="Подробнее">ℹ</a>
-          <a href="#" title="Email">✉</a>
-        </div>
+        <div class="bi-location">г. Загребенки</div>
+      </div>
+    </div>
+
+    <div class="badge reveal">
+      <div class="badge-top">
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
+      </div>
+      <div class="badge-photo-wrap">
+        <div class="badge-photo" style="background:linear-gradient(135deg,#141c18,#0e1210);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#f5b042;font-weight:700">ИП</div>
+      </div>
+      <div class="badge-info">
+        <div class="bi-name">Иванова Полина Андреевна</div>
+        <div class="bi-role">HR-директор</div>
+        <div class="bi-divider"></div>
+        <div class="bi-location">г. Загребенки</div>
+      </div>
+    </div>
+
+    <div class="badge reveal">
+      <div class="badge-top">
+        <div class="bt-logo">ФП<small>FP Банк</small></div>
+      </div>
+      <div class="badge-photo-wrap">
+        <div class="badge-photo" style="background:linear-gradient(135deg,#1c1a14,#12100e);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#f5b042;font-weight:700">ДМ</div>
+      </div>
+      <div class="badge-info">
+        <div class="bi-name">Дмитриев Максим Олегович</div>
+        <div class="bi-role">Директор по маркетингу</div>
+        <div class="bi-divider"></div>
+        <div class="bi-location">г. Загребенки</div>
       </div>
     </div>
 
