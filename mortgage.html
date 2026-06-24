@@ -109,19 +109,31 @@
     .social-links a { width:40px; height:40px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; text-decoration:none; color:#8a8a91; font-size:1rem; transition:all .3s; }
     .social-links a:hover { background:#f5b042; color:#0b0b0e; border-color:#f5b042; }
 
-    @media (max-width:1024px) { .calc-section { grid-template-columns:1fr; } .programs-grid { grid-template-columns:repeat(2,1fr); } .steps-grid { grid-template-columns:repeat(2,1fr); } .footer-grid { grid-template-columns:1fr 1fr; } }
+        @media (max-width:1024px) { .calc-section { grid-template-columns:1fr; } .programs-grid { grid-template-columns:repeat(2,1fr); } .steps-grid { grid-template-columns:repeat(2,1fr); } .footer-grid { grid-template-columns:1fr 1fr; } }
     @media (max-width:768px) {
-      .container { padding:0 20px; }
-      .header-inner { padding:0 20px; }
-      nav { display:none; }
-      .hamburger { display:flex; }
-      .mobile-nav { display:flex; }
-      .page-header h1 { font-size:2.2rem; }
-      .programs-grid { grid-template-columns:1fr; }
-      .steps-grid { grid-template-columns:1fr; }
-      .calc-result .cr-amount { font-size:2.2rem; }
-      .calc-breakdown { grid-template-columns:1fr; }
-      .footer-grid { grid-template-columns:1fr; }
+      .container { padding:0 16px; }
+      .header-inner { padding:0 16px; height:56px; }
+      nav { display:none !important; }
+      .hamburger { display:flex !important; }
+      .mobile-nav { display:flex !important; }
+      .page-header h1 { font-size:1.8rem; }
+      .calc-section { gap:24px; }
+      .calc-form { padding:24px; }
+      .calc-form .slider-group label { font-size:.8rem; }
+      .calc-result .cr-amount { font-size:1.8rem; }
+      .calc-breakdown { grid-template-columns:1fr; gap:12px; }
+      .programs-grid { grid-template-columns:1fr; gap:16px; }
+      .program-card { padding:24px; }
+      .steps-grid { grid-template-columns:1fr; gap:16px; }
+      .step-card { padding:20px; }
+      .step-number { font-size:1.5rem; width:40px; height:40px; line-height:40px; }
+      .section-title { font-size:1.3rem; }
+      .footer-grid { grid-template-columns:1fr; gap:24px; }
+    }
+    @media (max-width:480px) {
+      .page-header h1 { font-size:1.5rem; }
+      .calc-result .cr-amount { font-size:1.5rem; }
+      .header-inner { height:50px; }
     }
   /* Mobile notice */
   .mobile-notice {

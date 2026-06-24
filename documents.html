@@ -72,7 +72,7 @@
     .doc-footer .doc-seal .seal-circle { display:inline-block; width:80px; height:80px; border-radius:50%; border:3px solid #f5b042; line-height:74px; text-align:center; font-family:'Unbounded',sans-serif; font-weight:800; font-size:1.6rem; color:#f5b042; letter-spacing:-1px; }
     .doc-footer .doc-seal .seal-text { display:block; color:#8a8a91; font-size:.7rem; margin-top:6px; }
 
-    @media print {
+        @media print {
       header { display:none; }
       body { background:#fff; color:#222; }
       .doc-section h2, .doc-section h3, .doc-section h4 { color:#111; }
@@ -81,9 +81,24 @@
       .doc-footer .doc-seal .seal-circle { border-color:#333; color:#333; }
     }
     @media (max-width:768px) {
-      .doc-wrapper { padding:40px 20px 60px; }
-      .doc-header h1 { font-size:1.8rem; }
-      .doc-toc ol { columns:1; }
+      .container { padding:0 16px; }
+      .header-inner { padding:0 16px; height:56px; }
+      nav { display:none !important; }
+      .hamburger { display:flex !important; }
+      .mobile-nav { display:flex !important; }
+      .doc-wrapper { padding:32px 16px 40px; }
+      .doc-header h1 { font-size:1.5rem; }
+      .doc-toc ol { columns:1; font-size:.8rem; }
+      .doc-section { padding:20px 16px; margin-bottom:24px; }
+      .doc-section h2 { font-size:1.1rem; }
+      .doc-section h3 { font-size:.95rem; }
+      .doc-section p, .doc-section ul li, .doc-section ol li { font-size:.8rem; }
+    }
+    @media (max-width:480px) {
+      .doc-header h1 { font-size:1.2rem; }
+      .doc-section { padding:16px 12px; }
+      .doc-section h2 { font-size:1rem; }
+      .header-inner { height:50px; }
     }
   /* Mobile notice */
   .mobile-notice {

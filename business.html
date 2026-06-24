@@ -99,26 +99,31 @@
     .reveal { opacity:0; transform:translateY(30px); transition:opacity .6s, transform .6s; }
     .reveal.visible { opacity:1; transform:translateY(0); }
 
-    @media (max-width:768px) {
-      .container { padding:0 20px; }
-      nav { display:none; }
-      .hamburger { display:flex; }
-      .mobile-nav { display:flex; }
-      .page-header h1 { font-size:2rem; }
-      .biz-hero { padding:30px; }
-      .biz-hero .bh-text h2 { font-size:1.8rem; }
-      .biz-hero .bh-stats { grid-template-columns:1fr; }
-      .section-title { font-size:1.6rem; }
+        @media (max-width:768px) {
+      .container { padding:0 16px; }
+      .header-inner { padding:0 16px; height:56px; }
+      nav { display:none !important; }
+      .hamburger { display:flex !important; }
+      .mobile-nav { display:flex !important; }
+      .page-header h1 { font-size:1.7rem; }
+      .biz-hero { padding:24px; }
+      .biz-hero .bh-text h2 { font-size:1.5rem; }
+      .biz-hero .bh-text p { font-size:.85rem; }
+      .biz-hero .bh-stats { grid-template-columns:1fr 1fr; gap:16px; }
+      .section-title { font-size:1.3rem; }
+      .service-card { padding:24px; }
       .service-card ul { grid-template-columns:1fr; }
-      .biz-steps { grid-template-columns:1fr 1fr; }
-      .footer-grid { grid-template-columns:1fr 1fr; }
-      .rates-table { font-size:.75rem; }
-      .rates-table th, .rates-table td { padding:10px 8px; }
+      .tariffs-table { font-size:.7rem; }
+      .tariffs-table th, .tariffs-table td { padding:8px 6px; }
+      .biz-steps { grid-template-columns:1fr; gap:16px; }
+      .footer-grid { grid-template-columns:1fr; gap:24px; }
+      .footer-bottom { flex-direction:column; gap:8px; text-align:center; }
     }
     @media (max-width:480px) {
-      .biz-steps { grid-template-columns:1fr; }
-      .footer-grid { grid-template-columns:1fr; }
-      .footer-bottom { flex-direction:column; gap:8px; text-align:center; }
+      .page-header h1 { font-size:1.4rem; }
+      .biz-hero .bh-text h2 { font-size:1.2rem; }
+      .biz-hero .bh-stats { grid-template-columns:1fr; gap:12px; }
+      .header-inner { height:50px; }
     }
   /* Mobile notice */
   .mobile-notice {

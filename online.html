@@ -151,15 +151,43 @@
     .toast.show { opacity:1; transform:translateY(0); }
     .toast.error { border-color:rgba(255,94,94,.3); color:#ff5e5e; }
 
-    @media (max-width:1024px) { .dashboard { grid-template-columns:1fr; } .sidebar { display:none; } .quick-actions { grid-template-columns:repeat(2,1fr); } .cards-row { grid-template-columns:1fr; } .services-grid { grid-template-columns:repeat(2,1fr); } .deposit-grid { grid-template-columns:1fr; } }
+        @media (max-width:1024px) { .dashboard { grid-template-columns:1fr; } .sidebar { display:none; } .quick-actions { grid-template-columns:repeat(2,1fr); } .cards-row { grid-template-columns:1fr; } .services-grid { grid-template-columns:repeat(2,1fr); } .deposit-grid { grid-template-columns:1fr; } }
     @media (max-width:768px) {
-      .container { padding:0 20px; } .header-inner { padding:0 20px; }
-      .balance-card .bc-left .bc-amount { font-size:2rem; }
-      .quick-actions { grid-template-columns:repeat(2,1fr); }
-      .form-row { grid-template-columns:1fr; }
-      .services-grid { grid-template-columns:repeat(2,1fr); }
+      .container { padding:0 16px; } .header-inner { padding:0 16px; height:56px; }
+      .sidebar { display:none !important; }
+      .mobile-tab-bar { display:flex !important; }
+      .main-content { padding-bottom:70px !important; }
       .user-name { display:none; }
+      .balance-card { padding:20px; flex-direction:column; gap:16px; }
+      .balance-card .bc-left .bc-amount { font-size:1.8rem; }
+      .balance-card .bc-right { width:100%; }
+      .quick-actions { grid-template-columns:repeat(2,1fr); gap:10px; }
+      .cards-row { grid-template-columns:1fr; gap:16px; }
+      .services-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+      .form-row { grid-template-columns:1fr; }
+      .form-group { margin-bottom:12px; }
+      .form-group label { font-size:.75rem; }
+      .form-group input, .form-group select { padding:10px 14px; font-size:.8rem; }
+      .deposit-grid { grid-template-columns:1fr; gap:16px; }
+      .history-filters { flex-direction:column; gap:10px; }
+      .history-filters input { width:100%; }
+      .section-header h2 { font-size:1.1rem; }
+      .page-title { font-size:1.3rem; }
+      .settings-section { padding:16px; }
     }
+    @media (max-width:480px) {
+      .header-inner { height:50px; }
+      .balance-card .bc-left .bc-amount { font-size:1.5rem; }
+      .quick-actions { grid-template-columns:1fr 1fr; gap:8px; }
+      .services-grid { grid-template-columns:1fr 1fr; gap:8px; }
+      .history-item { flex-direction:column; gap:8px; padding:12px; }
+      .history-item .hi-amount { font-size:.95rem; }
+      .page-title { font-size:1.1rem; }
+    }
+    .mobile-tab-bar { display:none; position:fixed; bottom:0; left:0; right:0; background:#0b0b0e; border-top:1px solid rgba(255,255,255,.06); z-index:100; justify-content:space-around; padding:6px 0 env(safe-area-inset-bottom,6px); }
+    .mobile-tab-bar .mt-item { flex:1; text-align:center; color:#6a6a72; font-size:.55rem; font-family:'Unbounded',sans-serif; cursor:pointer; border:none; background:none; padding:4px 2px; transition:color .2s; }
+    .mobile-tab-bar .mt-item.active { color:#f5b042; }
+    .mobile-tab-bar .mt-item .mt-icon { display:block; font-size:1.2rem; margin-bottom:2px; }
   /* Mobile notice */
   .mobile-notice {
     position: fixed;
@@ -559,15 +587,21 @@
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.sb-item[data-tab]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.mt-item[data-tab]').forEach(b => b.classList.remove('active'));
       const tab = document.getElementById('tab-' + tabName);
       if (tab) tab.classList.add('active');
       const btn = document.querySelector('.sb-item[data-tab="' + tabName + '"]');
       if (btn) btn.classList.add('active');
+      const mbtn = document.querySelector('.mt-item[data-tab="' + tabName + '"]');
+      if (mbtn) mbtn.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (tabName === 'history') renderHistory();
     }
 
     document.querySelectorAll('.sb-item[data-tab]').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+    document.querySelectorAll('.mt-item[data-tab]').forEach(btn => {
       btn.addEventListener('click', () => switchTab(btn.dataset.tab));
     });
 
@@ -702,7 +736,19 @@
     // Init
     renderRecentTx();
   </script>
-
   <script>(function(){if(window.innerWidth<768&&!localStorage.getItem('fp_mn_d')){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show');localStorage.setItem('fp_mn_d','1')}</script>
+
+  <!-- Mobile tab bar -->
+  <div class="mobile-tab-bar" id="mobileTabBar">
+    <button class="mt-item active" data-tab="overview"><span class="mt-icon">📊</span>Обзор</button>
+    <button class="mt-item" data-tab="cards"><span class="mt-icon">💳</span>Карты</button>
+    <button class="mt-item" data-tab="transfer"><span class="mt-icon">💸</span>Перевод</button>
+    <button class="mt-item" data-tab="payments"><span class="mt-icon">📋</span>Платежи</button>
+    <button class="mt-item" data-tab="deposits"><span class="mt-icon">📈</span>Вклады</button>
+    <button class="mt-item" data-tab="loans"><span class="mt-icon">🏦</span>Кредиты</button>
+    <button class="mt-item" data-tab="history"><span class="mt-icon">📄</span>История</button>
+    <button class="mt-item" data-tab="settings"><span class="mt-icon">⚙️</span>Настройки</button>
+  </div>
+
 </body>
 </html>

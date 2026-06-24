@@ -166,28 +166,43 @@
     .reveal { opacity:0; transform:translateY(40px); transition:opacity .7s, transform .7s; }
     .reveal.visible { opacity:1; transform:translateY(0); }
 
-    @media (max-width:1024px) {
+        @media (max-width:1024px) {
       .mission-grid { grid-template-columns:repeat(2,1fr); }
       .team-grid { grid-template-columns:repeat(2,1fr); }
-      .footer-grid { grid-template-columns:1fr 1fr; }
       .director-stats { grid-template-columns:repeat(3,1fr); }
+      .footer-grid { grid-template-columns:1fr 1fr; }
     }
     @media (max-width:768px) {
-      .container { padding:0 20px; }
-      .header-inner { padding:0 20px; }
-      nav { display:none; }
-      .hamburger { display:flex; }
-      .mobile-nav { display:flex; }
-      .page-header h1 { font-size:2.2rem; }
-      .director-hero { padding:30px; }
-      .director-grid { grid-template-columns:1fr; gap:30px; }
-      .director-card { flex-direction:column; text-align:center; }
-      .director-photo { width:160px; height:200px; }
-      .director-info h2 { font-size:1.3rem; }
-      .director-stats { grid-template-columns:repeat(3,1fr); }
-      .mission-grid { grid-template-columns:1fr; }
-      .team-grid { grid-template-columns:1fr; }
-      .footer-grid { grid-template-columns:1fr; }
+      .container { padding:0 16px; }
+      .header-inner { padding:0 16px; height:56px; }
+      nav { display:none !important; }
+      .hamburger { display:flex !important; }
+      .mobile-nav { display:flex !important; }
+      .page-header h1 { font-size:1.8rem; }
+      .director-hero { padding:24px; }
+      .director-grid { grid-template-columns:1fr; gap:24px; }
+      .director-card { flex-direction:column; text-align:center; align-items:center; }
+      .director-photo { width:140px; height:180px; }
+      .director-info h2 { font-size:1.2rem; }
+      .director-stats { grid-template-columns:repeat(3,1fr); gap:12px; }
+      .director-stats .ds-item .ds-value { font-size:1.2rem; }
+      .mission-grid { grid-template-columns:1fr; gap:16px; }
+      .mission-card { padding:20px; }
+      .timeline-item { flex-direction:column; gap:6px; }
+      .timeline-year { font-size:.85rem; }
+      .team-grid { grid-template-columns:1fr; gap:16px; }
+      .team-card { padding:20px; }
+      .requisites-table { font-size:.75rem; }
+      .requisites-table td { padding:8px; }
+      .footer-grid { grid-template-columns:1fr; gap:24px; }
+    }
+    @media (max-width:480px) {
+      .page-header h1 { font-size:1.5rem; }
+      .director-hero { padding:16px; }
+      .director-photo { width:120px; height:155px; }
+      .director-stats { grid-template-columns:repeat(2,1fr); }
+      .section-title { font-size:1.2rem; }
+      .header-inner { height:50px; }
     }
   /* Mobile notice */
   .mobile-notice {
