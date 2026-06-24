@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дизайны бейджей | FP Банк</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Unbounded',sans-serif;background:#0b0b0e;color:#e0e0e0;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#1a1a1f}
+::-webkit-scrollbar-thumb{background:#f5b042;border-radius:3px}
+.container{max-width:1400px;margin:0 auto;padding:0 32px}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);backdrop-filter:blur(16px);position:fixed;top:0;left:0;right:0;z-index:100;background-color:rgba(11,11,14,.85)}
+.header-inner{max-width:1400px;margin:0 auto;padding:0 32px;width:100%;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2.2rem;letter-spacing:-1px;line-height:1;text-decoration:none;color:#fff}
+.logo .letter-f{color:#f5b042;text-shadow:0 0 20px rgba(245,176,66,.5)}
+.logo .letter-p{color:#8a8a91}
+.logo-sub{display:block;font-size:.6rem;font-weight:400;color:#8a8a91;letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
+.btn-outline{border:1px solid #f5b042;color:#f5b042;padding:10px 22px;border-radius:40px;font-weight:500;transition:all .3s;background:transparent;cursor:pointer;font-family:'Unbounded',sans-serif;font-size:.8rem;text-decoration:none}
+.btn-outline:hover{background:#f5b042;color:#0b0b0e}
+
+.page-header{padding:140px 0 50px;text-align:center}
+.page-header h1{font-size:2.6rem;font-weight:800;color:#fff;letter-spacing:-1px}
+.page-header p{color:#8a8a91;font-size:.95rem;margin-top:10px;font-family:'Inter',sans-serif}
+.section-tag{display:inline-block;background:rgba(245,176,66,.1);padding:4px 14px;border-radius:50px;font-size:.65rem;color:#f5b042;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:60px 40px;padding-bottom:100px;justify-items:center;align-items:start}
+
+.variant-card{text-align:center}
+.variant-card .vc-label{color:#f5b042;font-size:.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.variant-card .vc-label span{display:block;color:#6a6a72;font-size:.55rem;font-weight:400;margin-top:4px;letter-spacing:0;text-transform:none}
+
+/* ===== BASE BADGE SIZES ===== */
+.badge{width:270px;height:410px;border-radius:18px;overflow:hidden;position:relative;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;margin:0 auto}
+.badge:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+
+.badge .photo-wrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.badge .photo-wrap img{width:100%;height:100%;object-fit:cover}
+.badge .photo-wrap .initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:#f5b042;letter-spacing:3px}
+
+/* ===== VARIANT 1: CLASSIC GOLD ===== */
+.badge.v1{background:linear-gradient(180deg,#121218,#0d0d12);border:1px solid rgba(245,176,66,.1)}
+.badge.v1 .v1-bar{background:#0b0b0e;padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(245,176,66,.06)}
+.badge.v1 .v1-bar .v1-logo{display:flex;align-items:baseline;gap:1px;font-weight:800;font-size:1.3rem;letter-spacing:-.5px}
+.badge.v1 .v1-bar .v1-logo .f{color:#f5b042}
+.badge.v1 .v1-bar .v1-logo .p{color:#8a8a91}
+.badge.v1 .v1-bar .v1-name{font-size:.45rem;color:#6a6a72;letter-spacing:1.2px;text-transform:uppercase}
+.badge.v1 .v1-stripe{position:absolute;top:0;right:0;width:4px;height:100%;background:linear-gradient(180deg,#f5b042,transparent 60%);opacity:.08}
+.badge.v1 .photo-wrap{padding:14px 20px}
+.badge.v1 .photo-wrap img,.badge.v1 .photo-wrap .initials{border-radius:6px}
+.badge.v1 .v1-foot{background:rgba(0,0,0,.3);border-top:1px solid rgba(245,176,66,.04);padding:14px 20px 16px;text-align:center}
+.badge.v1 .v1-foot .bf-name{color:#fff;font-size:.85rem;font-weight:700}
+.badge.v1 .v1-foot .bf-role{color:#f5b042;font-size:.5rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.badge.v1 .v1-foot .bf-line{width:22px;height:1.5px;background:#f5b042;margin:8px auto 6px;border-radius:2px;opacity:.2}
+.badge.v1 .v1-foot .bf-location{color:#5a5a62;font-size:.4rem;font-family:'Inter',sans-serif}
+
+/* ===== VARIANT 2: SPLIT LAYOUT ===== */
+.badge.v2{background:#121218;border:1px solid rgba(245,176,66,.08)}
+.badge.v2 .v2-top{height:45%;position:relative;overflow:hidden}
+.badge.v2 .v2-top .v2-bg{position:absolute;inset:0;background:linear-gradient(135deg,#f5b042,#c9911e);opacity:.06}
+.badge.v2 .v2-top .v2-logo{position:absolute;top:16px;left:20px;display:flex;flex-direction:column;align-items:flex-start}
+.badge.v2 .v2-top .v2-logo .v2-f{font-weight:800;font-size:1.8rem;color:#f5b042;letter-spacing:-1px;line-height:1;text-shadow:0 0 20px rgba(245,176,66,.2)}
+.badge.v2 .v2-top .v2-logo .v2-p{font-weight:700;font-size:1.8rem;color:#8a8a91;letter-spacing:-1px;line-height:1;margin-top:-4px}
+.badge.v2 .v2-top .v2-logo .v2-sub{font-size:.4rem;color:#6a6a72;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.badge.v2 .v2-top img,.badge.v2 .v2-top .initials{width:100%;height:100%;object-fit:cover}
+.badge.v2 .v2-bottom{padding:20px 22px;text-align:left}
+.badge.v2 .v2-bottom .b2-name{color:#fff;font-size:.95rem;font-weight:700;line-height:1.2}
+.badge.v2 .v2-bottom .b2-role{color:#f5b042;font-size:.5rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.badge.v2 .v2-bottom .b2-div{width:24px;height:2px;background:#f5b042;margin-top:8px;opacity:.2;border-radius:2px}
+.badge.v2 .v2-bottom .b2-loc{color:#5a5a62;font-size:.4rem;font-family:'Inter',sans-serif;margin-top:8px}
+
+/* ===== VARIANT 3: GLASS ===== */
+.badge.v3{background:rgba(18,18,24,.4);backdrop-filter:blur(20px);border:1px solid rgba(245,176,66,.08);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.badge.v3::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,176,66,.02),transparent);border-radius:18px;pointer-events:none}
+.badge.v3 .v3-top{text-align:center;padding:20px 20px 10px;position:relative}
+.badge.v3 .v3-top .v3-logo{display:inline-flex;align-items:baseline;gap:1px;font-weight:800;font-size:1.6rem;letter-spacing:-.5px;margin-bottom:2px}
+.badge.v3 .v3-top .v3-logo .f{color:#f5b042}
+.badge.v3 .v3-top .v3-logo .p{color:#fff}
+.badge.v3 .v3-top .v3-sub{font-size:.4rem;color:#6a6a72;letter-spacing:2px;text-transform:uppercase}
+.badge.v3 .v3-top .v3-line{width:30px;height:1px;background:rgba(245,176,66,.15);margin:8px auto 0;border-radius:2px}
+.badge.v3 .photo-wrap{margin:6px 24px;border-radius:12px;overflow:hidden;border:1px solid rgba(245,176,66,.06)}
+.badge.v3 .photo-wrap img,.badge.v3 .photo-wrap .initials{border-radius:12px}
+.badge.v3 .v3-foot{text-align:center;padding:14px 20px 18px;background:rgba(0,0,0,.15);border-top:1px solid rgba(245,176,66,.04);margin-top:auto}
+.badge.v3 .v3-foot .b3-name{color:#fff;font-size:.85rem;font-weight:700}
+.badge.v3 .v3-foot .b3-role{color:#f5b042;font-size:.5rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
+.badge.v3 .v3-foot .b3-loc{color:#5a5a62;font-size:.4rem;font-family:'Inter',sans-serif;margin-top:6px}
+
+/* ===== VARIANT 4: MINIMAL DARK ===== */
+.badge.v4{background:#0b0b0e;border:1px solid rgba(255,255,255,.04);box-shadow:none}
+.badge.v4 .v4-top{padding:18px 22px;text-align:right;border-bottom:1px solid rgba(255,255,255,.03)}
+.badge.v4 .v4-top .v4-logo{display:flex;align-items:baseline;gap:1px;font-weight:800;font-size:1.1rem;letter-spacing:-.3px;justify-content:flex-end}
+.badge.v4 .v4-top .v4-logo .f{color:#f5b042}
+.badge.v4 .v4-top .v4-logo .p{color:#4a4a52}
+.badge.v4 .photo-wrap{padding:10px 16px}
+.badge.v4 .photo-wrap img,.badge.v4 .photo-wrap .initials{border-radius:4px}
+.badge.v4 .v4-foot{padding:10px 16px 16px;text-align:right}
+.badge.v4 .v4-foot .b4-name{color:#fff;font-size:.8rem;font-weight:600;line-height:1.1}
+.badge.v4 .v4-foot .b4-role{color:#f5b042;font-size:.45rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.badge.v4 .v4-foot .b4-loc{color:#3a3a42;font-size:.4rem;font-family:'Inter',sans-serif;margin-top:4px}
+
+/* ===== VARIANT 5: LUXURY ===== */
+.badge.v5{background:linear-gradient(180deg,#16130e 0%,#0f0d0a 100%);border:1px solid rgba(245,176,66,.15)}
+.badge.v5::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#f5b042,transparent);opacity:.4}
+.badge.v5::after{content:'◆';position:absolute;bottom:14px;right:16px;color:#f5b042;font-size:.4rem;opacity:.12}
+.badge.v5 .v5-ornament{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:16rem;color:#f5b042;opacity:.012;pointer-events:none;letter-spacing:0;font-weight:800}
+.badge.v5 .v5-top{text-align:center;padding:22px 20px 14px;position:relative}
+.badge.v5 .v5-top .v5-crest{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-weight:800;font-size:.7rem;color:#0b0b0e}
+.badge.v5 .v5-top .v5-name{font-size:.5rem;color:#f5b042;letter-spacing:3px;text-transform:uppercase;font-weight:500}
+.badge.v5 .v5-top .v5-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,#f5b042,transparent);margin:8px auto 0}
+.badge.v5 .photo-wrap{margin:6px 28px;border-radius:4px;overflow:hidden;border:1px solid rgba(245,176,66,.06)}
+.badge.v5 .photo-wrap img,.badge.v5 .photo-wrap .initials{border-radius:4px}
+.badge.v5 .v5-foot{text-align:center;padding:14px 20px 20px}
+.badge.v5 .v5-foot .b5-name{color:#fff;font-size:.85rem;font-weight:700}
+.badge.v5 .v5-foot .b5-role{color:#f5b042;font-size:.5rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
+.badge.v5 .v5-foot .b5-deco{font-size:.3rem;color:#f5b042;margin-top:6px;opacity:.15;letter-spacing:4px}
+
+/* ===== VARIANT 6: CORPORATE ===== */
+.badge.v6{background:#0e0e12;border-left:4px solid #f5b042;border-top:1px solid rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);border-radius:0 18px 18px 0}
+.badge.v6 .v6-top{padding:16px 20px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.03)}
+.badge.v6 .v6-top .v6-badge{background:#f5b042;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.5rem;color:#0b0b0e}
+.badge.v6 .v6-top .v6-info .v6-comp{color:#fff;font-size:.6rem;font-weight:600;letter-spacing:.5px}
+.badge.v6 .v6-top .v6-info .v6-sub{color:#5a5a62;font-size:.4rem;font-family:'Inter',sans-serif}
+.badge.v6 .photo-wrap{padding:10px 16px}
+.badge.v6 .photo-wrap img,.badge.v6 .photo-wrap .initials{border-radius:2px}
+.badge.v6 .v6-foot{padding:12px 20px 18px}
+.badge.v6 .v6-foot .b6-name{color:#fff;font-size:.85rem;font-weight:700}
+.badge.v6 .v6-foot .b6-id{color:#5a5a62;font-size:.4rem;font-family:'Inter',sans-serif;margin-top:2px}
+.badge.v6 .v6-foot .b6-role{color:#f5b042;font-size:.5rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.badge.v6 .v6-foot .b6-bar{width:100%;height:2px;background:rgba(245,176,66,.06);margin-top:8px;border-radius:2px}
+
+@media(max-width:1200px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.grid{grid-template-columns:1fr;gap:40px}.page-header h1{font-size:1.6rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></div>
+    <a href="badges.html" class="btn-outline">Назад</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="page-header">
+    <span class="section-tag">Варианты дизайна</span>
+    <h1>Выбери стиль бейджа</h1>
+    <p>6 разных дизайнов для сотрудников FP Банка. Наведи — чтобы рассмотреть.</p>
+  </section>
+
+  <div class="grid">
+
+    <!-- 1. CLASSIC GOLD -->
+    <div class="variant-card">
+      <div class="vc-label">01 / Classic Gold<span>Золотая плашка, тёмный фон, классика</span></div>
+      <div class="badge v1">
+        <div class="v1-bar">
+          <div class="v1-logo"><span class="f">Ф</span><span class="p">П</span></div>
+          <div class="v1-name">FP Банк</div>
+        </div>
+        <div class="v1-stripe"></div>
+        <div class="photo-wrap">
+          <img src="director.png" alt="" onerror="this.parentElement.innerHTML='<div class=initials>ЗА</div>'">
+        </div>
+        <div class="v1-foot">
+          <div class="bf-name">Захаров Алексей Сергеевич</div>
+          <div class="bf-role">Директор</div>
+          <div class="bf-line"></div>
+          <div class="bf-location">Загребенская Республика</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SPLIT -->
+    <div class="variant-card">
+      <div class="vc-label">02 / Split Layout<span>Фото на полвысоты, лого наложен</span></div>
+      <div class="badge v2">
+        <div class="v2-top">
+          <div class="v2-bg"></div>
+          <div class="v2-logo">
+            <span class="v2-f">Ф</span><span class="v2-p">П</span>
+            <span class="v2-sub">FP Банк</span>
+          </div>
+          <img src="director.png" alt="" onerror="this.parentElement.innerHTML+=''" style="opacity:.85">
+        </div>
+        <div class="v2-bottom">
+          <div class="b2-name">Захаров Алексей Сергеевич</div>
+          <div class="b2-role">Директор</div>
+          <div class="b2-div"></div>
+          <div class="b2-loc">Загребенская Республика</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. GLASS -->
+    <div class="variant-card">
+      <div class="vc-label">03 / Glassmorphism<span>Матовое стекло, размытие, легкость</span></div>
+      <div class="badge v3">
+        <div class="v3-top">
+          <div class="v3-logo"><span class="f">Ф</span><span class="p">П</span></div>
+          <div class="v3-sub">FP Банк</div>
+          <div class="v3-line"></div>
+        </div>
+        <div class="photo-wrap">
+          <img src="director.png" alt="" onerror="this.parentElement.innerHTML='<div class=initials>ЗА</div>'">
+        </div>
+        <div class="v3-foot">
+          <div class="b3-name">Захаров Алексей Сергеевич</div>
+          <div class="b3-role">Директор</div>
+          <div class="b3-loc">Загребенская Республика</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. MINIMAL DARK -->
+    <div class="variant-card">
+      <div class="vc-label">04 / Minimal Dark<span>Монохром, лого справа, аскетично</span></div>
+      <div class="badge v4">
+        <div class="v4-top">
+          <div class="v4-logo"><span class="f">Ф</span><span class="p">П</span></div>
+        </div>
+        <div class="photo-wrap">
+          <img src="director.png" alt="" onerror="this.parentElement.innerHTML='<div class=initials>ЗА</div>'">
+        </div>
+        <div class="v4-foot">
+          <div class="b4-name">Захаров Алексей<br>Сергеевич</div>
+          <div class="b4-role">Директор</div>
+          <div class="b4-loc">Загребенская Республика</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. LUXURY -->
+    <div class="variant-card">
+      <div class="vc-label">05 / Luxury<span>Гербовая эстетика, золото, премиум</span></div>
+      <div class="badge v5">
+        <div class="v5-ornament">◈</div>
+        <div class="v5-top">
+          <div class="v5-crest">ФП</div>
+          <div class="v5-name">FP Банк</div>
+          <div class="v5-line"></div>
+        </div>
+        <div class="photo-wrap">
+          <img src="director.png" alt="" onerror="this.parentElement.innerHTML='<div class=initials>ЗА</div>'">
+        </div>
+        <div class="v5-foot">
+          <div class="b5-name">Захаров Алексей Сергеевич</div>
+          <div class="b5-role">Директор</div>
+          <div class="b5-deco">— ◆ —</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. CORPORATE -->
+    <div class="variant-card">
+      <div class="vc-label">06 / Corporate<span>Строгий, левая золотая полоса, офисный</span></div>
+      <div class="badge v6">
+        <div class="v6-top">
+          <div class="v6-badge">Ф</div>
+          <div class="v6-info">
+            <div class="v6-comp">FP Банк</div>
+            <div class="v6-sub">Загребенская Республика</div>
+          </div>
+        </div>
+        <div class="photo-wrap">
+          <img src="director.png" alt="" onerror="this.parentElement.innerHTML='<div class=initials>ЗА</div>'">
+        </div>
+        <div class="v6-foot">
+          <div class="b6-name">Захаров Алексей Сергеевич</div>
+          <div class="b6-id">Сотрудник №001</div>
+          <div class="b6-role">Директор</div>
+          <div class="b6-bar"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
