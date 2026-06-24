@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подписки | FP Банк</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Unbounded',sans-serif;background:#0b0b0e;color:#e0e0e0;line-height:1.5;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#1a1a1f}
+::-webkit-scrollbar-thumb{background:#f5b042;border-radius:3px}
+.container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);backdrop-filter:blur(16px);position:fixed;top:0;left:0;right:0;z-index:100;background-color:rgba(11,11,14,.85);transition:padding .3s,box-shadow .3s}
+header.scrolled{padding:12px 0;box-shadow:0 4px 40px rgba(0,0,0,.4)}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 32px;width:100%;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2.2rem;letter-spacing:-1px;line-height:1;text-decoration:none}
+.logo .letter-f{color:#f5b042;text-shadow:0 0 20px rgba(245,176,66,.5)}
+.logo .letter-p{color:#8a8a91;font-weight:700}
+.logo-sub{display:block;font-size:.6rem;font-weight:400;color:#8a8a91;letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
+nav{display:flex;gap:20px;align-items:center}
+nav a{color:#b0b0b8;text-decoration:none;font-weight:400;font-size:.78rem;transition:color .25s;letter-spacing:.3px;position:relative}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#f5b042;transition:width .3s}
+nav a:hover::after{width:100%}
+nav a:hover{color:#f5b042}
+nav a.active{color:#f5b042}
+nav a.active::after{width:100%}
+.btn-outline{border:1px solid #f5b042;color:#f5b042;padding:10px 22px;border-radius:40px;font-weight:500;transition:all .3s;background:transparent;cursor:pointer;font-family:'Unbounded',sans-serif;font-size:.8rem;text-decoration:none}
+.btn-outline:hover{background:#f5b042;color:#0b0b0e}
+.btn-primary{background:#f5b042;color:#0b0b0e;font-weight:700;padding:16px 36px;border-radius:50px;border:none;font-size:.95rem;letter-spacing:.5px;cursor:pointer;font-family:'Unbounded',sans-serif;transition:transform .2s,box-shadow .3s;display:inline-block;text-decoration:none}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(245,176,66,.35)}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{width:26px;height:2px;background:#f5b042;border-radius:2px;transition:.3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.98);backdrop-filter:blur(20px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:30px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-nav.open{opacity:1;pointer-events:all}
+.mobile-nav a{color:#fff;text-decoration:none;font-size:1.6rem;font-weight:500;letter-spacing:1px}
+.mobile-nav a:hover{color:#f5b042}
+
+.page-header{padding:140px 0 50px;text-align:center}
+.page-header h1{font-size:3.2rem;font-weight:800;color:#fff;letter-spacing:-1px}
+.page-header p{color:#8a8a91;font-size:1rem;margin-top:14px;font-family:'Inter',sans-serif;max-width:600px;margin:14px auto 0}
+.section-tag{display:inline-block;background:rgba(245,176,66,.1);padding:4px 14px;border-radius:50px;font-size:.65rem;color:#f5b042;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+
+/* ===== SUBSCRIPTION CARDS ===== */
+.subs-row{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:60px;align-items:stretch}
+
+.sub-card{background:linear-gradient(180deg,#15151c 0%,#0f0f14 100%);border:1px solid rgba(255,255,255,.05);border-radius:32px;padding:40px 36px;position:relative;overflow:hidden;transition:transform .4s,box-shadow .4s;display:flex;flex-direction:column}
+.sub-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.sub-card.premium{background:linear-gradient(180deg,#1e1912 0%,#14110c 100%);border-color:rgba(245,176,66,.15)}
+.sub-card.premium:hover{box-shadow:0 20px 60px rgba(245,176,66,.08)}
+
+.sub-card .sc-bg{position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;opacity:.03;pointer-events:none}
+.sub-card .sc-bg.pro{background:radial-gradient(circle,#f5b042,transparent)}
+.sub-card .sc-bg.prem{background:radial-gradient(circle,#f5b042,transparent)}
+
+.sub-card .sc-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,176,66,.08);border:1px solid rgba(245,176,66,.1);border-radius:50px;padding:6px 16px 6px 6px;font-size:.55rem;color:#f5b042;font-weight:500;letter-spacing:1px;text-transform:uppercase;width:fit-content;margin-bottom:16px;position:relative;z-index:1}
+.sub-card .sc-badge .sc-badge-icon{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#f5b042,#c9911e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.5rem;color:#0b0b0e}
+
+.sub-card .sc-icon-wrap{width:64px;height:64px;border-radius:20px;background:rgba(245,176,66,.06);border:1px solid rgba(245,176,66,.08);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:16px;position:relative;z-index:1}
+
+.sub-card .sc-name{font-size:2rem;font-weight:800;color:#fff;letter-spacing:-1px;position:relative;z-index:1}
+.sub-card .sc-name span{color:#f5b042}
+.sub-card .sc-price{font-size:2.6rem;font-weight:800;color:#fff;margin-top:16px;position:relative;z-index:1}
+.sub-card .sc-price small{font-size:.8rem;font-weight:400;color:#6a6a72;font-family:'Inter',sans-serif}
+.sub-card .sc-desc{color:#8a8a91;font-size:.85rem;font-family:'Inter',sans-serif;margin-top:4px;position:relative;z-index:1}
+
+.sub-card .sc-divider{height:1px;background:rgba(255,255,255,.05);margin:20px 0;position:relative;z-index:1}
+
+.sub-card .sc-features{list-style:none;padding:0;flex:1;position:relative;z-index:1}
+.sub-card .sc-features li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;color:#c0c0c8;font-size:.82rem;font-family:'Inter',sans-serif;border-bottom:1px solid rgba(255,255,255,.02)}
+.sub-card .sc-features li:last-child{border-bottom:none}
+.sub-card .sc-features li .sc-f-icon{color:#f5b042;font-size:.9rem;flex-shrink:0;margin-top:2px}
+
+.sub-card .sc-cta{margin-top:24px;position:relative;z-index:1}
+.sub-card .sc-cta .btn-primary{width:100%;text-align:center;padding:18px}
+
+/* Premium extra shine */
+.sub-card.premium::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#f5b042,transparent);opacity:.3}
+
+/* ===== COMPARE TABLE ===== */
+.compare-section{margin-bottom:80px}
+.compare-section h2{font-size:2rem;font-weight:700;color:#fff;text-align:center;margin-bottom:30px}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+.compare-table th{padding:18px 20px;text-align:left;font-size:.7rem;font-weight:600;color:#8a8a91;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.05)}
+.compare-table th.th-prem{color:#f5b042}
+.compare-table td{padding:16px 20px;font-size:.8rem;color:#b0b0b8;font-family:'Inter',sans-serif;border-bottom:1px solid rgba(255,255,255,.03)}
+.compare-table td:first-child{font-weight:500;color:#e0e0e0}
+.compare-table td .check{color:#f5b042}
+.compare-table td .cross{color:#5a5a62}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:rgba(255,255,255,.01)}
+
+/* ===== FAQ ===== */
+.faq-section{margin-bottom:80px}
+.faq-section h2{font-size:2rem;font-weight:700;color:#fff;text-align:center;margin-bottom:30px}
+.faq-item{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:16px;margin-bottom:10px;overflow:hidden;cursor:pointer;transition:border-color .3s}
+.faq-item:hover{border-color:rgba(245,176,66,.1)}
+.faq-item .faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;color:#e0e0e0;font-size:.85rem;font-weight:500}
+.faq-item .faq-q .faq-arrow{color:#5a5a62;transition:transform .3s;font-size:.7rem}
+.faq-item.open .faq-q .faq-arrow{transform:rotate(180deg)}
+.faq-item .faq-a{display:none;padding:0 24px 18px;color:#8a8a91;font-size:.8rem;font-family:'Inter',sans-serif;line-height:1.7}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:#1a1a1f;border:1px solid rgba(245,176,66,.15);border-radius:16px;padding:14px 24px;color:#fff;font-size:.8rem;z-index:999;opacity:0;transition:all .5s;font-family:'Inter',sans-serif;backdrop-filter:blur(12px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{border-color:#ff5e5e}
+
+footer{border-top:1px solid rgba(255,255,255,.06);padding:60px 0 30px;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-col h4{font-size:1rem;color:#fff;margin-bottom:18px;font-weight:600}
+.footer-col a{display:block;color:#7a7a85;text-decoration:none;font-size:.85rem;margin-bottom:10px;transition:color .2s;font-family:'Inter',sans-serif;font-weight:300}
+.footer-col a:hover{color:#f5b042}
+.footer-col p{color:#7a7a85;font-size:.85rem;line-height:1.7;font-family:'Inter',sans-serif;font-weight:300}
+.footer-logo-lg{display:flex;align-items:baseline;gap:2px;font-weight:800;font-size:2rem;margin-bottom:14px}
+.footer-logo-lg .f{color:#f5b042}
+.footer-logo-lg .p{color:#8a8a91}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.04);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:#6b6b76;font-size:.75rem;font-weight:300}
+
+@media(max-width:900px){.subs-row{grid-template-columns:1fr;gap:24px}.compare-table{font-size:.75rem;overflow-x:auto;display:block}}
+@media(max-width:768px){
+  .container{padding:0 16px}.header-inner{padding:0 16px;height:56px}nav{display:none!important}.hamburger{display:flex!important}.mobile-nav{display:flex!important}
+  .page-header h1{font-size:1.8rem}.page-header{padding:120px 0 30px}
+  .sub-card{padding:28px 24px}
+  .sub-card .sc-name{font-size:1.5rem}
+  .sub-card .sc-price{font-size:2rem}
+  .footer-grid{grid-template-columns:1fr;gap:24px}
+  .faq-item .faq-q{font-size:.8rem;padding:14px 18px}
+  .faq-item .faq-a{padding:0 18px 14px}
+}
+@media(max-width:480px){.page-header h1{font-size:1.5rem}}
+@media(max-width:768px){html,body{overflow-x:hidden;width:100%}.container{padding-left:16px!important;padding-right:16px!important}.mobile-nav.open{display:flex!important}nav{display:none!important}.hamburger{display:flex!important}}
+@media(max-width:480px){.section-title{font-size:1.2rem!important}}
+</style>
+</head>
+<body>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" onclick="closeMobile()">Главная</a>
+  <a href="about.html" onclick="closeMobile()">О банке</a>
+  <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+  <a href="mortgage.html" onclick="closeMobile()">Ипотека</a>
+  <a href="credits.html" onclick="closeMobile()">Кредиты</a>
+  <a href="deposits.html" onclick="closeMobile()">Вклады</a>
+  <a href="cards.html" onclick="closeMobile()">Карты</a>
+  <a href="pay.html" onclick="closeMobile()">Оплата</a>
+  <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+  <a href="careers.html" onclick="closeMobile()">Карьера</a>
+  <a href="online.html" onclick="closeMobile()">Онлайн-банк</a>
+  <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
+</div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></a>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="about.html">О банке</a>
+      <a href="business.html">Бизнесу</a>
+      <a href="mortgage.html">Ипотека</a>
+      <a href="credits.html">Кредиты</a>
+      <a href="deposits.html">Вклады</a>
+      <a href="cards.html">Карты</a>
+      <a href="contacts.html">Контакты</a>
+      <a href="careers.html">Карьера</a>
+      <a href="online.html" class="btn-outline">Войти</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="page-header reveal">
+    <span class="section-tag">Подписки</span>
+    <h1>FP Подписка</h1>
+    <p>Выбери свой уровень привилегий. Больше возможностей — больше выгоды.</p>
+  </section>
+
+  <div class="subs-row reveal">
+    <!-- PRO -->
+    <div class="sub-card pro">
+      <div class="sc-bg pro"></div>
+      <div class="sc-badge"><span class="sc-badge-icon">Ф</span>FP PRO</div>
+      <div class="sc-icon-wrap">⚡</div>
+      <div class="sc-name">FP <span>Pro</span></div>
+      <div class="sc-price">0 ₽<small>/мес</small></div>
+      <div class="sc-desc">Базовый набор возможностей для повседневных операций</div>
+      <div class="sc-divider"></div>
+      <ul class="sc-features">
+        <li><span class="sc-f-icon">✓</span>Бесплатное обслуживание счета</li>
+        <li><span class="sc-f-icon">✓</span>Дебетовая карта FP Start</li>
+        <li><span class="sc-f-icon">✓</span>Кешбэк до 3% на все покупки</li>
+        <li><span class="sc-f-icon">✓</span>Бесплатные переводы СБП до 100 000 ₽/мес</li>
+        <li><span class="sc-f-icon">✓</span>Онлайн-банк и мобильное приложение</li>
+        <li><span class="sc-f-icon">✓</span>Уведомления об операциях</li>
+      </ul>
+      <div class="sc-cta">
+        <button class="btn-primary" onclick="subscribe('pro')">Подключить</button>
+      </div>
+    </div>
+
+    <!-- Premium -->
+    <div class="sub-card premium">
+      <div class="sc-bg prem"></div>
+      <div class="sc-badge"><span class="sc-badge-icon">★</span>FP PREMIUM</div>
+      <div class="sc-icon-wrap" style="background:rgba(245,176,66,.1);border-color:rgba(245,176,66,.15)">👑</div>
+      <div class="sc-name">FP <span>Premium</span></div>
+      <div class="sc-price">990 ₽<small>/мес</small></div>
+      <div class="sc-desc">Премиальный пакет с расширенными лимитами и эксклюзивными услугами</div>
+      <div class="sc-divider"></div>
+      <ul class="sc-features">
+        <li><span class="sc-f-icon">✓</span>Всё из FP Pro</li>
+        <li><span class="sc-f-icon">✓</span>Премиальная карта FP Gold</li>
+        <li><span class="sc-f-icon">✓</span>Кешбэк до 10% по категориям</li>
+        <li><span class="sc-f-icon">✓</span>Бесплатные переводы СБП без лимита</li>
+        <li><span class="sc-f-icon">✓</span>Повышенный процент на остаток — до 12%</li>
+        <li><span class="sc-f-icon">✓</span>Персональный менеджер 24/7</li>
+        <li><span class="sc-f-icon">✓</span>Страхование поездок и покупок</li>
+        <li><span class="sc-f-icon">✓</span>Доступ в бизнес-залы аэропортов (Priority Pass)</li>
+        <li><span class="sc-f-icon">✓</span>Эксклюзивные предложения и партнёрские скидки</li>
+        <li><span class="sc-f-icon">✓</span>Выделенная линия поддержки</li>
+      </ul>
+      <div class="sc-cta">
+        <button class="btn-primary" onclick="subscribe('premium')">Подключить Premium</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison -->
+  <section class="compare-section reveal">
+    <h2>Сравнение подписок</h2>
+    <table class="compare-table">
+      <tr>
+        <th>Возможность</th>
+        <th style="text-align:center">FP Pro</th>
+        <th style="text-align:center" class="th-prem">FP Premium</th>
+      </tr>
+      <tr><td>Обслуживание счета</td><td style="text-align:center"><span class="check">✓</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+      <tr><td>Дебетовая карта</td><td style="text-align:center">FP Start</td><td style="text-align:center">FP Gold</td></tr>
+      <tr><td>Кешбэк</td><td style="text-align:center">до 3%</td><td style="text-align:center">до 10%</td></tr>
+      <tr><td>Переводы СБП</td><td style="text-align:center">до 100 000 ₽/мес</td><td style="text-align:center">без лимита</td></tr>
+      <tr><td>% на остаток</td><td style="text-align:center">—</td><td style="text-align:center">до 12%</td></tr>
+      <tr><td>Персональный менеджер</td><td style="text-align:center"><span class="cross">✕</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+      <tr><td>Страхование</td><td style="text-align:center"><span class="cross">✕</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+      <tr><td>Бизнес-залы аэропортов</td><td style="text-align:center"><span class="cross">✕</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+      <tr><td>Выделенная поддержка</td><td style="text-align:center"><span class="cross">✕</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+      <tr><td>Партнёрские скидки</td><td style="text-align:center"><span class="cross">✕</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+    </table>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section reveal">
+    <h2>Частые вопросы</h2>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Как подключить подписку?<span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Достаточно нажать «Подключить» на карточке подписки. Подписка активируется моментально и отображается в онлайн-банке.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Можно ли перейти с Pro на Premium?<span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Да, в любой момент. Стоимость Premium за первый месяц будет рассчитана пропорционально.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Как отключить подписку?<span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Отключить можно в настройках онлайн-банка. Подписка действует до конца оплаченного периода.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Входит ли карта в стоимость подписки?<span class="faq-arrow">▾</span></div>
+      <div class="faq-a">В FP Pro — карта FP Start бесплатно. В FP Premium — FP Gold с бесплатным обслуживанием на весь период подписки.</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo-lg"><span class="f">Ф</span><span class="p">П</span></div>
+        <p>FP Банк — ваш надёжный партнёр в Загребенской Республике. Работаем для вас с 2003 года.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Продукты</h4>
+        <a href="mortgage.html">Ипотека</a>
+        <a href="credits.html">Кредиты</a>
+        <a href="deposits.html">Вклады</a>
+        <a href="cards.html">Карты</a>
+      </div>
+      <div class="footer-col">
+        <h4>О банке</h4>
+        <a href="about.html">О нас</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="careers.html">Карьера</a>
+        <a href="documents.html">Документы</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>8 800 700-ФП-БАНК</p>
+        <p>support@fpbank.ru</p>
+        <p>г. Загребенки, ул. Тараса Шевченко, д. 10</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 FP Банк. Лицензия ЦБ ЗР №1234</span>
+      <span>Загребенская Республика, г. Загребенки</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + (isError ? 'error' : 'success');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function subscribe(type) {
+  const name = type === 'premium' ? 'FP Premium' : 'FP Pro';
+  const subs = JSON.parse(localStorage.getItem('fp_subscriptions') || '[]');
+  if (subs.includes(name)) { showToast('Подписка ' + name + ' уже активна', true); return; }
+  subs.push(name);
+  localStorage.setItem('fp_subscriptions', JSON.stringify(subs));
+  showToast('Подписка «' + name + '» подключена!');
+}
+
+function toggleFaq(el) {
+  el.classList.toggle('open');
+  el.querySelector('.faq-a').style.display = el.classList.contains('open') ? 'block' : 'none';
+}
+
+// Scroll header
+window.addEventListener('scroll', () => {
+  document.getElementById('header')?.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile
+function closeMobile() { document.getElementById('mobileNav').classList.remove('open'); document.getElementById('hamburger').classList.remove('active'); }
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileNav').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('active');
+});
+
+// Reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: .1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
