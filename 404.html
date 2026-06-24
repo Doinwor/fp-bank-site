@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>404 — ФП Банк</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0b0b0e;color:#e8e8ee;font-family:'Inter',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .bg-glow{position:fixed;top:-30%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,176,66,.04) 0%,transparent 70%);pointer-events:none;z-index:0}
+  .container{position:relative;z-index:1;text-align:center;padding:40px 24px;max-width:500px}
+  .code{font-family:'Unbounded',sans-serif;font-size:8rem;font-weight:900;line-height:1;color:#f5b042;text-shadow:0 0 80px rgba(245,176,66,.15);margin-bottom:8px}
+  .stamp{display:inline-block;background:rgba(220,60,60,.12);color:#dc3c3c;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:6px;margin-bottom:24px;font-family:'Unbounded',sans-serif}
+  .title{font-family:'Unbounded',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:12px;color:#f0f0f5}
+  .sub{color:#8a8a91;font-size:.85rem;line-height:1.6;margin-bottom:6px}
+  .sub b{color:#b0b0b8}
+  .joke-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px 24px;margin:24px 0;text-align:left}
+  .joke-box .label{color:#f5b042;font-size:.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-family:'Unbounded',sans-serif}
+  .joke-box p{color:#9a9aa3;font-size:.8rem;line-height:1.7}
+  .joke-box p i{color:#6a6a72}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+  .actions a{padding:12px 28px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .2s}
+  .btn-primary{background:#f5b042;color:#0b0b0e}
+  .btn-primary:hover{background:#e39e2e;transform:translateY(-2px)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#b0b0b8}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);color:#e0e0e6}
+  .footer{color:#5a5a62;font-size:.7rem;margin-top:32px;font-family:'Inter',sans-serif}
+  @media(max-width:480px){.code{font-size:5.5rem}.container{padding:20px 16px}.actions a{flex:1}}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="container">
+  <div class="code">4✕4</div>
+  <div class="stamp">❌ Кредит не одобрен</div>
+  <div class="title">Страница не найдена</div>
+  <p class="sub">Кажется, эта страница закрылась раньше, чем наш отдел по работе с жалобами в пятницу вечером.</p>
+  <p class="sub" style="margin-top:0">Мы проверили по всем счетам — <b>такой страницы нет</b>. Ни наличными, ни безналом.</p>
+
+  <div class="joke-box">
+    <div class="label">📋 Заключение экспертной комиссии</div>
+    <p>«Запрашиваемая страница <i>/chto-to-tam</i> не найдена в реестре зарегистрированных страниц Загребенской Республики. Наиболее вероятные причины: инфляция съела, директор Захаров случайно удалил, или страница ушла в отпуск без уведомления. Последнее особенно вероятно — у нас в банке так все делают.»<br><br>
+    <i>— Ларцова Е. А., заместитель председателя правления (подпись: ✍️)</i></p>
+  </div>
+
+  <div class="actions">
+    <a href="index.html" class="btn-primary">На главную</a>
+    <a href="online.html" class="btn-ghost">В онлайн-банк</a>
+  </div>
+  <div class="footer">
+    ФП Банк. Лицензия ЦБ Загребенской Республики № 1234.<br>
+    страница не найдена, но мы всё равно спишем комиссию ✨
+  </div>
+</div>
+</body>
+</html>
