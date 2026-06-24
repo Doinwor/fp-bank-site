@@ -29,145 +29,33 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .page-header p{color:#8a8a91;font-size:.95rem;margin-top:10px;font-family:'Inter',sans-serif}
 .section-tag{display:inline-block;background:rgba(245,176,66,.1);padding:4px 14px;border-radius:50px;font-size:.65rem;color:#f5b042;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 
-.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:60px;padding-bottom:80px;justify-items:center;align-items:start}
+.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:50px;padding-bottom:80px;justify-items:center}
 
-/* ===== ID BADGE ===== */
-.badge{
-  width:280px;
-  height:430px;
-  background:linear-gradient(180deg,#121218 0%,#0d0d12 100%);
-  border:1px solid rgba(245,176,66,.08);
-  border-radius:18px;
-  overflow:hidden;
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  transition:transform .3s,box-shadow .3s;
-}
+/* BADGE — Minimal Dark (Variant 4) */
+.badge{width:270px;height:400px;background:#0b0b0e;border:1px solid rgba(255,255,255,.04);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;position:relative}
 .badge:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.badge.gold{border-color:rgba(245,176,66,.08)}
 
-/* Top branding bar */
-.badge-bar{
-  background:#0b0b0e;
-  padding:14px 20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-bottom:1px solid rgba(245,176,66,.06);
-  flex-shrink:0;
-}
-.badge-bar .bb-logo{
-  display:flex;
-  align-items:baseline;
-  gap:1px;
-  font-weight:800;
-  font-size:1.3rem;
-  letter-spacing:-.5px;
-  line-height:1;
-}
-.badge-bar .bb-logo .f{color:#f5b042;text-shadow:0 0 12px rgba(245,176,66,.3)}
-.badge-bar .bb-logo .p{color:#8a8a91;font-weight:700}
-.badge-bar .bb-name{
-  font-size:.45rem;
-  color:#6a6a72;
-  letter-spacing:1.2px;
-  text-transform:uppercase;
-  font-weight:400;
-  line-height:1;
-  margin-top:2px;
-}
+.badge .bd-top{padding:16px 20px;text-align:right;border-bottom:1px solid rgba(255,255,255,.03);flex-shrink:0}
+.badge .bd-top .bd-logo{display:flex;align-items:baseline;gap:1px;font-weight:800;font-size:1.1rem;letter-spacing:-.3px;justify-content:flex-end}
+.badge .bd-top .bd-logo .f{color:#f5b042}
+.badge .bd-top .bd-logo .p{color:#4a4a52}
 
-/* Decorative side stripe */
-.badge-stripe{
-  position:absolute;
-  top:0;
-  right:0;
-  width:4px;
-  height:100%;
-  background:linear-gradient(180deg,#f5b042,transparent 60%);
-  opacity:.08;
-}
+.badge .bd-photo{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px 14px}
+.badge .bd-photo img{width:100%;height:100%;object-fit:cover;border-radius:4px;background:#111}
+.badge .bd-photo .bd-initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:700;color:#f5b042;letter-spacing:3px;background:#111;border-radius:4px}
 
-/* Photo area */
-.badge-photo-wrap{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 20px;
-  overflow:hidden;
-}
-.badge-photo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:6px;
-  background:#1a1a22;
-}
-.badge-photo-initials{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:3rem;
-  font-weight:700;
-  color:#f5b042;
-  letter-spacing:3px;
-  background:linear-gradient(135deg,#15151c,#0e0e14);
-  border-radius:6px;
-  border:1px solid rgba(245,176,66,.04);
-}
-
-/* Info footer */
-.badge-footer{
-  background:rgba(0,0,0,.3);
-  border-top:1px solid rgba(245,176,66,.04);
-  padding:14px 20px 16px;
-  text-align:center;
-  flex-shrink:0;
-}
-.badge-footer .bf-name{
-  color:#fff;
-  font-size:.85rem;
-  font-weight:700;
-  line-height:1.2;
-}
-.badge-footer .bf-role{
-  color:#f5b042;
-  font-size:.5rem;
-  font-weight:500;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  margin-top:4px;
-}
-.badge-footer .bf-line{
-  width:22px;
-  height:1.5px;
-  background:#f5b042;
-  margin:8px auto 6px;
-  border-radius:2px;
-  opacity:.2;
-}
-.badge-footer .bf-location{
-  color:#5a5a62;
-  font-size:.4rem;
-  font-family:'Inter',sans-serif;
-  letter-spacing:.5px;
-}
-
-/* Gold accent for management */
-.badge.gold{
-  border-color:rgba(245,176,66,.15);
-  background:linear-gradient(180deg,#16130e 0%,#100e0b 100%);
-}
+.badge .bd-foot{padding:10px 20px 16px;text-align:right;flex-shrink:0}
+.badge .bd-foot .bd-name{color:#fff;font-size:.82rem;font-weight:600;line-height:1.15}
+.badge .bd-foot .bd-role{color:#f5b042;font-size:.45rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.badge .bd-foot .bd-loc{color:#3a3a42;font-size:.4rem;font-family:'Inter',sans-serif;margin-top:4px}
 
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:1200px){.badges-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){.badges-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.badges-grid{grid-template-columns:1fr}.badge{width:250px;height:390px}}
+@media(max-width:500px){.badges-grid{grid-template-columns:1fr;gap:30px}.badge{width:250px;height:370px}}
 </style>
 </head>
 <body>
@@ -190,138 +78,82 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
   <div class="badges-grid">
 
     <div class="badge gold reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <img class="badge-photo" src="director.png" alt="Захаров А.С." onerror="this.style.display='none'">
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Захаров Алексей Сергеевич</div>
-        <div class="bf-role">Директор</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><img src="director.png" alt="Захаров А.С." onerror="this.style.display='none'"></div>
+      <div class="bd-foot">
+        <div class="bd-name">Захаров Алексей Сергеевич</div>
+        <div class="bd-role">Директор</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge gold reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <img class="badge-photo" src="ЛАРЦОВА.png" alt="Ларцова Е.А." onerror="this.style.display='none'">
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Ларцова Евлампия Андреевна</div>
-        <div class="bf-role">Заместитель директора</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><img src="ЛАРЦОВА.png" alt="Ларцова Е.А." onerror="this.style.display='none'"></div>
+      <div class="bd-foot">
+        <div class="bd-name">Ларцова Евлампия Андреевна</div>
+        <div class="bd-role">Заместитель директора</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <div class="badge-photo-initials">КК</div>
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Крылова Ксения Дмитриевна</div>
-        <div class="bf-role">Финансовый директор</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><div class="bd-initials">КК</div></div>
+      <div class="bd-foot">
+        <div class="bd-name">Крылова Ксения Дмитриевна</div>
+        <div class="bd-role">Финансовый директор</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <div class="badge-photo-initials">МД</div>
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Морозов Денис Игоревич</div>
-        <div class="bf-role">Технический директор</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><div class="bd-initials">МД</div></div>
+      <div class="bd-foot">
+        <div class="bd-name">Морозов Денис Игоревич</div>
+        <div class="bd-role">Технический директор</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <div class="badge-photo-initials">СЕ</div>
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Соколова Екатерина Павловна</div>
-        <div class="bf-role">Директор розничного бизнеса</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><div class="bd-initials">СЕ</div></div>
+      <div class="bd-foot">
+        <div class="bd-name">Соколова Екатерина Павловна</div>
+        <div class="bd-role">Директор розничного бизнеса</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <div class="badge-photo-initials">ВГ</div>
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Виноградов Глеб Аркадьевич</div>
-        <div class="bf-role">Главный юрисконсульт</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><div class="bd-initials">ВГ</div></div>
+      <div class="bd-foot">
+        <div class="bd-name">Виноградов Глеб Аркадьевич</div>
+        <div class="bd-role">Главный юрисконсульт</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <div class="badge-photo-initials">ИП</div>
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Иванова Полина Андреевна</div>
-        <div class="bf-role">HR-директор</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><div class="bd-initials">ИП</div></div>
+      <div class="bd-foot">
+        <div class="bd-name">Иванова Полина Андреевна</div>
+        <div class="bd-role">HR-директор</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
     <div class="badge reveal">
-      <div class="badge-bar">
-        <div class="bb-logo"><span class="f">Ф</span><span class="p">П</span></div>
-        <div class="bb-name">FP Банк</div>
-      </div>
-      <div class="badge-stripe"></div>
-      <div class="badge-photo-wrap">
-        <div class="badge-photo-initials">ДМ</div>
-      </div>
-      <div class="badge-footer">
-        <div class="bf-name">Дмитриев Максим Олегович</div>
-        <div class="bf-role">Директор по маркетингу</div>
-        <div class="bf-line"></div>
-        <div class="bf-location">Загребенская Республика</div>
+      <div class="bd-top"><div class="bd-logo"><span class="f">Ф</span><span class="p">П</span></div></div>
+      <div class="bd-photo"><div class="bd-initials">ДМ</div></div>
+      <div class="bd-foot">
+        <div class="bd-name">Дмитриев Максим Олегович</div>
+        <div class="bd-role">Директор по маркетингу</div>
+        <div class="bd-loc">Загребенская Республика</div>
       </div>
     </div>
 
