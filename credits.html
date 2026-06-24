@@ -130,6 +130,17 @@
     @media (max-width:480px) {
       .section-title { font-size: 1.2rem !important; }
     }
+    .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,11,14,.92);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.show{display:flex}
+    .modal-box{background:#1a1a1f;border:1px solid rgba(245,176,66,.12);border-radius:20px;padding:32px;max-width:440px;width:100%;position:relative;max-height:90vh;overflow-y:auto}
+    .modal-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#6a6a72;font-size:1.2rem;cursor:pointer;padding:8px;line-height:1}
+    .modal-close:hover{color:#f5b042}
+    .modal-title{font-family:'Unbounded',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:4px}
+    .modal-sub{color:#f5b042;font-size:.8rem;font-weight:600;margin-bottom:20px;font-family:'Unbounded',sans-serif}
+    .form-group{margin-bottom:14px}
+    .form-group label{display:block;color:#9a9aa3;font-size:.7rem;font-weight:500;margin-bottom:4px;font-family:'Inter',sans-serif}
+    .form-group input,.form-group textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#e8e8ee;font-size:.85rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;resize:vertical}
+    .form-group input:focus,.form-group textarea:focus{border-color:#f5b042}
   </style>
 </head>
 <body>
@@ -228,7 +239,7 @@
           <li>Срок до 7 лет</li>
           <li>Решение за 2 минуты</li>
         </ul>
-        <a href="#" class="btn-primary" style="display:inline-block;font-size:.8rem;padding:12px 28px;margin-top:16px;" onclick="showToast('Заявка на кредит принята! Мы свяжемся с вами.')">Подать заявку</a>
+        <a href="#" class="btn-primary" style="display:inline-block;font-size:.8rem;padding:12px 28px;margin-top:16px;" onclick="openAppModal('Потребительский кредит')">Подать заявку</a>
       </div>
       <div class="program-card reveal">
         <div class="pc-type">Карта</div>
@@ -240,7 +251,7 @@
           <li>Кешбэк до 10%</li>
           <li>Бесплатное снятие</li>
         </ul>
-        <a href="#" class="btn-primary" style="display:inline-block;font-size:.8rem;padding:12px 28px;margin-top:16px;" onclick="showToast('Заявка на кредитную карту принята! Мы свяжемся с вами.')">Оформить</a>
+        <a href="#" class="btn-primary" style="display:inline-block;font-size:.8rem;padding:12px 28px;margin-top:16px;" onclick="openAppModal('Кредитная карта')">Оформить</a>
       </div>
       <div class="program-card reveal">
         <div class="pc-type">Рефинанс</div>
@@ -252,7 +263,7 @@
           <li>Снижение ставки до 5%</li>
           <li>Один платёж в месяц</li>
         </ul>
-        <a href="#" class="btn-primary" style="display:inline-block;font-size:.8rem;padding:12px 28px;margin-top:16px;" onclick="showToast('Заявка на рефинансирование принята! Мы свяжемся с вами.')">Подать заявку</a>
+        <a href="#" class="btn-primary" style="display:inline-block;font-size:.8rem;padding:12px 28px;margin-top:16px;" onclick="openAppModal('Рефинансирование кредитов')">Подать заявку</a>
       </div>
     </div>
 
@@ -354,6 +365,62 @@
       requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; });
       setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(20px)'; setTimeout(() => t.remove(), 400); }, 3000);
     }
+    var appProduct = '';
+    function openAppModal(product) {
+      appProduct = product;
+      document.getElementById('appProduct').textContent = product;
+      document.getElementById('appForm').reset();
+      document.getElementById('appModal').classList.add('show');
+    }
+    function closeAppModal() {
+      document.getElementById('appModal').classList.remove('show');
+    }
+    function submitAppForm() {
+      var name = document.getElementById('appName').value.trim();
+      var phone = document.getElementById('appPhone').value.trim();
+      if (!name || phone.replace(/\D/g,'').length < 10) {
+        showToast('Заполните имя и телефон');
+        return;
+      }
+      var comment = document.getElementById('appComment').value.trim();
+      var apps = JSON.parse(localStorage.getItem('fp_applications') || '[]');
+      apps.unshift({ product: appProduct, name: name, phone: phone, comment: comment, date: new Date().toISOString() });
+      localStorage.setItem('fp_applications', JSON.stringify(apps));
+      closeAppModal();
+      showToast('✅ Заявка на «' + appProduct + '» принята! Мы свяжемся с вами.');
+    }
+    var p = document.getElementById('appPhone');
+    if (p) p.addEventListener('input', function() {
+      var v = this.value.replace(/\D/g,'').substring(0,11);
+      var r = '+7';
+      if (v.length > 1) r += ' (' + v.substring(1,4);
+      if (v.length > 4) r += ') ' + v.substring(4,7);
+      if (v.length > 7) r += '-' + v.substring(7,9);
+      if (v.length > 9) r += '-' + v.substring(9,11);
+      this.value = r;
+    });
   </script>
+<div class="modal-overlay" id="appModal" onclick="if(event.target===this)closeAppModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAppModal()">✕</button>
+    <div class="modal-title">Оставить заявку</div>
+    <div class="modal-sub" id="appProduct">—</div>
+    <form id="appForm" onsubmit="event.preventDefault();submitAppForm()">
+      <div class="form-group">
+        <label>Ваше имя</label>
+        <input type="text" id="appName" placeholder="Иванов Александр" required>
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="text" id="appPhone" placeholder="+7 (999) 000-00-00" maxlength="18">
+      </div>
+      <div class="form-group">
+        <label>Комментарий (необязательно)</label>
+        <textarea id="appComment" rows="2" placeholder="Ваши пожелания или вопросы"></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;margin-top:6px">✅ Отправить заявку</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>
