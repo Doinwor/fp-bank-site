@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FP Банк | Финансовые Приоритеты</title>
+  <meta name="description" content="FP Банк — современный банк для частных лиц и бизнеса. Ипотека, кредиты, вклады, карты. Основатель — Захаров Алексей Сергеевич.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Unbounded', sans-serif;
+      background-color: #0b0b0e;
+      color: #e0e0e0;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1a1a1f; }
+    ::-webkit-scrollbar-thumb { background: #f5b042; border-radius: 3px; }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+    /* ===== HEADER ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(16px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color: rgba(11,11,14,0.85);
+      transition: padding 0.3s, box-shadow 0.3s;
+    }
+    header.scrolled {
+      padding: 12px 0;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+      font-weight: 800;
+      font-size: 2.2rem;
+      letter-spacing: -1px;
+      line-height: 1;
+      text-decoration: none;
+    }
+    .logo .letter-f {
+      color: #f5b042;
+      text-shadow: 0 0 20px rgba(245,176,66,0.5);
+    }
+    .logo .letter-p { color: #8a8a91; font-weight: 700; }
+    .logo-sub {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: #8a8a91;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-left: 4px;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    nav a {
+      color: #b0b0b8;
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 0.85rem;
+      transition: color 0.25s;
+      letter-spacing: 0.3px;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #f5b042;
+      transition: width 0.3s;
+    }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { color: #f5b042; }
+
+    .btn-outline {
+      border: 1px solid #f5b042;
+      color: #f5b042;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 500;
+      transition: all 0.3s;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.8rem;
+    }
+    .btn-outline:hover {
+      background: #f5b042;
+      color: #0b0b0e;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 26px;
+      height: 2px;
+      background: #f5b042;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(11,11,14,0.98);
+      backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .mobile-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .mobile-nav a:hover { color: #f5b042; }
+
+    /* ===== HERO ===== */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 140px 0 80px;
+      gap: 40px;
+      min-height: 100vh;
+      position: relative;
+    }
+    .hero-bg {
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(245,176,66,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-content { flex: 1 1 500px; position: relative; z-index: 2; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(245,176,66,0.12);
+      border: 1px solid rgba(245,176,66,0.2);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      color: #f5b042;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-content h1 {
+      font-size: 4.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: #fff;
+      letter-spacing: -1.5px;
+    }
+    .highlight {
+      color: #f5b042;
+      position: relative;
+      display: inline-block;
+    }
+    .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: rgba(245,176,66,0.2);
+      z-index: -1;
+      border-radius: 4px;
+    }
+    .hero-content p {
+      font-size: 1.05rem;
+      color: #a0a0aa;
+      max-width: 480px;
+      margin-bottom: 36px;
+      font-weight: 300;
+      line-height: 1.7;
+      font-family: 'Inter', sans-serif;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: #f5b042;
+      color: #0b0b0e;
+      font-weight: 700;
+      padding: 16px 36px;
+      border-radius: 50px;
+      border: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      font-family: 'Unbounded', sans-serif;
+      transition: transform 0.2s, box-shadow 0.3s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(245,176,66,0.35);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: #e0e0e0;
+      font-weight: 500;
+      padding: 16px 36px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: 'Unbounded', sans-serif;
+      transition: all 0.3s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-secondary:hover {
+      border-color: #f5b042;
+      color: #f5b042;
+    }
+
+    .hero-visual { flex: 1 1 400px; display: flex; justify-content: center; align-items: center; position: relative; }
+    .card-stack {
+      position: relative;
+      width: 340px;
+      height: 230px;
+    }
+    .card-mockup {
+      width: 340px;
+      height: 220px;
+      background: linear-gradient(145deg, #1f1f27, #121218);
+      border-radius: 24px;
+      padding: 28px;
+      border: 1px solid rgba(245,176,66,0.2);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: absolute;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .card-mockup:nth-child(1) { transform: rotate(-6deg) translateY(10px); z-index: 1; }
+    .card-mockup:nth-child(2) { transform: rotate(4deg) translateY(-8px); z-index: 2; background: linear-gradient(145deg, #2a2a35, #1a1a24); border-color: rgba(245,176,66,0.35); }
+    .card-mockup:nth-child(1):hover { transform: rotate(-4deg) translateY(0px); box-shadow: 0 40px 70px rgba(0,0,0,0.7); }
+    .card-mockup:nth-child(2):hover { transform: rotate(2deg) translateY(-12px); box-shadow: 0 40px 70px rgba(0,0,0,0.7); }
+    .card-chip {
+      width: 42px; height: 32px;
+      background: linear-gradient(145deg, #f5b042, #d08c1a);
+      border-radius: 6px;
+    }
+    .card-number {
+      font-size: 1.4rem; letter-spacing: 3px; color: #ddd; font-weight: 500;
+    }
+    .card-footer {
+      display: flex; justify-content: space-between; align-items: center; color: #8a8a91; font-size: 0.7rem; text-transform: uppercase;
+    }
+    .card-logo-small { font-weight: 800; font-size: 1.5rem; color: #f5b042; }
+    .card-balance {
+      font-size: 1.6rem; font-weight: 700; color: #fff;
+    }
+    .card-holder { font-size: 0.75rem; color: #8a8a91; letter-spacing: 1px; }
+
+
+
+    /* ===== STATS ===== */
+    .stats-section {
+      padding: 60px 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      text-align: center;
+    }
+    .stat-item .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #f5b042;
+      line-height: 1.2;
+    }
+    .stat-item .stat-label {
+      color: #8a8a91;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section {
+      padding: 80px 0;
+    }
+    .section-tag {
+      display: inline-block;
+      background: rgba(245,176,66,0.1);
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      color: #f5b042;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: #8a8a91;
+      font-size: 1rem;
+      max-width: 560px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      margin-bottom: 50px;
+    }
+
+    /* ===== FEATURES ===== */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 28px;
+      padding: 36px 30px;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s, transform 0.3s, background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #f5b042, transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .feature-item:hover::before { opacity: 1; }
+    .feature-item:hover {
+      border-color: rgba(245,176,66,0.3);
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.04);
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(245,176,66,0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+    .feature-item h3 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .feature-item p {
+      color: #9a9aa3;
+      font-weight: 300;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ===== PRODUCTS ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .product-card {
+      background: linear-gradient(145deg, #121218, #16161e);
+      border-radius: 28px;
+      padding: 34px 30px;
+      border: 1px solid #26262e;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(245,176,66,0.04), transparent);
+      pointer-events: none;
+    }
+    .product-card:hover {
+      border-color: #f5b042;
+      background: linear-gradient(145deg, #1a1a24, #1e1e2a);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .product-card .card-type {
+      font-size: 0.7rem;
+      color: #8a8a91;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+    .product-card h4 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 8px 0;
+      color: #fff;
+    }
+    .product-card .balance {
+      font-size: 1rem;
+      color: #f5b042;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .product-card p {
+      color: #9a9aa3;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      font-family: 'Inter', sans-serif;
+    }
+    .product-card .card-link {
+      display: inline-block;
+      margin-top: 18px;
+      color: #f5b042;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: gap 0.3s;
+    }
+    .product-card .card-link:hover { letter-spacing: 0.5px; }
+
+    /* ===== RATES ===== */
+    .rates-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.02);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .rates-table th {
+      padding: 18px 24px;
+      text-align: left;
+      font-size: 0.7rem;
+      color: #8a8a91;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 400;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .rates-table td {
+      padding: 16px 24px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-family: 'Inter', sans-serif;
+    }
+    .rates-table tr:last-child td { border-bottom: none; }
+    .rates-table tr:hover td { background: rgba(245,176,66,0.04); }
+    .rate-up { color: #4cd964; }
+    .rate-down { color: #ff5e5e; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testimonial-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 32px;
+    }
+    .testimonial-item .stars {
+      color: #f5b042;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    .testimonial-item blockquote {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #c0c0c8;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .testimonial-author .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5b042, #d08c1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0b0b0e;
+    }
+    .testimonial-author .name {
+      font-size: 0.85rem;
+      color: #fff;
+      font-weight: 500;
+    }
+    .testimonial-author .role {
+      font-size: 0.7rem;
+      color: #8a8a91;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 800px;
+    }
+    .faq-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .faq-item:hover { border-color: rgba(245,176,66,0.2); }
+    .faq-item.open { border-color: rgba(245,176,66,0.3); }
+    .faq-question {
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #fff;
+      user-select: none;
+    }
+    .faq-question .faq-icon {
+      font-size: 1.4rem;
+      color: #f5b042;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s, padding 0.4s;
+      padding: 0 28px;
+      color: #9a9aa3;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      font-family: 'Inter', sans-serif;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 28px 22px;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      background: linear-gradient(145deg, rgba(245,176,66,0.06), rgba(245,176,66,0.02));
+      border: 1px solid rgba(245,176,66,0.12);
+      border-radius: 40px;
+      padding: 70px 60px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    .cta-section h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .cta-section p {
+      color: #a0a0aa;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+
+    /* ===== CONTACT ===== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .contact-info p {
+      color: #9a9aa3;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .contact-detail .cd-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(245,176,66,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .contact-detail .cd-label {
+      color: #8a8a91;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .contact-detail .cd-value {
+      color: #fff;
+      font-size: 0.95rem;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px 20px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #f5b042;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: #6b6b76;
+    }
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 60px 0 30px;
+      margin-top: 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col h4 {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+    .footer-col a {
+      display: block;
+      color: #7a7a85;
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+    .footer-col a:hover { color: #f5b042; }
+    .footer-col p {
+      color: #7a7a85;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+    .footer-logo-lg {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+    .footer-logo-lg .f { color: #f5b042; }
+    .footer-logo-lg .p { color: #8a8a91; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: #6b6b76;
+      font-size: 0.75rem;
+      font-weight: 300;
+    }
+    .social-links {
+      display: flex;
+      gap: 12px;
+    }
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #8a8a91;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .social-links a:hover {
+      background: #f5b042;
+      color: #0b0b0e;
+      border-color: #f5b042;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .header-inner { padding: 0 20px; }
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .mobile-nav { display: flex; }
+      .hero { padding: 120px 0 50px; min-height: auto; }
+      .hero-content h1 { font-size: 2.6rem; }
+      .features { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .stat-item .stat-number { font-size: 2rem; }
+      .section-title { font-size: 1.8rem; }
+      .cta-section { padding: 50px 30px; }
+      .cta-section h2 { font-size: 1.8rem; }
+      .card-stack { width: 280px; height: 190px; }
+      .card-mockup { width: 280px; height: 180px; padding: 20px; }
+      .card-number { font-size: 1.1rem; }
+      .card-balance { font-size: 1.3rem; }
+
+      .rates-table { font-size: 0.8rem; }
+      .rates-table th, .rates-table td { padding: 12px 14px; }
+      .testimonials-grid { gap: 16px; }
+    }
+    @media (max-width: 480px) {
+      .hero-content h1 { font-size: 2rem; }
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .features { gap: 16px; }
+      .card-grid { gap: 16px; }
+      .cta-section { padding: 36px 20px; }
+    }
+  /* Mobile notice */
+  .mobile-notice {
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(11,11,14,.92);
+    backdrop-filter:blur(12px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s;
+  }
+  .mobile-notice.show{opacity:1;pointer-events:auto}
+  .mobile-notice .mn-inner{max-width:360px;text-align:center;padding:40px 28px}
+  .mobile-notice .mn-icon{width:56px;height:56px;background:rgba(245,176,66,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+  .mobile-notice .mn-title{color:#f5b042;font-size:.85rem;font-weight:600;margin-bottom:10px}
+  .mobile-notice p{color:#9a9aa3;font-size:.77rem;font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:20px}
+  .mobile-notice .mn-btn{background:#f5b042;color:#0b0b0e;border:none;padding:12px 40px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <!-- Mobile notice -->
+  <div class="mobile-notice" id="mobileNotice">
+    <div class="mn-inner">
+      <div class="mn-icon">📱</div>
+      <div class="mn-title">Мобильная версия</div>
+      <p>Ой, этот сайт не дружит с телефонами, если честно. Основной сайт под телефон не оптимизирован — лучше заходить с компьютера. А онлайн-банк как раз сделан под телефон, им можно пользоваться.</p>
+      <button class="mn-btn" onclick="dismissMobileNotice()">Всё равно продолжить</button>
+    </div>
+  </div>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobile()">Главная</a>
+    <a href="about.html" onclick="closeMobile()">О банке</a>
+    <a href="business.html" onclick="closeMobile()">Бизнесу</a>
+    <a href="mortgage.html" onclick="closeMobile()">Ипотека</a>
+    <a href="credits.html" onclick="closeMobile()">Кредиты</a>
+    <a href="deposits.html" onclick="closeMobile()">Вклады</a>
+    <a href="cards.html" onclick="closeMobile()">Карты</a>
+    <a href="contacts.html" onclick="closeMobile()">Контакты</a>
+    <a href="online.html" class="btn-outline" style="margin-top:10px;" onclick="closeMobile()">Войти</a>
+  </div>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="FP Банк">
+        <span class="letter-f">Ф</span><span class="letter-p">П</span>
+        <span class="logo-sub">Банк</span>
+      </a>
+      <nav>
+        <a href="about.html">О банке</a>
+        <a href="business.html">Бизнесу</a>
+        <a href="mortgage.html">Ипотека</a>
+        <a href="credits.html">Кредиты</a>
+        <a href="deposits.html">Вклады</a>
+        <a href="cards.html">Карты</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="online.html" class="btn-outline">Войти</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <span class="hero-badge">Лицензия ЦБ ЗР</span>
+        <h1>
+          Банк, где <br><span class="highlight">приоритеты</span><br>становятся реальностью
+        </h1>
+        <p>FP объединяет надёжность и смелый дизайн. Жёлтый — энергия, серый — уверенность. Более 2 миллионов клиентов выбирают нас.</p>
+        <div class="hero-btns">
+          <a href="online.html" class="btn-primary">Открыть счёт онлайн</a>
+          <a href="about.html" class="btn-secondary">О банке</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="card-stack">
+          <div class="card-mockup">
+            <div class="card-chip"></div>
+            <div class="card-number">4276 •••• •••• 8812</div>
+            <div class="card-footer">
+              <span>FP GOLD</span>
+              <span class="card-logo-small">ФП</span>
+            </div>
+          </div>
+          <div class="card-mockup">
+            <div class="card-chip" style="background:linear-gradient(145deg,#d4af37,#b8962e);"></div>
+            <div class="card-balance">₽ 284 750</div>
+            <div class="card-holder">АЛЕКСАНДР Д.</div>
+            <div class="card-footer">
+              <span>FP PREMIUM</span>
+              <span class="card-logo-small">ФП</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats-section reveal">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" data-count="17">0</div>
+          <div class="stat-label">Лет на рынке</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="2.4">0</div>
+          <div class="stat-label">Млн клиентов</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="850">0</div>
+          <div class="stat-label">Отделений</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="4.9">0</div>
+          <div class="stat-label">Рейтинг в приложении</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DIRECTOR ===== -->
+    <section class="section reveal" style="padding:40px 0;">
+      <div style="display:flex; flex-wrap:wrap; gap:40px; align-items:center; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:36px; padding:50px;">
+        <div style="flex-shrink:0; width:200px; height:240px; position:relative;">
+          <div style="position:absolute;inset:-3px;border-radius:26px;background:linear-gradient(135deg,#f5b042,rgba(245,176,66,.1),#f5b042);z-index:0;"></div>
+          <div style="position:absolute;inset:-1px;border-radius:25px;background:#0b0b0e;z-index:1;"></div>
+          <div style="position:relative;z-index:2;width:100%;height:100%;border-radius:22px;overflow:hidden;">
+            <img src="director.png" alt="Захаров Алексей Сергеевич" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:150px;height:40px;background:radial-gradient(ellipse,rgba(245,176,66,.3),transparent);z-index:0;filter:blur(15px);"></div>
+        </div>
+        <div style="flex:1; min-width:280px;">
+          <span style="color:#f5b042; font-size:.7rem; letter-spacing:2px; text-transform:uppercase;">Основатель и генеральный директор</span>
+          <h2 style="font-size:2.4rem; font-weight:800; color:#fff; margin:4px 0 2px; letter-spacing:-.5px;">Захаров Алексей Сергеевич</h2>
+          <p style="color:#8a8a91; font-size:.9rem; font-family:'Inter',sans-serif; margin-bottom:14px;">«Технологии ради людей» — наш принцип с 2009 года.</p>
+          <p style="color:#9a9aa3; font-size:.85rem; font-family:'Inter',sans-serif; line-height:1.7;">Алексей Сергеевич основал FP Банк в 2009 году и лично руководит стратегией развития. Под его управлением банк вырос до 2,4 млн клиентов, 850 отделений и рейтинга 4,9★. Ежегодно банк инвестирует более 3 млрд рублей в технологии и инновации.</p>
+          <a href="about.html" style="color:#f5b042; font-size:.85rem; text-decoration:none; display:inline-block; margin-top:12px; font-weight:500;">Подробнее о нас →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BUSINESS ===== -->
+    <section class="section reveal">
+      <span class="section-tag">Бизнесу</span>
+      <h2 class="section-title">Финансы для вашего бизнеса</h2>
+      <p class="section-sub">Откройте расчётный счёт за 10 минут, подключайте эквайринг и зарплатный проект — все инструменты для роста вашего дела.</p>
+      <div class="features" style="margin-bottom:40px;">
+        <div class="feature-item">
+          <div class="feature-icon">🏦</div>
+          <h3>Расчётно-кассовое обслуживание</h3>
+          <p>Открытие счёта онлайн за 1 день. Бесплатные платежи внутри банка и в бюджет. Интернет-банк и мобильное приложение. Интеграция с 1С.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💳</div>
+          <h3>Эквайринг</h3>
+          <p>Торговый, интернет и мобильный эквайринг. Ставка от 0,5%. Приём Apple Pay, Google Pay, QR-кодов. Подключение за 1 день.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">👥</div>
+          <h3>Зарплатный проект</h3>
+          <p>Выплата зарплаты сотрудникам бесплатно. Выпуск карт, корпоративные карты, зарплатный кредит со ставкой на 2% ниже. Кешбэк до 15%.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📈</div>
+          <h3>Кредитование бизнеса</h3>
+          <p>Оборотные кредиты, инвестиционное финансирование, овердрафт и банковские гарантии. Сумма до 200 млн ₽, ставка от 8,5%.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💰</div>
+          <h3>Депозиты для юрлиц</h3>
+          <p>Размещение свободных средств с доходностью до 19% годовых. Сроки от 30 дней. Пополнение и частичное снятие.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📄</div>
+          <h3>Электронный документооборот</h3>
+          <p>Подписание договоров УКЭП, обмен с ИФНС, выгрузка в 1С. Полностью безбумажный офис.</p>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <a href="business.html" class="btn-primary">Подробнее о бизнес-услугах</a>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="section reveal">
+      <span class="section-tag">Преимущества</span>
+      <h2 class="section-title">Почему выбирают FP</h2>
+      <p class="section-sub">Современные финансовые инструменты, созданные для вашего комфорта и безопасности.</p>
+      <div class="features">
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <h3>Мгновенные переводы</h3>
+          <p>По номеру телефона или через СБП — без комиссии и ожидания. Отправляйте до 1 млн ₽ в день.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔐</div>
+          <h3>Безопасность ФП</h3>
+          <p>Двухфакторная защита, биометрия и собственный антифрод-мониторинг 24/7.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💛</div>
+          <h3>Кешбэк золотой картой</h3>
+          <p>До 15% в любимых категориях с премиальной картой FP Gold. Миллион партнёров по всей стране.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📱</div>
+          <h3>Удобное приложение</h3>
+          <p>FP Pay с интуитивным интерфейсом. Оплата по QR, push-уведомления и бюджет в одну кнопку.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🌍</div>
+          <h3>Путешествия без границ</h3>
+          <p>Снятие наличных без комиссии в 200+ странах. Конвертация по внутреннему курсу.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <h3>Инвестиции онлайн</h3>
+          <p>Доступ к IPO, облигациям и ETF. Инвестируйте вместе с FP прямо из приложения.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRODUCTS ===== -->
+    <section class="section reveal">
+      <span class="section-tag">Продукты</span>
+      <h2 class="section-title">Ваши карты</h2>
+      <p class="section-sub">Выберите идеальную карту для жизни, работы и путешествий.</p>
+      <div class="card-grid">
+        <div class="product-card">
+          <div class="card-type">Дебетовая</div>
+          <h4>FP Start</h4>
+          <div class="balance">до 5% на остаток</div>
+          <p>Бесплатное обслуживание, яркий дизайн и кешбэк 1% на все покупки.</p>
+          <a href="cards.html" class="card-link">Заказать →</a>
+        </div>
+        <div class="product-card">
+          <div class="card-type">Премиальная</div>
+          <h4>FP Gold</h4>
+          <div class="balance">кешбэк до 15%</div>
+          <p>Жёлтый металлик, доступ в бизнес-залы, страховка путешествий и консьерж.</p>
+          <a href="cards.html" class="card-link">Заказать →</a>
+        </div>
+        <div class="product-card">
+          <div class="card-type">Цифровая</div>
+          <h4>FP Pay</h4>
+          <div class="balance">виртуальная карта</div>
+          <p>Мгновенный выпуск в приложении, оплата в одно касание, полный контроль.</p>
+          <a href="cards.html" class="card-link">Заказать →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RATES ===== -->
+    <section class="section reveal">
+      <span class="section-tag">Курсы валют</span>
+      <h2 class="section-title">Актуальные курсы</h2>
+      <p class="section-sub">Обновляются каждые 5 минут. Выгодный курс для конвертации.</p>
+      <table class="rates-table">
+        <thead>
+          <tr>
+            <th>Валюта</th>
+            <th>Покупка</th>
+            <th>Продажа</th>
+            <th>Изменение</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>USD</strong> / RUB</td>
+            <td>87,45</td>
+            <td>89,12</td>
+            <td class="rate-up">▲ +0,32</td>
+          </tr>
+          <tr>
+            <td><strong>EUR</strong> / RUB</td>
+            <td>94,20</td>
+            <td>96,05</td>
+            <td class="rate-down">▼ −0,18</td>
+          </tr>
+          <tr>
+            <td><strong>CNY</strong> / RUB</td>
+            <td>11,82</td>
+            <td>12,14</td>
+            <td class="rate-up">▲ +0,05</td>
+          </tr>
+          <tr>
+            <td><strong>GBP</strong> / RUB</td>
+            <td>110,55</td>
+            <td>112,80</td>
+            <td class="rate-up">▲ +0,41</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section reveal">
+      <span class="section-tag">Отзывы</span>
+      <h2 class="section-title">Что говорят клиенты</h2>
+      <p class="section-sub">Более 200 000 положительных отзывов в магазинах приложений.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-item">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Лучший банк, с которым я работал. Приложение летает, поддержка отвечает за минуты, а кешбэк реально радует. Перевёл сюда зарплату и не жалею."</blockquote>
+          <div class="testimonial-author">
+            <div class="avatar">А</div>
+            <div>
+              <div class="name">Алексей М.</div>
+              <div class="role">предприниматель</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-item">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Премиальная карта FP Gold — это уровень. Золотой металлик выглядит шикарно, проход в бизнес-залы спасает в поездках. Рекомендую."</blockquote>
+          <div class="testimonial-author">
+            <div class="avatar">Е</div>
+            <div>
+              <div class="name">Екатерина В.</div>
+              <div class="role">дизайнер</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-item">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Открыла счёт за 5 минут онлайн, карта пришла через 2 дня. Никаких очередей и лишних вопросов. Современный подход к банкингу."</blockquote>
+          <div class="testimonial-author">
+            <div class="avatar">М</div>
+            <div>
+              <div class="name">Мария К.</div>
+              <div class="role">маркетолог</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section reveal">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Частые вопросы</h2>
+      <p class="section-sub">Ответы на самые популярные вопросы о банке и услугах.</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            Как открыть счёт в FP Банке?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">Откройте приложение FP Pay или заполните форму на сайте. Вам понадобится паспорт и номер телефона. Весь процесс занимает не более 5 минут. После открытия вы сразу получите виртуальную карту.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Какой кешбэк начисляется по картам?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">FP Start — 1% на все покупки. FP Gold — до 15% в выбранных категориях (кафе, транспорт, развлечения). Кешбэк начисляется реальными рублями без скрытых лимитов.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Как заблокировать карту при утере?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">Мгновенная блокировка в приложении FP Pay одним нажатием. Также доступна блокировка по звонку на горячую линию 8 800 700-ФП-БАНК. Оператор поможет перевыпустить карту.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Есть ли комиссия за переводы между своими счетами?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">Все переводы между своими счетами в FP Банке — без комиссии. Переводы по СБП до 100 000 ₽ в месяц также бесплатны. Свыше — комиссия 0,5%.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <div class="cta-section reveal">
+      <h2>Готовы начать?</h2>
+      <p>Откройте счёт онлайн за 5 минут и получите доступ ко всем возможностям FP Банка.</p>
+      <a href="online.html" class="btn-primary">Открыть счёт →</a>
+    </div>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="section reveal">
+      <span class="section-tag">Контакты</span>
+      <h2 class="section-title">Свяжитесь с нами</h2>
+      <p class="section-sub">Мы на связи 24/7. Задайте вопрос онлайн или посетите отделение.</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-detail">
+            <div class="cd-icon">📞</div>
+            <div>
+              <div class="cd-label">Телефон</div>
+              <div class="cd-value">8 800 700-ФП-БАНК</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="cd-icon">✉️</div>
+            <div>
+              <div class="cd-label">Email</div>
+              <div class="cd-value">support@fpbank.ru</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="cd-icon">📍</div>
+            <div>
+              <div class="cd-label">Головной офис</div>
+              <div class="cd-value">Загребенская Республика, г. Загребенки, ул. Тараса Шевченко, д. 10</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="cd-icon">🕐</div>
+            <div>
+              <div class="cd-label">Режим работы</div>
+              <div class="cd-value">Пн–Пт 09:00–20:00, Сб 10:00–17:00</div>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form">
+          <input type="text" placeholder="Ваше имя" required>
+          <input type="tel" placeholder="Номер телефона" required>
+          <textarea placeholder="Ваш вопрос или сообщение" required></textarea>
+          <button type="submit" class="btn-primary" style="border:none;cursor:pointer;">Отправить →</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo-lg">
+            <span class="f">Ф</span><span class="p">П</span>
+          </div>
+          <p>FP Банк — современный финансовый партнёр с фокусом на технологии, дизайн и заботу о клиентах. Лицензия ЦБ Загребенской Республики № 1234.</p>
+          <div class="social-links" style="margin-top:18px;">
+            <a href="#" aria-label="Telegram">✈</a>
+            <a href="#" aria-label="VK">VK</a>
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Частным лицам</h4>
+          <a href="cards.html">Дебетовые карты</a>
+          <a href="credits.html">Кредитные карты</a>
+          <a href="mortgage.html">Ипотека</a>
+          <a href="credits.html">Потребительские кредиты</a>
+          <a href="deposits.html">Вклады и сбережения</a>
+        </div>
+        <div class="footer-col">
+          <h4>Бизнесу</h4>
+          <a href="business.html#rko">РКО</a>
+          <a href="business.html#lending">Кредитование бизнеса</a>
+          <a href="business.html#acquiring">Эквайринг</a>
+          <a href="business.html#payroll">Зарплатный проект</a>
+          <a href="business.html#tariffs">Тарифы</a>
+        </div>
+        <div class="footer-col">
+          <h4>О банке</h4>
+          <a href="about.html">О компании</a>
+          <a href="about.html">Реквизиты</a>
+          <a href="documents.html">Документы</a>
+          <a href="#">Раскрытие информации</a>
+          <a href="#">Вакансии</a>
+          <a href="contacts.html">Контакты</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 FP Банк. Все права защищены.</div>
+        <div>8 800 700-ФП-БАНК</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('open');
+    });
+    function closeMobile() {
+      hamburger.classList.remove('active');
+      mobileNav.classList.remove('open');
+    }
+    mobileNav.addEventListener('click', closeMobile);
+
+    // Scroll reveal animation
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    reveals.forEach(r => observer.observe(r));
+
+    // Counter animation
+    const statNumbers = document.querySelectorAll('.stat-number');
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.count);
+          const isDecimal = target % 1 !== 0;
+          const duration = 2000;
+          const start = performance.now();
+          function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = target * eased;
+            el.textContent = isDecimal ? current.toFixed(1) + (target === 4.9 ? ' ★' : ' млн') : Math.floor(current).toLocaleString() + (target === 850 ? '+' : '');
+            if (progress < 1) requestAnimationFrame(update);
+          }
+          requestAnimationFrame(update);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    statNumbers.forEach(n => countObserver.observe(n));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+
+  <script>(function(){if(window.innerWidth<768&&!localStorage.getItem('fp_mn_d')){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show');localStorage.setItem('fp_mn_d','1')}</script>
+</body>
+</html>

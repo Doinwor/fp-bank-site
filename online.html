@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн-банк | FP Банк</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Unbounded',sans-serif; background:#0b0b0e; color:#e0e0e0; line-height:1.5; overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#1a1a1f; }
+    ::-webkit-scrollbar-thumb { background:#f5b042; border-radius:3px; }
+    .container { max-width:1280px; margin:0 auto; padding:0 32px; width:100%; }
+
+    header { display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid rgba(255,255,255,.06); backdrop-filter:blur(16px); position:sticky; top:0; z-index:100; background-color:rgba(11,11,14,.85); }
+    .header-inner { max-width:1280px; margin:0 auto; padding:0 32px; width:100%; display:flex; justify-content:space-between; align-items:center; }
+    .logo { display:flex; align-items:baseline; gap:2px; font-weight:800; font-size:2rem; letter-spacing:-1px; line-height:1; text-decoration:none; }
+    .logo .letter-f { color:#f5b042; text-shadow:0 0 20px rgba(245,176,66,.5); }
+    .logo .letter-p { color:#8a8a91; font-weight:700; }
+    .logo-sub { display:block; font-size:.55rem; font-weight:400; color:#8a8a91; letter-spacing:1.5px; text-transform:uppercase; margin-left:4px; }
+    .header-actions { display:flex; align-items:center; gap:16px; }
+    .user-badge { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); border-radius:40px; padding:8px 18px 8px 12px; }
+    .user-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#f5b042,#d08c1a); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; color:#0b0b0e; }
+    .user-name { color:#fff; font-size:.8rem; font-weight:500; }
+    .user-name small { display:block; color:#8a8a91; font-size:.6rem; font-weight:400; font-family:'Inter',sans-serif; }
+
+    .btn-outline { border:1px solid #f5b042; color:#f5b042; padding:10px 22px; border-radius:40px; font-weight:500; transition:all .3s; background:transparent; cursor:pointer; font-family:'Unbounded',sans-serif; font-size:.75rem; text-decoration:none; }
+    .btn-outline:hover { background:#f5b042; color:#0b0b0e; }
+    .btn-primary { background:#f5b042; color:#0b0b0e; font-weight:700; padding:14px 32px; border-radius:50px; border:none; font-size:.9rem; letter-spacing:.5px; cursor:pointer; font-family:'Unbounded',sans-serif; transition:transform .2s, box-shadow .3s; display:inline-block; text-decoration:none; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(245,176,66,.3); }
+    .btn-primary:disabled { opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+    .btn-ghost { background:transparent; color:#f5b042; border:1px solid rgba(245,176,66,.2); padding:10px 20px; border-radius:14px; cursor:pointer; font-family:'Inter',sans-serif; font-size:.85rem; transition:all .3s; text-decoration:none; display:inline-block; }
+    .btn-ghost:hover { background:rgba(245,176,66,.1); border-color:#f5b042; }
+    .btn-danger { background:#ff5e5e; color:#fff; font-weight:600; padding:14px 32px; border-radius:50px; border:none; font-size:.9rem; cursor:pointer; font-family:'Unbounded',sans-serif; transition:transform .2s; display:inline-block; text-decoration:none; }
+    .btn-danger:hover { transform:translateY(-2px); }
+
+    .dashboard { display:grid; grid-template-columns:260px 1fr; gap:28px; padding:40px 0 60px; flex:1; }
+
+    /* Sidebar */
+    .sidebar { display:flex; flex-direction:column; gap:4px; }
+    .sidebar .sb-item { display:flex; align-items:center; gap:14px; padding:12px 18px; border-radius:16px; color:#8a8a91; text-decoration:none; font-size:.82rem; font-family:'Inter',sans-serif; transition:all .2s; cursor:pointer; border:none; background:none; width:100%; text-align:left; }
+    .sidebar .sb-item:hover { background:rgba(255,255,255,.04); color:#fff; }
+    .sidebar .sb-item.active { background:rgba(245,176,66,.1); color:#f5b042; font-weight:500; }
+    .sidebar .sb-item .sb-icon { font-size:1.1rem; width:22px; text-align:center; }
+    .sidebar .sb-divider { border:none; border-top:1px solid rgba(255,255,255,.06); margin:12px 0; }
+    .sidebar .sb-user { padding:12px 18px; color:#fff; font-size:.8rem; border-bottom:1px solid rgba(255,255,255,.06); margin-bottom:8px; }
+    .sidebar .sb-user small { display:block; color:#8a8a91; font-size:.7rem; font-family:'Inter',sans-serif; margin-top:2px; }
+
+    /* Main content */
+    .main-content { display:flex; flex-direction:column; gap:24px; }
+    .tab-content { display:none; }
+    .tab-content.active { display:flex; flex-direction:column; gap:24px; }
+
+    /* Balance */
+    .balance-card { background:linear-gradient(145deg,rgba(245,176,66,.08),rgba(245,176,66,.02)); border:1px solid rgba(245,176,66,.15); border-radius:32px; padding:32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+    .balance-card .bc-left .bc-label { color:#8a8a91; font-size:.75rem; text-transform:uppercase; letter-spacing:1.5px; }
+    .balance-card .bc-left .bc-amount { font-size:2.8rem; font-weight:800; color:#fff; letter-spacing:-1px; }
+    .balance-card .bc-left .bc-amount span { color:#f5b042; }
+    .balance-card .bc-left .bc-detail { color:#4cd964; font-size:.85rem; font-family:'Inter',sans-serif; margin-top:4px; }
+    .balance-card .bc-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+    .quick-actions { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .qa-item { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:24px; padding:24px 16px; text-align:center; transition:all .3s; cursor:pointer; text-decoration:none; display:block; }
+    .qa-item:hover { background:rgba(245,176,66,.06); border-color:rgba(245,176,66,.2); transform:translateY(-4px); }
+    .qa-item .qa-icon { font-size:2rem; margin-bottom:10px; display:block; }
+    .qa-item .qa-label { color:#fff; font-size:.8rem; font-weight:500; display:block; }
+    .qa-item .qa-desc { color:#8a8a91; font-size:.7rem; font-family:'Inter',sans-serif; margin-top:4px; display:block; }
+
+    .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+    .section-header h3 { color:#fff; font-size:1.2rem; font-weight:600; }
+
+    .cards-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .mini-card { background:linear-gradient(145deg,#1f1f27,#121218); border-radius:24px; padding:24px; border:1px solid rgba(245,176,66,.12); display:flex; justify-content:space-between; align-items:center; }
+    .mini-card .mc-left .mc-label { color:#8a8a91; font-size:.65rem; text-transform:uppercase; letter-spacing:1px; }
+    .mini-card .mc-left .mc-number { color:#fff; font-size:.9rem; letter-spacing:2px; margin:4px 0; font-weight:500; }
+    .mini-card .mc-left .mc-balance { color:#f5b042; font-weight:600; font-size:1.1rem; }
+    .mini-card .mc-right { font-weight:800; font-size:1.8rem; color:#f5b042; }
+
+    .transactions { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:24px; overflow:hidden; }
+    .tx-item { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; border-bottom:1px solid rgba(255,255,255,.03); transition:background .2s; }
+    .tx-item:last-child { border-bottom:none; }
+    .tx-item:hover { background:rgba(255,255,255,.02); }
+    .tx-item .tx-left { display:flex; align-items:center; gap:14px; }
+    .tx-item .tx-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+    .tx-item .tx-icon.green { background:rgba(76,217,100,.1); }
+    .tx-item .tx-icon.red { background:rgba(255,94,94,.1); }
+    .tx-item .tx-icon.blue { background:rgba(90,200,250,.1); }
+    .tx-item .tx-info .tx-name { color:#fff; font-size:.85rem; font-weight:500; }
+    .tx-item .tx-info .tx-date { color:#8a8a91; font-size:.7rem; font-family:'Inter',sans-serif; margin-top:2px; }
+    .tx-item .tx-amount { font-weight:600; font-size:.95rem; }
+    .tx-item .tx-amount.positive { color:#4cd964; }
+    .tx-item .tx-amount.negative { color:#ff5e5e; }
+
+    /* Forms */
+    .form-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:32px; padding:32px; }
+    .form-card h3 { color:#fff; font-size:1.3rem; font-weight:600; margin-bottom:20px; }
+    .form-group { margin-bottom:18px; }
+    .form-group label { display:block; color:#9a9aa3; font-size:.8rem; margin-bottom:6px; font-family:'Inter',sans-serif; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px 18px; color:#fff; font-size:.9rem; font-family:'Inter',sans-serif; outline:none; transition:border-color .3s; }
+    .form-group input:focus, .form-group select:focus { border-color:#f5b042; }
+    .form-group input::placeholder { color:#6b6b76; }
+    .form-group select option { background:#1a1a1f; color:#fff; }
+    .form-group textarea { resize:vertical; min-height:80px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-success { background:rgba(76,217,100,.08); border:1px solid rgba(76,217,100,.2); border-radius:20px; padding:24px; text-align:center; display:none; }
+    .form-success.show { display:block; }
+    .form-success .fs-icon { font-size:3rem; margin-bottom:10px; }
+    .form-success h4 { color:#4cd964; font-size:1.1rem; margin-bottom:4px; }
+    .form-success p { color:#9a9aa3; font-size:.85rem; font-family:'Inter',sans-serif; }
+
+    /* Services grid */
+    .services-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .svc-item { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:20px; padding:20px; text-align:center; cursor:pointer; transition:all .3s; }
+    .svc-item:hover { background:rgba(245,176,66,.06); border-color:rgba(245,176,66,.2); }
+    .svc-item .svc-icon { font-size:2rem; margin-bottom:8px; }
+    .svc-item .svc-name { color:#fff; font-size:.8rem; font-weight:500; }
+
+    /* Deposit grid */
+    .deposit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .dep-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:24px; padding:24px; }
+    .dep-card h4 { color:#fff; font-size:1rem; font-weight:600; margin-bottom:4px; }
+    .dep-card .dep-rate { color:#f5b042; font-size:1.8rem; font-weight:700; margin:8px 0; }
+    .dep-card .dep-rate small { font-size:.7rem; color:#8a8a91; font-weight:400; }
+    .dep-card .dep-detail { color:#8a8a91; font-size:.75rem; font-family:'Inter',sans-serif; margin-bottom:16px; }
+    .dep-card ul { list-style:none; padding:0; margin-bottom:16px; }
+    .dep-card ul li { color:#b0b0b8; font-size:.8rem; font-family:'Inter',sans-serif; padding:4px 0; padding-left:16px; position:relative; }
+    .dep-card ul li::before { content:'✓'; color:#f5b042; position:absolute; left:0; }
+
+    /* Filter */
+    .filter-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+    .filter-row select, .filter-row input { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px 16px; color:#fff; font-size:.8rem; font-family:'Inter',sans-serif; outline:none; }
+    .filter-row select option { background:#1a1a1f; }
+
+    /* Modal */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
+    .modal-overlay.show { display:flex; }
+    .modal-box { background:#1a1a1f; border:1px solid rgba(255,255,255,.08); border-radius:32px; padding:36px; max-width:480px; width:90%; }
+    .modal-box h3 { color:#fff; font-size:1.2rem; margin-bottom:16px; }
+    .modal-box p { color:#9a9aa3; font-size:.85rem; font-family:'Inter',sans-serif; margin-bottom:8px; }
+    .modal-box .modal-actions { display:flex; gap:12px; margin-top:20px; justify-content:flex-end; }
+
+    footer { border-top:1px solid rgba(255,255,255,.06); padding:24px 0; margin-top:auto; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; color:#6b6b76; font-size:.75rem; }
+    .footer-inner a { color:#8a8a91; text-decoration:none; }
+
+    .toast { position:fixed; bottom:30px; right:30px; background:#1a1a1f; border:1px solid rgba(76,217,100,.3); border-radius:16px; padding:16px 24px; color:#4cd964; font-size:.85rem; font-family:'Inter',sans-serif; z-index:300; opacity:0; transform:translateY(20px); transition:all .4s; pointer-events:none; }
+    .toast.show { opacity:1; transform:translateY(0); }
+    .toast.error { border-color:rgba(255,94,94,.3); color:#ff5e5e; }
+
+    @media (max-width:1024px) { .dashboard { grid-template-columns:1fr; } .sidebar { display:none; } .quick-actions { grid-template-columns:repeat(2,1fr); } .cards-row { grid-template-columns:1fr; } .services-grid { grid-template-columns:repeat(2,1fr); } .deposit-grid { grid-template-columns:1fr; } }
+    @media (max-width:768px) {
+      .container { padding:0 20px; } .header-inner { padding:0 20px; }
+      .balance-card .bc-left .bc-amount { font-size:2rem; }
+      .quick-actions { grid-template-columns:repeat(2,1fr); }
+      .form-row { grid-template-columns:1fr; }
+      .services-grid { grid-template-columns:repeat(2,1fr); }
+      .user-name { display:none; }
+    }
+  /* Mobile notice */
+  .mobile-notice {
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(11,11,14,.92);
+    backdrop-filter:blur(12px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s;
+  }
+  .mobile-notice.show{opacity:1;pointer-events:auto}
+  .mobile-notice .mn-inner{max-width:360px;text-align:center;padding:40px 28px}
+  .mobile-notice .mn-icon{width:56px;height:56px;background:rgba(245,176,66,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+  .mobile-notice .mn-title{color:#f5b042;font-size:.85rem;font-weight:600;margin-bottom:10px}
+  .mobile-notice p{color:#9a9aa3;font-size:.77rem;font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:20px}
+  .mobile-notice .mn-btn{background:#f5b042;color:#0b0b0e;border:none;padding:12px 40px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <!-- Mobile notice -->
+  <div class="mobile-notice" id="mobileNotice">
+    <div class="mn-inner">
+      <div class="mn-icon">📱</div>
+      <div class="mn-title">Мобильная версия</div>
+      <p>Ой, этот сайт не дружит с телефонами, если честно. Основной сайт под телефон не оптимизирован — лучше заходить с компьютера. А онлайн-банк как раз сделан под телефон, им можно пользоваться.</p>
+      <button class="mn-btn" onclick="dismissMobileNotice()">Всё равно продолжить</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></a>
+      <div class="header-actions">
+        <a href="index.html" class="btn-outline">На сайт</a>
+        <div class="user-badge">
+          <div class="user-avatar">А</div>
+          <div class="user-name">Александр<small>Личный кабинет</small></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="dashboard">
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sb-user">Александр Д.<small>Тариф: Premium</small></div>
+        <button class="sb-item active" data-tab="overview"><span class="sb-icon">📊</span> Обзор</button>
+        <button class="sb-item" data-tab="cards"><span class="sb-icon">💳</span> Мои карты</button>
+        <button class="sb-item" data-tab="transfer"><span class="sb-icon">💸</span> Переводы</button>
+        <button class="sb-item" data-tab="payments"><span class="sb-icon">📋</span> Платежи</button>
+        <button class="sb-item" data-tab="deposits"><span class="sb-icon">📈</span> Вклады</button>
+        <button class="sb-item" data-tab="loans"><span class="sb-icon">🏦</span> Кредиты</button>
+        <button class="sb-item" data-tab="history"><span class="sb-icon">📄</span> История</button>
+        <hr class="sb-divider">
+        <button class="sb-item" data-tab="settings"><span class="sb-icon">⚙️</span> Настройки</button>
+        <button class="sb-item"><span class="sb-icon">❓</span> Помощь</button>
+      </div>
+
+      <!-- Main -->
+      <div class="main-content">
+
+        <!-- ===== TAB: OVERVIEW ===== -->
+        <div class="tab-content active" id="tab-overview">
+          <div class="balance-card">
+            <div class="bc-left">
+              <div class="bc-label">Общий баланс</div>
+              <div class="bc-amount"><span>₽</span> <span id="totalBalance">1 284 750</span>,42</div>
+              <div class="bc-detail">▲ +12 340 ₽ за месяц</div>
+            </div>
+            <div class="bc-actions">
+              <button class="btn-primary" style="padding:12px 28px;font-size:.85rem;" onclick="switchTab('transfer')">💸 Перевести</button>
+              <button class="btn-ghost" onclick="switchTab('deposits')">📥 Пополнить</button>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="qa-item" onclick="switchTab('cards')"><span class="qa-icon">💳</span><span class="qa-label">Мои карты</span><span class="qa-desc">Управление счетами</span></button>
+            <button class="qa-item" onclick="switchTab('transfer')"><span class="qa-icon">💸</span><span class="qa-label">Переводы</span><span class="qa-desc">По номеру телефона</span></button>
+            <button class="qa-item" onclick="switchTab('payments')"><span class="qa-icon">📋</span><span class="qa-label">Платежи</span><span class="qa-desc">Оплата услуг</span></button>
+            <button class="qa-item" onclick="switchTab('history')"><span class="qa-icon">📄</span><span class="qa-label">История</span><span class="qa-desc">Движение средств</span></button>
+          </div>
+
+          <div>
+            <div class="section-header"><h3>Мои карты</h3><a href="#" onclick="switchTab('cards');return false;">Все карты →</a></div>
+            <div class="cards-row">
+              <div class="mini-card">
+                <div class="mc-left"><div class="mc-label">FP Gold</div><div class="mc-number">•••• 8812</div><div class="mc-balance">₽ 847 250</div></div>
+                <div class="mc-right">✦</div>
+              </div>
+              <div class="mini-card">
+                <div class="mc-left"><div class="mc-label">FP Start</div><div class="mc-number">•••• 4523</div><div class="mc-balance">₽ 437 500</div></div>
+                <div class="mc-right" style="opacity:0.6;">◻</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-header"><h3>Последние операции</h3><a href="#" onclick="switchTab('history');return false;">Вся история →</a></div>
+            <div class="transactions" id="recentTx"> </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: CARDS ===== -->
+        <div class="tab-content" id="tab-cards">
+          <div class="section-header"><h3>Мои карты</h3></div>
+          <div class="cards-row">
+            <div class="form-card" style="background:linear-gradient(145deg,rgba(245,176,66,.06),rgba(245,176,66,.02));">
+              <div style="display:flex;justify-content:space-between;align-items:start;">
+                <div><h3 style="margin-bottom:4px;">FP Gold</h3><div style="color:#8a8a91;font-size:.8rem;font-family:'Inter',sans-serif;">✦ Премиальная</div></div>
+                <span style="font-size:2rem;color:#f5b042;">✦</span>
+              </div>
+              <div style="margin:20px 0;padding:20px;background:rgba(0,0,0,.2);border-radius:16px;">
+                <div style="color:#8a8a91;font-size:.7rem;letter-spacing:2px;">НОМЕР КАРТЫ</div>
+                <div style="color:#fff;font-size:1.3rem;letter-spacing:3px;margin:6px 0;font-weight:500;">4276 4500 1234 8812</div>
+                <div style="display:flex;gap:30px;"><div><div style="color:#8a8a91;font-size:.6rem;">СРОК</div><div style="color:#fff;font-size:.85rem;">12/28</div></div><div><div style="color:#8a8a91;font-size:.6rem;">CVV</div><div style="color:#fff;font-size:.85rem;">***</div></div></div>
+              </div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="blockCard(this)">🔒 Заблокировать</button>
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;">📄 Детали</button>
+              </div>
+            </div>
+            <div class="form-card">
+              <div style="display:flex;justify-content:space-between;align-items:start;">
+                <div><h3 style="margin-bottom:4px;">FP Start</h3><div style="color:#8a8a91;font-size:.8rem;font-family:'Inter',sans-serif;">◻ Дебетовая</div></div>
+                <span style="font-size:2rem;color:#8a8a91;">◻</span>
+              </div>
+              <div style="margin:20px 0;padding:20px;background:rgba(0,0,0,.2);border-radius:16px;">
+                <div style="color:#8a8a91;font-size:.7rem;letter-spacing:2px;">НОМЕР КАРТЫ</div>
+                <div style="color:#fff;font-size:1.3rem;letter-spacing:3px;margin:6px 0;font-weight:500;">4276 4500 5678 4523</div>
+                <div style="display:flex;gap:30px;"><div><div style="color:#8a8a91;font-size:.6rem;">СРОК</div><div style="color:#fff;font-size:.85rem;">06/27</div></div><div><div style="color:#8a8a91;font-size:.6rem;">CVV</div><div style="color:#fff;font-size:.85rem;">***</div></div></div>
+              </div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;" onclick="blockCard(this)">🔒 Заблокировать</button>
+                <button class="btn-ghost" style="font-size:.8rem;padding:8px 16px;">📄 Детали</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: TRANSFER ===== -->
+        <div class="tab-content" id="tab-transfer">
+          <div class="form-card">
+            <h3>💸 Перевод средств</h3>
+            <div class="form-group">
+              <label>С карты / счёта</label>
+              <select id="transferFrom">
+                <option value="gold">FP Gold •••• 8812 (₽847 250)</option>
+                <option value="start">FP Start •••• 4523 (₽437 500)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Тип перевода</label>
+              <select id="transferType" onchange="toggleTransferFields()">
+                <option value="phone">По номеру телефона</option>
+                <option value="card">По номеру карты</option>
+                <option value="account">По реквизитам счёта</option>
+                <option value="own">Между своими счетами</option>
+              </select>
+            </div>
+            <div id="transferByPhone">
+              <div class="form-group">
+                <label>Номер телефона получателя</label>
+                <input type="tel" id="transferPhone" placeholder="+7 (999) 000-00-00">
+              </div>
+              <div class="form-group">
+                <label>Банк получателя</label>
+                <select><option>FP Банк</option><option>Другой банк</option></select>
+              </div>
+            </div>
+            <div id="transferByCard" style="display:none;">
+              <div class="form-group">
+                <label>Номер карты получателя</label>
+                <input type="text" id="transferCard" placeholder="4276 4500 0000 0000" maxlength="19">
+              </div>
+            </div>
+            <div id="transferByAccount" style="display:none;">
+              <div class="form-group">
+                <label>Расчётный счёт получателя</label>
+                <input type="text" placeholder="40817 810 0 0000 0000000">
+              </div>
+              <div class="form-group">
+                <label>БИК банка получателя</label>
+                <input type="text" placeholder="044525123">
+              </div>
+              <div class="form-group">
+                <label>Назначение платежа</label>
+                <textarea placeholder="Назначение платежа (необязательно)"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Сумма</label>
+              <input type="number" id="transferAmount" placeholder="Введите сумму в ₽" min="10">
+            </div>
+            <div id="transferByOwn" style="display:none;" class="form-group">
+              <label>Назначение</label>
+              <select>
+                <option>FP Gold → FP Start</option>
+                <option>FP Start → FP Gold</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="doTransfer()">Перевести</button>
+            <div class="form-success" id="transferSuccess">
+              <div class="fs-icon">✅</div>
+              <h4>Перевод выполнен!</h4>
+              <p id="transferSuccessText">Средства будут зачислены в течение нескольких минут.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: PAYMENTS ===== -->
+        <div class="tab-content" id="tab-payments">
+          <div class="form-card">
+            <h3>📋 Оплата услуг</h3>
+            <p style="color:#9a9aa3;font-size:.85rem;font-family:'Inter',sans-serif;margin-bottom:20px;">Выберите услугу и заполните данные для оплаты.</p>
+            <div class="services-grid" style="margin-bottom:24px;">
+              <div class="svc-item" onclick="selectService(this,'Мобильная связь','📱')"><div class="svc-icon">📱</div><div class="svc-name">Мобильная связь</div></div>
+              <div class="svc-item" onclick="selectService(this,'Интернет','🌐')"><div class="svc-icon">🌐</div><div class="svc-name">Интернет</div></div>
+              <div class="svc-item" onclick="selectService(this,'ЖКХ','💡')"><div class="svc-icon">💡</div><div class="svc-name">ЖКХ</div></div>
+              <div class="svc-item" onclick="selectService(this,'Телевидение','📺')"><div class="svc-icon">📺</div><div class="svc-name">Телевидение</div></div>
+              <div class="svc-item" onclick="selectService(this,'Налоги','📑')"><div class="svc-icon">📑</div><div class="svc-name">Налоги</div></div>
+              <div class="svc-item" onclick="selectService(this,'Кредиты','🏦')"><div class="svc-icon">🏦</div><div class="svc-name">Погашение кредита</div></div>
+              <div class="svc-item" onclick="selectService(this,'Штрафы ГИБДД','🚗')"><div class="svc-icon">🚗</div><div class="svc-name">Штрафы ГИБДД</div></div>
+              <div class="svc-item" onclick="selectService(this,'Образование','🎓')"><div class="svc-icon">🎓</div><div class="svc-name">Образование</div></div>
+            </div>
+            <div id="paymentForm" style="display:none;">
+              <div class="form-group">
+                <label>Услуга</label>
+                <input type="text" id="payServiceName" readonly style="color:#f5b042;">
+              </div>
+              <div class="form-group">
+                <label>С карты / счёта</label>
+                <select id="payFrom"><option value="gold">FP Gold •••• 8812</option><option value="start">FP Start •••• 4523</option></select>
+              </div>
+              <div id="payExtraFields">
+                <div class="form-group"><label>Номер телефона / лицевой счёт</label><input type="text" id="payAccount" placeholder="Введите номер"></div>
+              </div>
+              <div class="form-group"><label>Сумма</label><input type="number" id="payAmount" placeholder="Сумма оплаты" min="1"></div>
+              <button class="btn-primary" onclick="doPayment()">Оплатить</button>
+            </div>
+            <div class="form-success" id="paySuccess">
+              <div class="fs-icon">✅</div>
+              <h4>Платёж выполнен!</h4>
+              <p id="paySuccessText">Услуга оплачена. Чек отправлен на вашу почту.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: DEPOSITS ===== -->
+        <div class="tab-content" id="tab-deposits">
+          <div class="section-header"><h3>Мои вклады</h3></div>
+          <div class="transactions" id="myDeposits">
+            <div class="tx-item"><div class="tx-left"><div class="tx-icon blue">📈</div><div class="tx-info"><div class="tx-name">FP Накопительный</div><div class="tx-date">Сумма: 350 000 ₽ · Ставка: 21% · Срок: 12 мес</div></div></div><div class="tx-amount positive" style="color:#f5b042;">+73 500 ₽</div></div>
+            <div class="tx-item"><div class="tx-left"><div class="tx-icon blue">📈</div><div class="tx-info"><div class="tx-name">FP Доходный</div><div class="tx-date">Сумма: 500 000 ₽ · Ставка: 18% · Срок: 6 мес</div></div></div><div class="tx-amount positive" style="color:#f5b042;">+45 000 ₽</div></div>
+          </div>
+
+          <div class="section-header" style="margin-top:20px;"><h3>Открыть новый вклад</h3></div>
+          <div class="deposit-grid">
+            <div class="dep-card">
+              <h4>FP Накопительный</h4>
+              <div class="dep-rate">21% <small>годовых</small></div>
+              <div class="dep-detail">С капитализацией процентов, пополнение без ограничений</div>
+              <ul><li>От 50 000 ₽</li><li>Срок от 3 месяцев</li><li>Пополнение без лимитов</li><li>Капитализация ежемесячно</li></ul>
+              <button class="btn-primary" style="font-size:.8rem;padding:10px 20px;width:100%;" onclick="openDeposit('FP Накопительный','21%')">Открыть</button>
+            </div>
+            <div class="dep-card">
+              <h4>FP Доходный</h4>
+              <div class="dep-rate">18% <small>годовых</small></div>
+              <div class="dep-detail">Ежемесячная выплата процентов на карту</div>
+              <ul><li>От 100 000 ₽</li><li>Срок от 6 месяцев</li><li>Выплата % ежемесячно</li><li>Частичное снятие</li></ul>
+              <button class="btn-primary" style="font-size:.8rem;padding:10px 20px;width:100%;" onclick="openDeposit('FP Доходный','18%')">Открыть</button>
+            </div>
+            <div class="dep-card">
+              <h4>FP Будущее</h4>
+              <div class="dep-rate">20% <small>годовых</small></div>
+              <div class="dep-detail">Детский вклад на имя ребёнка, особая ставка</div>
+              <ul><li>От 10 000 ₽</li><li>Срок от 12 месяцев</li><li>Повышенная ставка</li><li>Целевой вклад</li></ul>
+              <button class="btn-primary" style="font-size:.8rem;padding:10px 20px;width:100%;" onclick="openDeposit('FP Будущее','20%')">Открыть</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: LOANS ===== -->
+        <div class="tab-content" id="tab-loans">
+          <div class="form-card">
+            <h3>🏦 Мои кредиты</h3>
+            <div class="transactions" id="myLoans">
+              <div class="tx-item"><div class="tx-left"><div class="tx-icon red">📉</div><div class="tx-info"><div class="tx-name">Потребительский кредит</div><div class="tx-date">Осталось: 184 320 ₽ из 300 000 ₽ · Ставка: 12%</div></div></div><div class="tx-amount negative">−8 420 ₽/мес</div></div>
+              <div class="tx-item"><div class="tx-left"><div class="tx-icon red">📉</div><div class="tx-info"><div class="tx-name">Ипотека</div><div class="tx-date">Осталось: 4 250 000 ₽ из 8 000 000 ₽ · Ставка: 8,5%</div></div></div><div class="tx-amount negative">−42 500 ₽/мес</div></div>
+            </div>
+            <div style="margin-top:20px;padding:20px;background:rgba(255,255,255,.02);border-radius:20px;">
+              <h4 style="color:#f5b042;margin-bottom:10px;">Досрочное погашение</h4>
+              <div class="form-group"><label>Сумма досрочного погашения</label><input type="number" placeholder="Введите сумму"></div>
+              <div class="form-group"><label>Способ</label><select><option>Уменьшить ежемесячный платёж</option><option>Сократить срок кредита</option></select></div>
+              <button class="btn-primary" style="font-size:.85rem;padding:12px 24px;">Погасить досрочно</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: HISTORY ===== -->
+        <div class="tab-content" id="tab-history">
+          <div class="form-card">
+            <h3>📄 История операций</h3>
+            <div class="filter-row">
+              <select id="histFilter" onchange="renderHistory()"><option value="all">Все операции</option><option value="in">Поступления</option><option value="out">Списания</option></select>
+              <input type="text" id="histSearch" placeholder="Поиск..." oninput="renderHistory()">
+            </div>
+            <div class="transactions" id="historyList"> </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: SETTINGS ===== -->
+        <div class="tab-content" id="tab-settings">
+          <div class="form-card">
+            <h3>⚙️ Настройки профиля</h3>
+            <div class="form-row">
+              <div class="form-group"><label>Имя</label><input type="text" value="Александр"></div>
+              <div class="form-group"><label>Фамилия</label><input type="text" value="Дмитриев"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Email</label><input type="email" value="alex@fpbank.zg"></div>
+              <div class="form-group"><label>Телефон</label><input type="tel" value="+7 (999) 123-45-67"></div>
+            </div>
+            <div style="margin-top:20px;padding:20px 0;border-top:1px solid rgba(255,255,255,.06);">
+              <h4 style="color:#fff;font-size:1rem;margin-bottom:12px;">Смена пароля</h4>
+              <div class="form-row">
+                <div class="form-group"><label>Текущий пароль</label><input type="password" placeholder="••••••••"></div>
+                <div class="form-group"><label>Новый пароль</label><input type="password" placeholder="минимум 8 символов"></div>
+              </div>
+            </div>
+            <button class="btn-primary" onclick="showToast('Настройки сохранены')">Сохранить</button>
+          </div>
+          <div class="form-card">
+            <h3>Уведомления</h3>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;"><input type="checkbox" checked style="accent-color:#f5b042;width:18px;height:18px;"><span style="color:#b0b0b8;font-family:'Inter',sans-serif;">Push-уведомления о платежах</span></label>
+              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;"><input type="checkbox" checked style="accent-color:#f5b042;width:18px;height:18px;"><span style="color:#b0b0b8;font-family:'Inter',sans-serif;">SMS-информирование о зачислениях</span></label>
+              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;"><input type="checkbox" style="accent-color:#f5b042;width:18px;height:18px;"><span style="color:#b0b0b8;font-family:'Inter',sans-serif;">Еженедельная рассылка новостей</span></label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>© 2026 FP Банк · Личный кабинет</div>
+        <div><a href="index.html">На главную</a> · <a href="#">Безопасность</a> · <a href="#">Поддержка</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Confirm modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <h3>Подтверждение операции</h3>
+      <p id="confirmText">Вы действительно хотите выполнить эту операцию?</p>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeModal()">Отмена</button>
+        <button class="btn-primary" onclick="confirmAction()">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== DATA =====
+    const allTransactions = [
+      { id:1, type:'in', name:'Зачисление зарплаты', date:'Сегодня, 10:32', amount:95000, icon:'⬇', cls:'green' },
+      { id:2, type:'out', name:'Перевод по СБП', date:'Вчера, 18:15', amount:-12500, icon:'⬆', cls:'red' },
+      { id:3, type:'out', name:'Оплата ЖКХ', date:'22 июн, 09:00', amount:-8432, icon:'⬆', cls:'red' },
+      { id:4, type:'in', name:'Кешбэк FP Gold', date:'21 июн, 12:00', amount:2340, icon:'⬇', cls:'green' },
+      { id:5, type:'in', name:'Пополнение вклада', date:'20 июн, 14:22', amount:50000, icon:'🔄', cls:'blue' },
+      { id:6, type:'out', name:'Оплата мобильной связи', date:'19 июн, 16:00', amount:-650, icon:'⬆', cls:'red' },
+      { id:7, type:'out', name:'Интернет (Дом.ru)', date:'18 июн, 08:30', amount:-1200, icon:'⬆', cls:'red' },
+      { id:8, type:'in', name:'Перевод от Ивана М.', date:'17 июн, 20:15', amount:3000, icon:'⬇', cls:'green' },
+      { id:9, type:'out', name:'Оплата штрафа ГИБДД', date:'16 июн, 11:40', amount:-2500, icon:'⬆', cls:'red' },
+      { id:10, type:'in', name:'Кешбэк рестораны', date:'15 июн, 09:00', amount:876, icon:'⬇', cls:'green' },
+      { id:11, type:'out', name:'Перевод по карте', date:'14 июн, 22:10', amount:-4990, icon:'⬆', cls:'red' },
+      { id:12, type:'in', name:'Возврат от Ozon', date:'13 июн, 15:30', amount:2340, icon:'⬇', cls:'green' },
+    ];
+
+    let pendingAction = null;
+    let balance = 1284750;
+
+    // ===== TAB SWITCHING =====
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.sb-item[data-tab]').forEach(b => b.classList.remove('active'));
+      const tab = document.getElementById('tab-' + tabName);
+      if (tab) tab.classList.add('active');
+      const btn = document.querySelector('.sb-item[data-tab="' + tabName + '"]');
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tabName === 'history') renderHistory();
+    }
+
+    document.querySelectorAll('.sb-item[data-tab]').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // ===== TOAST =====
+    function showToast(msg, isError) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : '');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ===== MODAL =====
+    function showModal(text, cb) {
+      document.getElementById('confirmText').textContent = text;
+      document.getElementById('confirmModal').classList.add('show');
+      pendingAction = cb;
+    }
+    function closeModal() { document.getElementById('confirmModal').classList.remove('show'); pendingAction = null; }
+    function confirmAction() { if (pendingAction) pendingAction(); closeModal(); }
+
+    // ===== TRANSFER =====
+    function toggleTransferFields() {
+      const type = document.getElementById('transferType').value;
+      document.getElementById('transferByPhone').style.display = type === 'phone' ? '' : 'none';
+      document.getElementById('transferByCard').style.display = type === 'card' ? '' : 'none';
+      document.getElementById('transferByAccount').style.display = type === 'account' ? '' : 'none';
+      document.getElementById('transferByOwn').style.display = type === 'own' ? '' : 'none';
+    }
+
+    function doTransfer() {
+      const amount = parseInt(document.getElementById('transferAmount').value);
+      if (!amount || amount < 10) { showToast('Укажите сумму от 10 ₽', true); return; }
+      const from = document.getElementById('transferFrom').value;
+      const type = document.getElementById('transferType').value;
+      let target = '';
+      if (type === 'phone') target = document.getElementById('transferPhone').value || 'по телефону';
+      else if (type === 'card') target = document.getElementById('transferCard').value || 'по карте';
+      else target = 'по реквизитам';
+
+      showModal('Перевести ' + amount.toLocaleString() + ' ₽ с ' + (from === 'gold' ? 'FP Gold' : 'FP Start') + ' ' + target + '?', () => {
+        balance -= amount;
+        updateBalance();
+        document.getElementById('transferSuccess').classList.add('show');
+        document.getElementById('transferSuccessText').textContent = 'Перевод ' + amount.toLocaleString() + ' ₽ выполнен. Номер транзакции: FP' + Date.now().toString(36).toUpperCase();
+        allTransactions.unshift({ id: Date.now(), type:'out', name:'Перевод ' + target, date:'Только что', amount: -amount, icon:'⬆', cls:'red' });
+        showToast('Перевод ' + amount.toLocaleString() + ' ₽ выполнен');
+        renderRecentTx();
+      });
+    }
+
+    // ===== PAYMENTS =====
+    let selectedService = null;
+
+    function selectService(el, name, icon) {
+      document.querySelectorAll('.svc-item').forEach(s => s.style.borderColor = 'rgba(255,255,255,.05)');
+      el.style.borderColor = '#f5b042';
+      selectedService = name;
+      document.getElementById('paymentForm').style.display = 'block';
+      document.getElementById('payServiceName').value = icon + ' ' + name;
+      document.getElementById('paySuccess').classList.remove('show');
+      const extra = document.getElementById('payExtraFields');
+      if (name === 'Мобильная связь') extra.innerHTML = '<div class="form-group"><label>Номер телефона</label><input type="tel" id="payAccount" placeholder="+7 (999) 000-00-00"></div>';
+      else if (name === 'ЖКХ') extra.innerHTML = '<div class="form-group"><label>Лицевой счёт / адрес</label><input type="text" id="payAccount" placeholder="Номер лицевого счёта"></div>';
+      else if (name === 'Штрафы ГИБДД') extra.innerHTML = '<div class="form-group"><label>Номер постановления</label><input type="text" id="payAccount" placeholder="Серия и номер"></div>';
+      else if (name === 'Налоги') extra.innerHTML = '<div class="form-group"><label>ИНН / УИН</label><input type="text" id="payAccount" placeholder="УИН из квитанции (20 цифр)"></div>';
+      else extra.innerHTML = '<div class="form-group"><label>Лицевой счёт / договор</label><input type="text" id="payAccount" placeholder="Введите номер"></div>';
+    }
+
+    function doPayment() {
+      const amount = parseInt(document.getElementById('payAmount').value);
+      if (!amount || amount < 1) { showToast('Укажите сумму оплаты', true); return; }
+      if (!selectedService) { showToast('Выберите услугу', true); return; }
+      const account = document.getElementById('payAccount')?.value || '—';
+
+      showModal('Оплатить ' + selectedService + ' на сумму ' + amount.toLocaleString() + ' ₽?', () => {
+        balance -= amount;
+        updateBalance();
+        document.getElementById('paySuccess').classList.add('show');
+        document.getElementById('paySuccessText').textContent = 'Оплата ' + selectedService + ' на ' + amount.toLocaleString() + ' ₽ выполнена. Чек: FP' + Date.now().toString(36).toUpperCase();
+        allTransactions.unshift({ id: Date.now(), type:'out', name:'Оплата ' + selectedService, date:'Только что', amount: -amount, icon:'⬆', cls:'red' });
+        showToast('Платёж на ' + amount.toLocaleString() + ' ₽ выполнен');
+        renderRecentTx();
+      });
+    }
+
+    // ===== DEPOSITS =====
+    function openDeposit(name, rate) {
+      showModal('Открыть вклад «' + name + '» со ставкой ' + rate + '? Минимальная сумма от 10 000 ₽.', () => {
+        showToast('Заявка на открытие вклада «' + name + '» принята! Мы свяжемся с вами.');
+      });
+    }
+
+    // ===== CARD =====
+    function blockCard(btn) {
+      showModal('Заблокировать карту? Операцию нельзя отменить.', () => {
+        btn.textContent = '🔒 Заблокирована';
+        btn.style.borderColor = '#ff5e5e';
+        btn.style.color = '#ff5e5e';
+        btn.disabled = true;
+        showToast('Карта заблокирована. Новая будет выпущена в течение 3 дней.');
+      });
+    }
+
+    // ===== BALANCE =====
+    function updateBalance() {
+      document.getElementById('totalBalance').textContent = balance.toLocaleString();
+    }
+
+    // ===== RENDER =====
+    function renderRecentTx() {
+      const container = document.getElementById('recentTx');
+      container.innerHTML = allTransactions.slice(0, 5).map(t => {
+        const sign = t.amount > 0 ? '+' : '';
+        return '<div class="tx-item"><div class="tx-left"><div class="tx-icon ' + t.cls + '">' + t.icon + '</div><div class="tx-info"><div class="tx-name">' + t.name + '</div><div class="tx-date">' + t.date + '</div></div></div><div class="tx-amount ' + (t.amount > 0 ? 'positive' : 'negative') + '">' + sign + t.amount.toLocaleString() + ' ₽</div></div>';
+      }).join('');
+    }
+
+    function renderHistory() {
+      const filter = document.getElementById('histFilter').value;
+      const search = document.getElementById('histSearch').value.toLowerCase();
+      const container = document.getElementById('historyList');
+      let filtered = allTransactions;
+      if (filter === 'in') filtered = filtered.filter(t => t.amount > 0);
+      if (filter === 'out') filtered = filtered.filter(t => t.amount < 0);
+      if (search) filtered = filtered.filter(t => t.name.toLowerCase().includes(search));
+      container.innerHTML = filtered.map(t => {
+        const sign = t.amount > 0 ? '+' : '';
+        return '<div class="tx-item"><div class="tx-left"><div class="tx-icon ' + t.cls + '">' + t.icon + '</div><div class="tx-info"><div class="tx-name">' + t.name + '</div><div class="tx-date">' + t.date + '</div></div></div><div class="tx-amount ' + (t.amount > 0 ? 'positive' : 'negative') + '">' + sign + t.amount.toLocaleString() + ' ₽</div></div>';
+      }).join('');
+    }
+
+    // Init
+    renderRecentTx();
+  </script>
+
+  <script>(function(){if(window.innerWidth<768&&!localStorage.getItem('fp_mn_d')){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show');localStorage.setItem('fp_mn_d','1')}</script>
+</body>
+</html>

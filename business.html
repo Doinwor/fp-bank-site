@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бизнесу | FP Банк — РКО, эквайринг, зарплатный проект</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Unbounded',sans-serif; background:#0b0b0e; color:#e0e0e0; line-height:1.5; overflow-x:hidden; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#1a1a1f; }
+    ::-webkit-scrollbar-thumb { background:#f5b042; border-radius:3px; }
+    .container { max-width:1280px; margin:0 auto; padding:0 32px; }
+
+    header { display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid rgba(255,255,255,.06); backdrop-filter:blur(16px); position:fixed; top:0; left:0; right:0; z-index:100; background-color:rgba(11,11,14,.85); transition:padding .3s, box-shadow .3s; }
+    header.scrolled { padding:12px 0; box-shadow:0 4px 40px rgba(0,0,0,.4); }
+    .header-inner { max-width:1280px; margin:0 auto; padding:0 32px; width:100%; display:flex; justify-content:space-between; align-items:center; }
+    .logo { display:flex; align-items:baseline; gap:2px; font-weight:800; font-size:2.2rem; letter-spacing:-1px; line-height:1; text-decoration:none; }
+    .logo .letter-f { color:#f5b042; text-shadow:0 0 20px rgba(245,176,66,.5); }
+    .logo .letter-p { color:#8a8a91; font-weight:700; }
+    .logo-sub { display:block; font-size:.6rem; font-weight:400; color:#8a8a91; letter-spacing:1.5px; text-transform:uppercase; margin-left:4px; }
+    nav { display:flex; gap:24px; align-items:center; }
+    nav a { color:#b0b0b8; text-decoration:none; font-weight:400; font-size:.8rem; transition:color .25s; letter-spacing:.3px; position:relative; }
+    nav a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:#f5b042; transition:width .3s; }
+    nav a:hover::after { width:100%; }
+    nav a:hover { color:#f5b042; }
+    nav a.active { color:#f5b042; }
+    nav a.active::after { width:100%; }
+    .btn-outline { border:1px solid #f5b042; color:#f5b042; padding:10px 22px; border-radius:40px; font-weight:500; transition:all .3s; background:transparent; cursor:pointer; font-family:'Unbounded',sans-serif; font-size:.8rem; text-decoration:none; }
+    .btn-outline:hover { background:#f5b042; color:#0b0b0e; }
+    .btn-primary { background:#f5b042; color:#0b0b0e; font-weight:700; padding:16px 36px; border-radius:50px; border:none; font-size:.95rem; letter-spacing:.5px; cursor:pointer; font-family:'Unbounded',sans-serif; transition:transform .2s, box-shadow .3s; display:inline-block; text-decoration:none; }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 14px 30px rgba(245,176,66,.35); }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
+    .hamburger span { width:26px; height:2px; background:#f5b042; border-radius:2px; transition:.3s; }
+    .hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity:0; }
+    .hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+    .mobile-nav { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(11,11,14,.98); backdrop-filter:blur(20px); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:30px; opacity:0; pointer-events:none; transition:opacity .4s; }
+    .mobile-nav.open { opacity:1; pointer-events:all; }
+    .mobile-nav a { color:#fff; text-decoration:none; font-size:1.6rem; font-weight:500; letter-spacing:1px; }
+    .mobile-nav a:hover { color:#f5b042; }
+
+    .page-header { padding:140px 0 60px; text-align:center; }
+    .page-header h1 { font-size:3.2rem; font-weight:800; color:#fff; letter-spacing:-1px; }
+    .page-header p { color:#8a8a91; font-size:1rem; margin-top:14px; font-family:'Inter',sans-serif; max-width:700px; margin:14px auto 0; }
+    .section-tag { display:inline-block; background:rgba(245,176,66,.1); padding:4px 14px; border-radius:50px; font-size:.65rem; color:#f5b042; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+    .section-title { font-size:2.4rem; font-weight:700; color:#fff; letter-spacing:-.5px; margin-bottom:16px; }
+    .section-sub { color:#8a8a91; font-size:1rem; max-width:560px; font-family:'Inter',sans-serif; font-weight:300; margin-bottom:50px; }
+
+    .biz-hero { background:linear-gradient(135deg,rgba(245,176,66,.08),transparent 60%); border-radius:40px; padding:60px; margin-bottom:60px; display:flex; flex-wrap:wrap; gap:40px; align-items:center; border:1px solid rgba(245,176,66,.1); }
+    .biz-hero .bh-text { flex:1; min-width:280px; }
+    .biz-hero .bh-text h2 { font-size:2.8rem; font-weight:800; color:#fff; letter-spacing:-1px; margin-bottom:16px; }
+    .biz-hero .bh-text p { color:#9a9aa3; font-size:.9rem; font-family:'Inter',sans-serif; line-height:1.8; }
+    .biz-hero .bh-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; min-width:260px; }
+    .biz-hero .bh-stats .bs-item { background:rgba(255,255,255,.03); border-radius:20px; padding:20px; text-align:center; }
+    .biz-hero .bh-stats .bs-item .bs-num { color:#f5b042; font-size:1.8rem; font-weight:700; }
+    .biz-hero .bh-stats .bs-item .bs-label { color:#8a8a91; font-size:.65rem; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+
+    .service-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:32px; padding:36px; margin-bottom:30px; }
+    .service-card h3 { font-size:1.6rem; font-weight:700; color:#fff; margin-bottom:6px; }
+    .service-card .sc-tag { color:#f5b042; font-size:.65rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; font-family:'Inter',sans-serif; }
+    .service-card .sc-desc { color:#9a9aa3; font-size:.9rem; font-family:'Inter',sans-serif; line-height:1.7; margin-bottom:20px; }
+    .service-card h4 { color:#f5b042; font-size:.9rem; font-weight:600; margin:20px 0 12px; }
+    .service-card ul { list-style:none; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .service-card ul li { color:#b0b0b8; font-size:.85rem; font-family:'Inter',sans-serif; padding-left:20px; position:relative; }
+    .service-card ul li::before { content:'●'; color:#f5b042; position:absolute; left:0; font-size:.5rem; top:6px; }
+    .service-card .sc-price { display:inline-block; background:rgba(245,176,66,.08); border:1px solid rgba(245,176,66,.15); border-radius:50px; padding:8px 20px; color:#f5b042; font-size:.8rem; margin-top:16px; }
+
+    .rates-table { width:100%; border-collapse:collapse; font-family:'Inter',sans-serif; margin:20px 0; }
+    .rates-table th { text-align:left; padding:14px 16px; color:#f5b042; font-size:.75rem; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid rgba(255,255,255,.06); }
+    .rates-table td { padding:14px 16px; color:#b0b0b8; font-size:.85rem; border-bottom:1px solid rgba(255,255,255,.04); }
+    .rates-table td:last-child { color:#fff; font-weight:500; text-align:right; }
+    .rates-table tr:hover td { background:rgba(255,255,255,.02); }
+
+    .biz-cta { background:linear-gradient(135deg,rgba(245,176,66,.08),transparent); border:1px solid rgba(245,176,66,.15); border-radius:32px; padding:50px; text-align:center; margin-bottom:60px; }
+    .biz-cta h3 { font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:10px; }
+    .biz-cta p { color:#9a9aa3; font-size:.9rem; font-family:'Inter',sans-serif; max-width:500px; margin:0 auto 24px; }
+
+    .biz-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:60px; }
+    .biz-step { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:24px; padding:24px; text-align:center; }
+    .biz-step .bs-num { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#f5b042,#d08c1a); display:flex; align-items:center; justify-content:center; font-weight:700; color:#0b0b0e; margin:0 auto 14px; font-size:1.1rem; }
+    .biz-step h4 { color:#fff; font-size:.9rem; font-weight:600; margin-bottom:6px; }
+    .biz-step p { color:#8a8a91; font-size:.8rem; font-family:'Inter',sans-serif; }
+
+    footer { background:rgba(255,255,255,.02); border-top:1px solid rgba(255,255,255,.05); padding:60px 0 30px; margin-top:60px; font-family:'Inter',sans-serif; }
+    .footer-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:30px; margin-bottom:40px; }
+    .footer-col h4 { color:#fff; font-size:.8rem; font-weight:600; margin-bottom:16px; font-family:'Unbounded',sans-serif; }
+    .footer-col a { display:block; color:#8a8a91; text-decoration:none; font-size:.85rem; margin-bottom:10px; transition:color .2s; }
+    .footer-col a:hover { color:#f5b042; }
+    .footer-col p { color:#8a8a91; font-size:.8rem; margin-bottom:6px; }
+    .footer-col .social { display:flex; gap:12px; margin-top:10px; }
+    .footer-col .social a { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center; font-size:.8rem; }
+    .footer-bottom { display:flex; justify-content:space-between; padding-top:20px; border-top:1px solid rgba(255,255,255,.04); color:#6b6b76; font-size:.8rem; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .6s, transform .6s; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:768px) {
+      .container { padding:0 20px; }
+      nav { display:none; }
+      .hamburger { display:flex; }
+      .mobile-nav { display:flex; }
+      .page-header h1 { font-size:2rem; }
+      .biz-hero { padding:30px; }
+      .biz-hero .bh-text h2 { font-size:1.8rem; }
+      .biz-hero .bh-stats { grid-template-columns:1fr; }
+      .section-title { font-size:1.6rem; }
+      .service-card ul { grid-template-columns:1fr; }
+      .biz-steps { grid-template-columns:1fr 1fr; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .rates-table { font-size:.75rem; }
+      .rates-table th, .rates-table td { padding:10px 8px; }
+    }
+    @media (max-width:480px) {
+      .biz-steps { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr; }
+      .footer-bottom { flex-direction:column; gap:8px; text-align:center; }
+    }
+  /* Mobile notice */
+  .mobile-notice {
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(11,11,14,.92);
+    backdrop-filter:blur(12px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s;
+  }
+  .mobile-notice.show{opacity:1;pointer-events:auto}
+  .mobile-notice .mn-inner{max-width:360px;text-align:center;padding:40px 28px}
+  .mobile-notice .mn-icon{width:56px;height:56px;background:rgba(245,176,66,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+  .mobile-notice .mn-title{color:#f5b042;font-size:.85rem;font-weight:600;margin-bottom:10px}
+  .mobile-notice p{color:#9a9aa3;font-size:.77rem;font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:20px}
+  .mobile-notice .mn-btn{background:#f5b042;color:#0b0b0e;border:none;padding:12px 40px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <!-- Mobile notice -->
+  <div class="mobile-notice" id="mobileNotice">
+    <div class="mn-inner">
+      <div class="mn-icon">📱</div>
+      <div class="mn-title">Мобильная версия</div>
+      <p>Ой, этот сайт не дружит с телефонами, если честно. Основной сайт под телефон не оптимизирован — лучше заходить с компьютера. А онлайн-банк как раз сделан под телефон, им можно пользоваться.</p>
+      <button class="mn-btn" onclick="dismissMobileNotice()">Всё равно продолжить</button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Главная</a>
+    <a href="about.html">О банке</a>
+    <a href="business.html">Бизнесу</a>
+    <a href="mortgage.html">Ипотека</a>
+    <a href="credits.html">Кредиты</a>
+    <a href="deposits.html">Вклады</a>
+    <a href="cards.html">Карты</a>
+    <a href="contacts.html">Контакты</a>
+    <a href="online.html" class="btn-outline" style="margin-top:10px;">Войти</a>
+  </div>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="FP Банк">
+        <span class="letter-f">Ф</span><span class="letter-p">П</span>
+        <span class="logo-sub">Банк</span>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="about.html">О банке</a>
+        <a href="business.html" class="active">Бизнесу</a>
+        <a href="mortgage.html">Ипотека</a>
+        <a href="credits.html">Кредиты</a>
+        <a href="deposits.html">Вклады</a>
+        <a href="cards.html">Карты</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="online.html" class="btn-outline">Войти</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <section class="page-header reveal">
+      <span class="section-tag">Бизнесу</span>
+      <h1>Финансы для вашего бизнеса</h1>
+      <p>Полный спектр услуг для юридических лиц и индивидуальных предпринимателей: расчётно-кассовое обслуживание, эквайринг, зарплатные проекты, кредитование и многое другое.</p>
+    </section>
+
+    <!-- Hero -->
+    <div class="biz-hero reveal">
+      <div class="bh-text">
+        <h2>Бизнес на полную мощность</h2>
+        <p>Мы понимаем, что бизнесу нужны не просто банковские услуги, а надёжный финансовый партнёр. FP Банк предлагает современные инструменты для управления счетами, приёма платежей, выплаты зарплаты и привлечения финансирования — всё в одном окне, без лишних бюрократических барьеров.</p>
+        <p>Откройте расчётный счёт онлайн за 10 минут, подключайте эквайринг уже на следующий день, управляйте финансами через удобный интернет-банк и мобильное приложение. Мы работаем с ООО, АО, ИП, NPO и иностранными компаниями.</p>
+      </div>
+      <div class="bh-stats">
+        <div class="bs-item">
+          <div class="bs-num">45 000+</div>
+          <div class="bs-label">Клиентов-юрлиц</div>
+        </div>
+        <div class="bs-item">
+          <div class="bs-num">2,4 млрд ₽</div>
+          <div class="bs-label">Кредитный портфель</div>
+        </div>
+        <div class="bs-item">
+          <div class="bs-num">50 000+</div>
+          <div class="bs-label">Терминалов эквайринга</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RKO -->
+    <div class="service-card reveal" id="rko">
+      <div class="sc-tag">Расчётно-кассовое обслуживание</div>
+      <h3>РКО — расчётный счёт для бизнеса</h3>
+      <div class="sc-desc">
+        Открытие и ведение расчётного счёта — базовая услуга, с которой начинается сотрудничество бизнеса с банком. FP Банк предлагает современное РКО с максимально быстрым проведением платежей, удобным интернет-банком и прозрачными тарифами.
+      </div>
+      <h4>Открытие счёта</h4>
+      <ul>
+        <li>Дистанционное открытие без визита в офис — через сайт или приложение</li>
+        <li>Минимальный пакет документов: паспорт, ИНН, ОГРН, устав</li>
+        <li>Счёт открывается за 1 рабочий день, доступ к платежам сразу</li>
+        <li>Подключение к системе Банк-Клиент и мобильному приложению</li>
+        <li>Открытие счетов в рублях, долларах, евро и других валютах</li>
+        <li>Мультивалютное обслуживание — единый доступ ко всем счетам</li>
+      </ul>
+      <h4>Проведение платежей</h4>
+      <ul>
+        <li>Внутренние переводы между счетами — бесплатно и мгновенно</li>
+        <li>Платежи в бюджет и внебюджетные фонды — бесплатно</li>
+        <li>Переводы юрлицам до 100 000 ₽ — без комиссии</li>
+        <li>Срочные платежи по системе «Клиент-Банк» за 30 минут</li>
+        <li>Зарплатные реестры и массовые выплаты за 1 клик</li>
+        <li>Автоматические платёжные шаблоны и регулярные списания</li>
+      </ul>
+      <h4>Интернет-банк и мобильное приложение</h4>
+      <ul>
+        <li>Полнофункциональный интернет-банк «FP Бизнес» 24/7</li>
+        <li>Мобильное приложение «FP Business» для iOS и Android</li>
+        <li>Формирование и подписание платёжных документов онлайн</li>
+        <li>Выписки и отчёты за любой период в 1 клик</li>
+        <li>Электронный документооборот с ИФНС и контрагентами</li>
+        <li>Подключение бухгалтерских систем: 1С, SAP, Oracle</li>
+      </ul>
+      <div class="sc-price">Обслуживание от 0 ₽ при обороте от 100 000 ₽/мес</div>
+    </div>
+
+    <!-- Acquiring -->
+    <div class="service-card reveal" id="acquiring">
+      <div class="sc-tag">Эквайринг</div>
+      <h3>Приём платежей — торговый и интернет-эквайринг</h3>
+      <div class="sc-desc">
+        Принимайте оплату от клиентов любым удобным способом: банковскими картами, через QR-код, бесконтактно и онлайн. FP Банк предлагает полный спектр решений для любого бизнеса — от небольшого магазина до крупной торговой сети.
+      </div>
+      <h4>Торговый эквайринг</h4>
+      <ul>
+        <li>Установка POS-терминалов в торговых точках — от 1 дня</li>
+        <li>Поддержка всех типов карт: Visa, Mastercard, МИР, UnionPay</li>
+        <li>Бесконтактная оплата: NFC, Apple Pay, Google Pay, Samsung Pay</li>
+        <li>Ставка эквайринга от 0,5% до 1,2% в зависимости от оборота</li>
+        <li>Зачисление средств на расчётный счёт на следующий день</li>
+        <li>Техническая поддержка 24/7, замена терминала за 4 часа</li>
+        <li>Аренда и выкуп терминалов — гибкие условия</li>
+      </ul>
+      <h4>Интернет-эквайринг</h4>
+      <ul>
+        <li>Платёжный шлюз для интернет-магазинов и онлайн-сервисов</li>
+        <li>Приём платежей на сайте, через мобильное приложение, по ссылке</li>
+        <li>Поддержка рекуррентных платежей (подписки, абонементы)</li>
+        <li>Простая интеграция через API, CMS-модули (WordPress, 1С-Битрикс, Shop-Script)</li>
+        <li>Безопасность: 3D Secure 2.0, PCI DSS Level 1, антифрод-мониторинг</li>
+        <li>Быстрая модерация — подключение за 1 рабочий день</li>
+      </ul>
+      <h4>QR-эквайринг и СБП</h4>
+      <ul>
+        <li>Оплата через Систему Быстрых Платежей (СБП) по QR-коду</li>
+        <li>Ставка эквайринга по СБП — от 0,4% (ниже, чем по картам)</li>
+        <li>Мгновенное зачисление средств — деньги приходят сразу</li>
+        <li>Генерация QR-кодов в личном кабинете и приложении</li>
+        <li>Печать QR-кода на кассовом чеке и POS-терминале</li>
+      </ul>
+      <h4>Мобильный эквайринг</h4>
+      <ul>
+        <li>Компактные mPOS-терминалы для курьеров и выездной торговли</li>
+        <li>Подключение к смартфону через Bluetooth — не нужна касса</li>
+        <li>Приём платежей в любом месте: на выезде, на мероприятии, в такси</li>
+        <li>Заряда терминала хватает на 200+ операций</li>
+      </ul>
+      <div class="sc-price">Торговый эквайринг — от 0,5% | Интернет-эквайринг — от 1,2% | Первый терминал бесплатно</div>
+    </div>
+
+    <!-- Payroll -->
+    <div class="service-card reveal" id="payroll">
+      <div class="sc-tag">Зарплатный проект</div>
+      <h3>Выплата зарплаты сотрудникам</h3>
+      <div class="sc-desc">
+        Зарплатный проект FP Банка — это удобный и выгодный способ выплачивать заработную плату, премии и другие вознаграждения сотрудникам без лишних комиссий и с простым документооборотом.
+      </div>
+      <h4>Условия зарплатного проекта</h4>
+      <ul>
+        <li>Перевод зарплаты сотрудникам — бесплатно в день выплаты</li>
+        <li>Зачисление на карты FP Start или FP Gold каждому сотруднику</li>
+        <li>Выпуск корпоративных карт для сотрудников — бесплатно</li>
+        <li>Возможность выплачивать зарплату на карты других банков</li>
+        <li>Формирование реестра в интернет-банке: загружайте Excel или вводите вручную</li>
+        <li>Автоматические выплаты по расписанию — задайте график на месяц</li>
+      </ul>
+      <h4>Преимущества для сотрудников</h4>
+      <ul>
+        <li>Дебетовая карта с бесплатным обслуживанием на весь срок работы</li>
+        <li>Кешбэк до 15% в категориях и до 5% на остаток по карте</li>
+        <li>Бесплатные переводы и снятие наличных в банкоматах</li>
+        <li>Зарплатный кредит со ставкой на 2% ниже стандартной</li>
+        <li>Овердрафт до 50 000 ₽ с льготным периодом 60 дней</li>
+        <li>Премиальное обслуживание при зарплате от 150 000 ₽/мес</li>
+      </ul>
+      <h4>Корпоративные карты</h4>
+      <ul>
+        <li>Корпоративные карты для руководителей и сотрудников на командировки</li>
+        <li>Лимиты и категории расходов — индивидуальные настройки</li>
+        <li>Контроль расходов в реальном времени в интернет-банке</li>
+        <li>Автоматическое формирование авансовых отчётов</li>
+        <li>Бесплатное обслуживание корпоративных карт</li>
+        <li>Кешбэк 1% на все корпоративные расходы</li>
+      </ul>
+      <div class="sc-price">Обслуживание зарплатного проекта — бесплатно | Переводы зарплаты — 0 ₽</div>
+    </div>
+
+    <!-- Business lending -->
+    <div class="service-card reveal" id="lending">
+      <div class="sc-tag">Кредитование бизнеса</div>
+      <h3>Финансирование для роста и развития</h3>
+      <div class="sc-desc">
+        FP Банк предлагает широкий спектр кредитных продуктов для юридических лиц и индивидуальных предпринимателей — от небольших займов на пополнение оборотных средств до крупного инвестиционного финансирования и банковских гарантий.
+      </div>
+      <h4>Виды кредитных продуктов</h4>
+      <ul>
+        <li><strong>Оборотный кредит</strong> — на пополнение оборотных средств, закупку товаров, выплату зарплаты. Сумма до 50 млн ₽, срок до 3 лет, ставка от 10% годовых</li>
+        <li><strong>Инвестиционный кредит</strong> — на покупку оборудования, недвижимости, транспортных средств. Сумма до 200 млн ₽, срок до 10 лет, ставка от 8,5% годовых</li>
+        <li><strong>Овердрафт</strong> — кредитный лимит к расчётному счёту для покрытия кассовых разрывов. Лимит до 60% от среднемесячного оборота, ставка от 12% годовых</li>
+        <li><strong>Банковские гарантии</strong> — обеспечение исполнения контрактов, тендеров, таможенных платежей. Сумма до 500 млн ₽, от 2% от суммы гарантии</li>
+        <li><strong>Кредитная линия</strong> — возобновляемая/невозобновляемая линия с гибким графиком выборки. Сумма до 200 млн ₽, срок до 5 лет</li>
+        <li><strong>Сельскохозяйственный кредит</strong> — сезонное финансирование для аграриев. Сумма до 30 млн ₽, срок до 2 лет, льготная ставка от 5%</li>
+      </ul>
+      <h4>Требования к заёмщику</h4>
+      <ul>
+        <li>Компания зарегистрирована на территории Загребенской Республики</li>
+        <li>Срок деятельности — не менее 6 месяцев (для оборотного кредита)</li>
+        <li>Отсутствие просроченной задолженности по налогам и сборам</li>
+        <li>Положительная кредитная история в бюро кредитных историй</li>
+        <li>Предоставление финансовой отчётности за последний отчётный период</li>
+        <li>Отсутствие процедур банкротства и ликвидации</li>
+      </ul>
+      <h4>Документы для получения кредита</h4>
+      <ul>
+        <li>Заявление-анкета на получение кредита (по форме Банка)</li>
+        <li>Учредительные документы: устав, свидетельство ОГРН, ИНН</li>
+        <li>Финансовая отчётность: бухгалтерский баланс, отчёт о прибылях и убытках</li>
+        <li>Выписки по расчётным счетам за последние 3–6 месяцев</li>
+        <li>Документы по обеспечению: договор залога, поручительства</li>
+        <li>Бизнес-план или технико-экономическое обоснование (для инвестиционных кредитов)</li>
+      </ul>
+      <div class="sc-price">Рассмотрение заявки — бесплатно | Решение за 1–3 рабочих дня</div>
+    </div>
+
+    <!-- Deposits -->
+    <div class="service-card reveal" id="deposits">
+      <div class="sc-tag">Депозиты для юрлиц</div>
+      <h3>Размещение свободных средств</h3>
+      <div class="sc-desc">
+        Размещайте временно свободные денежные средства компании на депозитах FP Банка с гарантированной доходностью. Мы предлагаем гибкие условия по срокам и суммам, удобные для любого бизнеса.
+      </div>
+      <h4>Виды депозитов</h4>
+      <ul>
+        <li><strong>Срочный депозит</strong> — фиксированная сумма на фиксированный срок (от 30 дней до 2 лет). Ставка до 19% годовых в зависимости от суммы и срока</li>
+        <li><strong>Депозит с пополнением</strong> — возможность пополнять сумму вклада в течение срока договора. Минимальное пополнение — 100 000 ₽</li>
+        <li><strong>Депозит с частичным снятием</strong> — возможность снять часть средств без потери процентов (неснижаемый остаток — от 500 000 ₽)</li>
+        <li><strong>Накопительный счёт</strong> — бессрочное размещение средств с начислением процентов на ежедневный остаток. Ставка до 12% годовых</li>
+      </ul>
+      <h4>Условия размещения</h4>
+      <ul>
+        <li>Минимальная сумма депозита — от 500 000 ₽</li>
+        <li>Срок размещения — от 30 дней до 2 лет</li>
+        <li>Выплата процентов — в конце срока или ежемесячно на расчётный счёт</li>
+        <li>Автопролонгация договора при отсутствии заявления о закрытии</li>
+        <li>Возможность досрочного расторжения с пересчётом по ставке «до востребования»</li>
+        <li>Страхование депозитов юрлиц не предусмотрено, однако Банк гарантирует надёжность</li>
+      </ul>
+      <div class="sc-price">Ставки от 12% до 19% годовых | Минимальная сумма 500 000 ₽</div>
+    </div>
+
+    <!-- Document flow -->
+    <div class="service-card reveal" id="docs">
+      <div class="sc-tag">Документооборот и отчётность</div>
+      <h3>Электронный документооборот</h3>
+      <div class="sc-desc">
+        Полностью цифровой документооборот с Банком и контрагентами — работайте без бумаги, получайте все документы онлайн и интегрируйтесь с вашей бухгалтерской системой.
+      </div>
+      <h4>Доступные возможности</h4>
+      <ul>
+        <li>Подписание договоров усиленной электронной подписью (УКЭП)</li>
+        <li>Обмен счетами-фактурами, актами, накладными с контрагентами</li>
+        <li>Электронный обмен с налоговой — декларации, отчёты, сверки</li>
+        <li>Выписки и справки по счетам в электронном виде (PDF, Excel, 1С)</li>
+        <li>Автоматическое формирование актов сверки взаиморасчётов</li>
+        <li>Архив документов за весь период обслуживания в личном кабинете</li>
+      </ul>
+      <h4>Интеграция с бухгалтерскими системами</h4>
+      <ul>
+        <li>Прямая интеграция с 1С: Предприятие 8.3, 1С: Бухгалтерия, 1С: Управление торговлей</li>
+        <li>Выгрузка выписок в форматах 1С, Excel, CSV, XML</li>
+        <li>Автоматическая загрузка контрагентов и договоров</li>
+        <li>Поддержка SAP, Oracle, Microsoft Dynamics</li>
+        <li>API для интеграции с собственными системами Клиента</li>
+        <li>Техническая поддержка по интеграции — круглосуточно</li>
+      </ul>
+      <div class="sc-price">ЭДО — бесплатно | Выписки — бесплатно | УКЭП — 1 500 ₽/год</div>
+    </div>
+
+    <!-- Tariffs -->
+    <div class="service-card reveal" id="tariffs">
+      <div class="sc-tag">Тарифы</div>
+      <h3>Тарифы РКО для бизнеса</h3>
+      <div class="sc-desc">Выберите тарифный план, который подходит вашему бизнесу. Все тарифы включают открытие счёта, интернет-банк и мобильное приложение.</div>
+      <table class="rates-table">
+        <tr><th>Услуга</th><th></th></tr>
+        <tr><td>Открытие расчётного счёта</td><td>Бесплатно</td></tr>
+        <tr><td>Обслуживание счёта (базовое)</td><td>0–990 ₽/мес</td></tr>
+        <tr><td>Платежи юрлицам (внутри банка)</td><td>Бесплатно</td></tr>
+        <tr><td>Платежи юрлицам (в другие банки)</td><td>0–45 ₽ за платеж</td></tr>
+        <tr><td>Платежи в бюджет</td><td>Бесплатно</td></tr>
+        <tr><td>Внесение наличных на счёт</td><td>0,15% (мин. 50 ₽)</td></tr>
+        <tr><td>Снятие наличных (до 500 000 ₽/мес)</td><td>1%</td></tr>
+        <tr><td>Снятие наличных (свыше 500 000 ₽/мес)</td><td>2,5%</td></tr>
+        <tr><td>Выпуск корпоративной карты</td><td>Бесплатно</td></tr>
+        <tr><td>Торговый эквайринг</td><td>от 0,5%</td></tr>
+        <tr><td>Интернет-эквайринг</td><td>от 1,2%</td></tr>
+        <tr><td>Зарплатный проект (переводы)</td><td>Бесплатно</td></tr>
+        <tr><td>Зарплатный проект (выпуск карт)</td><td>Бесплатно</td></tr>
+        <tr><td>Предоставление выписок (электронные)</td><td>Бесплатно</td></tr>
+        <tr><td>Предоставление выписок (бумажные)</td><td>150 ₽</td></tr>
+        <tr><td>Уведомления по SMS</td><td>0–2 ₽/шт</td></tr>
+      </table>
+    </div>
+
+    <!-- Steps -->
+    <div class="reveal">
+      <span class="section-tag">Как начать</span>
+      <h2 class="section-title">Открыть счёт за 4 шага</h2>
+      <p class="section-sub">Всё онлайн, без визита в отделение и без очередей.</p>
+    </div>
+    <div class="biz-steps reveal">
+      <div class="biz-step">
+        <div class="bs-num">1</div>
+        <h4>Оставьте заявку</h4>
+        <p>Заполните анкету на сайте — это займёт 5 минут. Потребуются паспорт, ИНН, ОГРН.</p>
+      </div>
+      <div class="biz-step">
+        <div class="bs-num">2</div>
+        <h4>Загрузите документы</h4>
+        <p>Прикрепите сканы учредительных документов и подпишите договор электронной подписью.</p>
+      </div>
+      <div class="biz-step">
+        <div class="bs-num">3</div>
+        <h4>Дождитесь открытия</h4>
+        <p>Банк проверит документы и откроет счёт в течение 1 рабочего дня.</p>
+      </div>
+      <div class="biz-step">
+        <div class="bs-num">4</div>
+        <h4>Начинайте работать</h4>
+        <p>Получите доступ в интернет-банк, закажите карту и подключайте нужные услуги.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="biz-cta reveal">
+      <h3>Готовы открыть счёт?</h3>
+      <p>Оставьте заявку онлайн — мы свяжемся с вами в течение 15 минут в рабочее время.</p>
+      <a href="contacts.html" class="btn-primary">Оставить заявку</a>
+      <p style="margin-top:14px;font-size:.8rem;color:#6b6b76;">Или позвоните: 8 800 700-ФП-БАНК</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div style="font-weight:800;font-size:1.4rem;color:#f5b042;font-family:'Unbounded',sans-serif;margin-bottom:10px;">ФП</div>
+          <p style="font-size:.8rem;color:#6b6b76;">Цифровой банк нового поколения.</p>
+          <p style="font-size:.75rem;color:#6b6b76;margin-top:6px;">Лицензия ЦБ Загребенской Республики № 1234</p>
+          <div class="social">
+            <a href="#" aria-label="Telegram">T</a>
+            <a href="#" aria-label="VK">VK</a>
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Частным лицам</h4>
+          <a href="cards.html">Дебетовые карты</a>
+          <a href="credits.html">Кредитные карты</a>
+          <a href="mortgage.html">Ипотека</a>
+          <a href="credits.html">Потребительские кредиты</a>
+          <a href="deposits.html">Вклады</a>
+        </div>
+        <div class="footer-col">
+          <h4>Бизнесу</h4>
+          <a href="business.html#rko">РКО</a>
+          <a href="business.html#acquiring">Эквайринг</a>
+          <a href="business.html#payroll">Зарплатный проект</a>
+          <a href="business.html#lending">Кредитование бизнеса</a>
+          <a href="business.html#tariffs">Тарифы</a>
+        </div>
+        <div class="footer-col">
+          <h4>О банке</h4>
+          <a href="about.html">О компании</a>
+          <a href="about.html">Реквизиты</a>
+          <a href="documents.html">Документы</a>
+          <a href="contacts.html">Контакты</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 FP Банк. Все права защищены.</div>
+        <div>8 800 700-ФП-БАНК</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); mobileNav.classList.toggle('open'); });
+    function closeMobile() { hamburger.classList.remove('active'); mobileNav.classList.remove('open'); }
+    mobileNav.addEventListener('click', closeMobile);
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold:0.1, rootMargin:'0px 0px -50px 0px' });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+
+  <script>(function(){if(window.innerWidth<768&&!localStorage.getItem('fp_mn_d')){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show');localStorage.setItem('fp_mn_d','1')}</script>
+</body>
+</html>

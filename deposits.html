@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вклады | FP Банк</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Unbounded',sans-serif; background:#0b0b0e; color:#e0e0e0; line-height:1.5; overflow-x:hidden; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#1a1a1f; }
+    ::-webkit-scrollbar-thumb { background:#f5b042; border-radius:3px; }
+    .container { max-width:1280px; margin:0 auto; padding:0 32px; }
+
+    header { display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid rgba(255,255,255,.06); backdrop-filter:blur(16px); position:fixed; top:0; left:0; right:0; z-index:100; background-color:rgba(11,11,14,.85); transition:padding .3s, box-shadow .3s; }
+    header.scrolled { padding:12px 0; box-shadow:0 4px 40px rgba(0,0,0,.4); }
+    .header-inner { max-width:1280px; margin:0 auto; padding:0 32px; width:100%; display:flex; justify-content:space-between; align-items:center; }
+    .logo { display:flex; align-items:baseline; gap:2px; font-weight:800; font-size:2.2rem; letter-spacing:-1px; line-height:1; text-decoration:none; }
+    .logo .letter-f { color:#f5b042; text-shadow:0 0 20px rgba(245,176,66,.5); }
+    .logo .letter-p { color:#8a8a91; font-weight:700; }
+    .logo-sub { display:block; font-size:.6rem; font-weight:400; color:#8a8a91; letter-spacing:1.5px; text-transform:uppercase; margin-left:4px; }
+    nav { display:flex; gap:20px; align-items:center; }
+    nav a { color:#b0b0b8; text-decoration:none; font-weight:400; font-size:.78rem; transition:color .25s; letter-spacing:.3px; position:relative; }
+    nav a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:#f5b042; transition:width .3s; }
+    nav a:hover::after { width:100%; }
+    nav a:hover { color:#f5b042; }
+    nav a.active { color:#f5b042; }
+    nav a.active::after { width:100%; }
+    .btn-outline { border:1px solid #f5b042; color:#f5b042; padding:10px 22px; border-radius:40px; font-weight:500; transition:all .3s; background:transparent; cursor:pointer; font-family:'Unbounded',sans-serif; font-size:.8rem; text-decoration:none; }
+    .btn-outline:hover { background:#f5b042; color:#0b0b0e; }
+    .btn-primary { background:#f5b042; color:#0b0b0e; font-weight:700; padding:16px 36px; border-radius:50px; border:none; font-size:.95rem; letter-spacing:.5px; cursor:pointer; font-family:'Unbounded',sans-serif; transition:transform .2s, box-shadow .3s; display:inline-block; text-decoration:none; }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 14px 30px rgba(245,176,66,.35); }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
+    .hamburger span { width:26px; height:2px; background:#f5b042; border-radius:2px; transition:.3s; }
+    .hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity:0; }
+    .hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+    .mobile-nav { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(11,11,14,.98); backdrop-filter:blur(20px); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:30px; opacity:0; pointer-events:none; transition:opacity .4s; }
+    .mobile-nav.open { opacity:1; pointer-events:all; }
+    .mobile-nav a { color:#fff; text-decoration:none; font-size:1.6rem; font-weight:500; letter-spacing:1px; }
+    .mobile-nav a:hover { color:#f5b042; }
+
+    .page-header { padding:140px 0 60px; text-align:center; }
+    .page-header h1 { font-size:3.2rem; font-weight:800; color:#fff; letter-spacing:-1px; }
+    .page-header p { color:#8a8a91; font-size:1rem; margin-top:14px; font-family:'Inter',sans-serif; max-width:600px; margin:14px auto 0; }
+    .section-tag { display:inline-block; background:rgba(245,176,66,.1); padding:4px 14px; border-radius:50px; font-size:.65rem; color:#f5b042; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+    .section-title { font-size:2.4rem; font-weight:700; color:#fff; letter-spacing:-.5px; margin-bottom:16px; }
+    .section-sub { color:#8a8a91; font-size:1rem; max-width:560px; font-family:'Inter',sans-serif; font-weight:300; margin-bottom:50px; }
+
+    .calc-section { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:60px; }
+    .calc-panel { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:32px; padding:36px; }
+    .calc-panel h3 { color:#fff; font-size:1.3rem; font-weight:600; margin-bottom:24px; }
+    .calc-group { margin-bottom:20px; }
+    .calc-group label { display:flex; justify-content:space-between; color:#9a9aa3; font-size:.8rem; margin-bottom:8px; font-family:'Inter',sans-serif; }
+    .calc-group label span { color:#f5b042; font-weight:600; }
+    .calc-group input[type="range"] { width:100%; -webkit-appearance:none; background:rgba(245,176,66,.15); height:4px; border-radius:2px; outline:none; }
+    .calc-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:#f5b042; cursor:pointer; box-shadow:0 0 20px rgba(245,176,66,.3); }
+    .calc-result { background:rgba(245,176,66,.06); border:1px solid rgba(245,176,66,.15); border-radius:24px; padding:28px; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+    .calc-result .cr-label { color:#8a8a91; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; }
+    .calc-result .cr-amount { font-size:3rem; font-weight:800; color:#4cd964; margin:8px 0; }
+    .calc-result .cr-detail { color:#9a9aa3; font-size:.85rem; font-family:'Inter',sans-serif; }
+    .calc-breakdown { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px; }
+    .calc-breakdown .cb-item { background:rgba(255,255,255,.02); border-radius:16px; padding:16px; text-align:center; }
+    .calc-breakdown .cb-item .cb-label { color:#8a8a91; font-size:.65rem; text-transform:uppercase; letter-spacing:.5px; }
+    .calc-breakdown .cb-item .cb-value { color:#fff; font-size:1.1rem; font-weight:600; margin-top:4px; }
+
+    .programs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:60px; }
+    .program-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:28px; padding:32px; transition:all .3s; }
+    .program-card:hover { border-color:rgba(245,176,66,.3); transform:translateY(-6px); }
+    .program-card .pc-type { font-size:.7rem; color:#f5b042; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+    .program-card h4 { font-size:1.5rem; font-weight:700; color:#fff; margin-bottom:6px; }
+    .program-card .pc-rate { color:#4cd964; font-size:2rem; font-weight:800; }
+    .program-card .pc-rate small { font-size:.8rem; font-weight:400; color:#8a8a91; }
+    .program-card p { color:#9a9aa3; font-size:.85rem; font-family:'Inter',sans-serif; line-height:1.6; margin:12px 0; }
+    .program-card ul { list-style:none; padding:0; }
+    .program-card ul li { color:#9a9aa3; font-size:.8rem; padding:6px 0; font-family:'Inter',sans-serif; padding-left:20px; position:relative; }
+    .program-card ul li::before { content:'✓'; position:absolute; left:0; color:#f5b042; }
+
+    .rates-compare { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:60px; }
+    .rc-item { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:20px; padding:24px; text-align:center; }
+    .rc-item .rc-term { color:#f5b042; font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; }
+    .rc-item .rc-rate { font-size:2.2rem; font-weight:800; color:#4cd964; margin:8px 0; }
+    .rc-item .rc-label { color:#8a8a91; font-size:.75rem; font-family:'Inter',sans-serif; }
+
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity .7s, transform .7s; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    footer { border-top:1px solid rgba(255,255,255,.06); padding:60px 0 30px; margin-top:40px; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+    .footer-col h4 { font-size:1rem; color:#fff; margin-bottom:18px; font-weight:600; }
+    .footer-col a { display:block; color:#7a7a85; text-decoration:none; font-size:.85rem; margin-bottom:10px; transition:color .2s; font-family:'Inter',sans-serif; font-weight:300; }
+    .footer-col a:hover { color:#f5b042; }
+    .footer-col p { color:#7a7a85; font-size:.85rem; line-height:1.7; font-family:'Inter',sans-serif; font-weight:300; }
+    .footer-logo-lg { display:flex; align-items:baseline; gap:2px; font-weight:800; font-size:2rem; margin-bottom:14px; }
+    .footer-logo-lg .f { color:#f5b042; }
+    .footer-logo-lg .p { color:#8a8a91; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,.04); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; color:#6b6b76; font-size:.75rem; font-weight:300; }
+    .social-links { display:flex; gap:12px; }
+    .social-links a { width:40px; height:40px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; text-decoration:none; color:#8a8a91; font-size:1rem; transition:all .3s; }
+    .social-links a:hover { background:#f5b042; color:#0b0b0e; border-color:#f5b042; }
+
+    @media (max-width:1024px) { .calc-section { grid-template-columns:1fr; } .programs-grid { grid-template-columns:repeat(2,1fr); } .rates-compare { grid-template-columns:repeat(2,1fr); } .footer-grid { grid-template-columns:1fr 1fr; } }
+    @media (max-width:768px) {
+      .container { padding:0 20px; } .header-inner { padding:0 20px; } nav { display:none; } .hamburger { display:flex; } .mobile-nav { display:flex; }
+      .page-header h1 { font-size:2.2rem; } .programs-grid { grid-template-columns:1fr; } .rates-compare { grid-template-columns:1fr; } .calc-result .cr-amount { font-size:2.2rem; } .footer-grid { grid-template-columns:1fr; }
+    }
+  /* Mobile notice */
+  .mobile-notice {
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(11,11,14,.92);
+    backdrop-filter:blur(12px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s;
+  }
+  .mobile-notice.show{opacity:1;pointer-events:auto}
+  .mobile-notice .mn-inner{max-width:360px;text-align:center;padding:40px 28px}
+  .mobile-notice .mn-icon{width:56px;height:56px;background:rgba(245,176,66,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+  .mobile-notice .mn-title{color:#f5b042;font-size:.85rem;font-weight:600;margin-bottom:10px}
+  .mobile-notice p{color:#9a9aa3;font-size:.77rem;font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:20px}
+  .mobile-notice .mn-btn{background:#f5b042;color:#0b0b0e;border:none;padding:12px 40px;border-radius:14px;font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <!-- Mobile notice -->
+  <div class="mobile-notice" id="mobileNotice">
+    <div class="mn-inner">
+      <div class="mn-icon">📱</div>
+      <div class="mn-title">Мобильная версия</div>
+      <p>Ой, этот сайт не дружит с телефонами, если честно. Основной сайт под телефон не оптимизирован — лучше заходить с компьютера. А онлайн-банк как раз сделан под телефон, им можно пользоваться.</p>
+      <button class="mn-btn" onclick="dismissMobileNotice()">Всё равно продолжить</button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Главная</a>
+    <a href="about.html">О банке</a>
+    <a href="business.html">Бизнесу</a>
+    <a href="mortgage.html">Ипотека</a>
+    <a href="credits.html">Кредиты</a>
+    <a href="deposits.html">Вклады</a>
+    <a href="cards.html">Карты</a>
+    <a href="contacts.html">Контакты</a>
+    <a href="online.html" class="btn-outline" style="margin-top:10px;">Войти</a>
+  </div>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo"><span class="letter-f">Ф</span><span class="letter-p">П</span><span class="logo-sub">Банк</span></a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="about.html">О банке</a>
+        <a href="business.html">Бизнесу</a>
+        <a href="mortgage.html">Ипотека</a>
+        <a href="credits.html">Кредиты</a>
+        <a href="deposits.html" class="active">Вклады</a>
+        <a href="cards.html">Карты</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="online.html" class="btn-outline">Войти</a>
+      </nav>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <section class="page-header reveal">
+      <span class="section-tag">Вклады</span>
+      <h1>Вклады и сбережения</h1>
+      <p>Надёжное сохранение и приумножение ваших средств. Ставки до 21% годовых.</p>
+    </section>
+
+    <div class="rates-compare reveal">
+      <div class="rc-item"><div class="rc-term">На 3 месяца</div><div class="rc-rate">18%</div><div class="rc-label">мин. 50 000 ₽</div></div>
+      <div class="rc-item"><div class="rc-term">На 6 месяцев</div><div class="rc-rate">19,5%</div><div class="rc-label">мин. 50 000 ₽</div></div>
+      <div class="rc-item"><div class="rc-term">На 12 месяцев</div><div class="rc-rate">21%</div><div class="rc-label">мин. 100 000 ₽</div></div>
+      <div class="rc-item"><div class="rc-term">На 24 месяца</div><div class="rc-rate">20%</div><div class="rc-label">мин. 100 000 ₽</div></div>
+    </div>
+
+    <div class="calc-section reveal">
+      <div class="calc-panel">
+        <h3>Депозитный калькулятор</h3>
+        <div class="calc-group">
+          <label>Сумма вклада <span id="depAmountLabel">500 000 ₽</span></label>
+          <input type="range" id="depAmountRange" min="50000" max="5000000" value="500000" step="50000">
+        </div>
+        <div class="calc-group">
+          <label>Срок вклада <span id="depTermLabel">12 месяцев</span></label>
+          <input type="range" id="depTermRange" min="3" max="24" value="12" step="1">
+        </div>
+        <div class="calc-group">
+          <label>Ставка <span id="depRateLabel">21%</span></label>
+          <input type="range" id="depRateRange" min="10" max="22" value="21" step="0.5">
+        </div>
+      </div>
+      <div class="calc-result">
+        <div class="cr-label">Доход за период</div>
+        <div class="cr-amount" id="depEarnings">105 000 ₽</div>
+        <div class="cr-detail">Итоговая сумма: <span id="depTotal">605 000 ₽</span></div>
+        <div class="calc-breakdown">
+          <div class="cb-item">
+            <div class="cb-label">Эффективная ставка</div>
+            <div class="cb-value" id="depEffRate">23,1%</div>
+          </div>
+          <div class="cb-item">
+            <div class="cb-label">Ежемесячный доход</div>
+            <div class="cb-value" id="depMonthly">8 750 ₽</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <span class="section-tag">Программы</span>
+      <h2 class="section-title">Вкладные продукты</h2>
+      <p class="section-sub">Выберите вклад под ваши цели.</p>
+    </div>
+    <div class="programs-grid">
+      <div class="program-card reveal">
+        <div class="pc-type">Классический</div>
+        <h4>FP Накопительный</h4>
+        <div class="pc-rate">до 21% <small>годовых</small></div>
+        <p>Максимальная доходность с капитализацией процентов.</p>
+        <ul>
+          <li>Сумма от 50 000 ₽</li>
+          <li>Срок от 3 месяцев</li>
+          <li>Пополнение без ограничений</li>
+        </ul>
+      </div>
+      <div class="program-card reveal">
+        <div class="pc-type">Ежемесячный доход</div>
+        <h4>FP Доходный</h4>
+        <div class="pc-rate">до 18% <small>годовых</small></div>
+        <p>Выплата процентов каждый месяц на карту.</p>
+        <ul>
+          <li>Сумма от 100 000 ₽</li>
+          <li>Срок от 6 месяцев</li>
+          <li>Частичное снятие без потери %</li>
+        </ul>
+      </div>
+      <div class="program-card reveal">
+        <div class="pc-type">Детский</div>
+        <h4>FP Будущее</h4>
+        <div class="pc-rate">до 20% <small>годовых</small></div>
+        <p>Вклад на имя ребёнка с особыми условиями.</p>
+        <ul>
+          <li>Сумма от 10 000 ₽</li>
+          <li>Срок от 12 месяцев</li>
+          <li>Пополнение от 1 000 ₽</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo-lg"><span class="f">Ф</span><span class="p">П</span></div>
+          <p>FP Банк — современный финансовый партнёр. Лицензия ЦБ Загребенской Республики № 1234.</p>
+          <div class="social-links" style="margin-top:18px;">
+            <a href="#" aria-label="Telegram">✈</a>
+            <a href="#" aria-label="VK">VK</a>
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Частным лицам</h4>
+          <a href="cards.html">Дебетовые карты</a>
+          <a href="credits.html">Кредитные карты</a>
+          <a href="mortgage.html">Ипотека</a>
+          <a href="credits.html">Потребительские кредиты</a>
+          <a href="deposits.html">Вклады</a>
+        </div>
+        <div class="footer-col">
+          <h4>Бизнесу</h4>
+          <a href="business.html#rko">РКО</a>
+          <a href="business.html#lending">Кредитование бизнеса</a>
+          <a href="business.html#acquiring">Эквайринг</a>
+          <a href="business.html#payroll">Зарплатный проект</a>
+          <a href="business.html#tariffs">Тарифы</a>
+        </div>
+        <div class="footer-col">
+          <h4>О банке</h4>
+          <a href="about.html">О компании</a>
+          <a href="about.html">Реквизиты</a>
+          <a href="documents.html">Документы</a>
+          <a href="#">Раскрытие информации</a>
+          <a href="#">Вакансии</a>
+          <a href="contacts.html">Контакты</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 FP Банк. Все права защищены.</div>
+        <div>8 800 700-ФП-БАНК</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); mobileNav.classList.toggle('open'); });
+    function closeMobile() { hamburger.classList.remove('active'); mobileNav.classList.remove('open'); }
+    mobileNav.addEventListener('click', closeMobile);
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold:0.1, rootMargin:'0px 0px -50px 0px' });
+    reveals.forEach(r => observer.observe(r));
+
+    const depAmount = document.getElementById('depAmountRange');
+    const depTerm = document.getElementById('depTermRange');
+    const depRate = document.getElementById('depRateRange');
+    const depAmountLabel = document.getElementById('depAmountLabel');
+    const depTermLabel = document.getElementById('depTermLabel');
+    const depRateLabel = document.getElementById('depRateLabel');
+    const depEarnings = document.getElementById('depEarnings');
+    const depTotal = document.getElementById('depTotal');
+    const depEffRate = document.getElementById('depEffRate');
+    const depMonthly = document.getElementById('depMonthly');
+
+    function formatNum(n) { return n.toLocaleString('ru-RU'); }
+    function calcDeposit() {
+      const amount = parseInt(depAmount.value);
+      const months = parseInt(depTerm.value);
+      const rate = parseFloat(depRate.value);
+      const monthlyRate = rate / 100 / 12;
+      const earnings = amount * monthlyRate * months;
+      const total = amount + earnings;
+      const effRate = (Math.pow(1 + monthlyRate, 12) - 1) * 100;
+
+      depAmountLabel.textContent = formatNum(amount) + ' ₽';
+      depTermLabel.textContent = months + ' месяцев';
+      depRateLabel.textContent = rate + '%';
+      depEarnings.textContent = formatNum(Math.round(earnings)) + ' ₽';
+      depTotal.textContent = formatNum(Math.round(total)) + ' ₽';
+      depEffRate.textContent = effRate.toFixed(1) + '%';
+      depMonthly.textContent = formatNum(Math.round(earnings / months)) + ' ₽';
+    }
+    depAmount.addEventListener('input', calcDeposit);
+    depTerm.addEventListener('input', calcDeposit);
+    depRate.addEventListener('input', calcDeposit);
+    calcDeposit();
+  </script>
+  <script>(function(){if(window.innerWidth<768&&!localStorage.getItem('fp_mn_d')){setTimeout(function(){var n=document.getElementById('mobileNotice');if(n)n.classList.add('show')},500)}})();function dismissMobileNotice(){var n=document.getElementById('mobileNotice');if(n)n.classList.remove('show');localStorage.setItem('fp_mn_d','1')}</script>
+</body>
+</html>
